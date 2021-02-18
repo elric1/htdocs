@@ -1,0 +1,35 @@
+name: Imrryr.ORG
+description: 
+avatar: /images/avatar.png
+
+# Used for Sitemap.xml and your RSS feed
+url: https://www2.imrryr.org/
+baseurl: ""
+
+permalink: /:title/
+
+# The release of Jekyll Now that you're using
+version: v1.2.0
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: 'highlight'
+
+sass:
+  style: :compressed
+
+# Use the following plug-ins
+gems:
+  - jekyll-sitemap
+  - jekyll-feed
+
+# Exclude these files from your production _site
+exclude:
+  - .gitignore
+  - Gemfile
+  - Gemfile.lock
+  - LICENSE
+  - README.md
+  - CNAME
