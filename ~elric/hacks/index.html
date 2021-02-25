@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<title> Some Small Hacks </title>
+<meta name="author" content="R. C. Dowdeswell">
+</head>
+
+<body bgcolor=white text=black>
+
+<h3> Some Small Hacks </h3>
+
+For lack of a better place to put these, I've come up with a listing
+directory of small hacks that I've made to various things.  These
+are not generally production quality, and mostly comprise modifications
+that I've made to NetBSD for use in my environment.
+
+<p>
+This repository is neither versioned, nor guaranteed to be at all
+stable.  It is more of a resting place for patches that I am working
+on that I feel other people might be able to use.  Once I finish
+them, they will be removed and put in a more appropriate place---such
+as the distribution of the software that they are patching.
+
+<p>
+I am also using this page as a solicitation for comments on code, before
+I submit it for inclusion elsewhere.  If you find anything here useful
+and especially if you find bugs, please send email to
+<a href="mailto:elric@imrryr.org">elric@imrryr.org</a>.
+
+<h4>Kerberos</h4>
+
+NetBSD uses Heimdal rather than MIT Kerberos 5 and there are some
+subtle differences in the APIs.  I've modified a couple of X programs
+to work properly with the version of Heimdal shipped in NetBSD for
+use in my environment.
+
+<p>
+<dl>
+ <dt><a href="krb5/xdm-src.tar.gz">xdm</a></dt>
+ <dd>
+	So, one of the problems with xdm is that it doesn't support
+	krb5 authentication out of the box.  This is a slightly
+	patched up version which does.  You'll have to also make
+	two changes to the code in xc/config/cf, which are contained
+	in <a href="krb5/x-cf-patch">this patch</a>.  This code
+	will probably only work with Heimdal and has only been
+	tested on NetBSD and XFree86 4.2.0.
+ </dd>
+ <dt><a href="krb5/xlockmore.pkg.tar.gz">xlockmore</a></dt>
+ <dd>
+	This is a NetBSD pkgsrc tarball containing only the pkg
+	for xlockmore.  Just unpack it and cp it into your pkgsrc
+	tree and build it.  It should allow you to use your krb5
+	passwords to unlock your screen.  You can also choose to
+	install xlock without the setuid bit, if you are not using
+	local passwords.
+ </dd>
+</dl>
+
+<h4>Hesiod</h4>
+
+I've been looking at Hesiod a little bit, and the most glaring
+problem that I've found is that [unlike YP] there are no automated
+tools to generate the databases.  Of course, the lack of existing
+documentation also proves to be an issue---but I haven't had a
+chance to deal with that.
+
+<dl>
+ <dt><a href="hesiod/mkhesdb.tar.gz">mkhesdb</a></dt>
+ <dd>
+	This is a very simple program that uses get*ent() to iterate
+	over local databases and outputs a large hesiod database.
+	I made an attempt to make a database which is compatible
+	with the examples provided in ``<a href="hesiod/hesiod.PS">The
+	Hesiod Name Server</a>'' by Stephen P. Dyer.  There are
+	also some options to enable Ultrix-compatibility which I
+	got from talking to people that run Ultrix.  The code includes a
+	<a href="hesiod/mkhesdb.1.html">man page</a>, which is
+	provided out here for reference.
+ </dd>
+
+</body>
+</html>

@@ -1,0 +1,402 @@
+<html>
+<head>
+        <title>
+                 March 24, 2003 CGDCONFIG 8
+
+        </title>
+        <style type="text/css">
+        <!--
+                body { margin-left:4%; }
+                H1, H2, H3, H4, H5 {
+                        color: maroon; padding: 4pt; margin-left: -4%;
+                        border: solid; border-width: thin; width: 100%;
+                        background: rgb(204,204,255)
+                }
+        -->
+        </style>
+</head>
+<body bgcolor="#FFFFFF" text="#000000">
+        <h3>
+        NAME
+        </h3>
+<b>cgdconfig</b>
+- configuration utility for the cryptographic disk driver
+        <h3>
+        SYNOPSIS
+        </h3>
+<b>cgdconfig</b>
+[<b>-</b><b></b><b>nv</b>]
+<i></i><i>cgd</i><i> dev</i>
+[<i></i><i>paramsfile</i>]
+<b>cgdconfig</b>
+<b>-</b><b></b><b>C</b>
+[<b>-</b><b></b><b>nv</b>]
+[<b>-</b><b></b><b>f</b><i></i><i> configfile</i>]
+<b>cgdconfig</b>
+<b>-</b><b></b><b>U</b>
+[<b>-</b><b></b><b>nv</b>]
+[<b>-</b><b></b><b>f</b><i></i><i> configfile</i>]
+<b>cgdconfig</b>
+<b>-</b><b></b><b>G</b>
+[<b>-</b><b></b><b>nv</b>]
+[<b>-</b><b></b><b>k</b><i></i><i> kgmeth</i>]
+[<b>-</b><b></b><b>o</b><i></i><i> outfile</i>]
+<i></i><i>paramsfile</i>
+<b>cgdconfig</b>
+<b>-</b><b></b><b>g</b>
+[<b>-</b><b></b><b>nv</b>]
+[<b>-</b><b></b><b>i</b><i></i><i> ivmeth</i>]
+[<b>-</b><b></b><b>k</b><i></i><i> kgmeth</i>]
+[<b>-</b><b></b><b>o</b><i></i><i> outfile</i>]
+<i></i><i>alg</i>
+[<i></i><i>keylen</i>]
+<b>cgdconfig</b>
+<b>-</b><b></b><b>s</b>
+[<b>-</b><b></b><b>nv</b>]
+[<b>-</b><b></b><b>i</b><i></i><i> ivmeth</i>]
+<i></i><i>cgd</i>
+<i></i><i>dev</i>
+<i></i><i>alg</i>
+[<i></i><i>keylen</i>]
+<b>cgdconfig</b>
+<b>-</b><b></b><b>u</b>
+[<b>-</b><b></b><b>nv</b>]
+<i></i><i>cgd</i>
+        <h3>
+        DESCRIPTION
+        </h3>
+<b>cgdconfig</b>
+is used to configure and unconfigure cryptographic disk devices (cgds)
+and to maintain the configuration files that are associated with them.
+For more information about cryptographic disk devices see
+<a href="../html4/cgd.html">cgd(4)</a>.
+        <p>
+The options are as follows:
+<dl compact>
+<p><dt><b>-</b><b></b><b>C</b><dd>
+Configure all the devices listed in the cgd configuration file.
+<p><dt><b>-</b><b></b><b>f</b><i></i><i> configfile</i><dd>
+Specify the configuration file explicitly, rather than using the default
+configuration file
+<code></code><code>/etc/cgd/cgd.conf</code>.
+<p><dt><b>-</b><b></b><b>G</b><dd>
+Generate a new paramsfile (to stdout) using the values from
+<i></i><i>paramsfile</i>
+which will generate the same key.
+This may need to prompt for multiple passphrases.
+<p><dt><b>-</b><b></b><b>g</b><dd>
+Generate a paramsfile (to stdout).
+<p><dt><b>-</b><b></b><b>i</b><i></i><i> ivmeth</i><dd>
+Specify the IV method (default: encblkno).
+<p><dt><b>-</b><b></b><b>k</b><i></i><i> kgmeth</i><dd>
+Specify the key generation method (default: pkcs5_pbkdf2).
+<p><dt><b>-</b><b></b><b>o</b><i></i><i> outfile</i><dd>
+When generating a
+<i></i><i>paramsfile</i>,
+store it in
+<i></i><i>outfile</i>.
+<p><dt><b>-</b><b></b><b>s</b><dd>
+Read the key from stdin.
+<p><dt><b>-</b><b></b><b>U</b><dd>
+Unconfigure all the devices listed in the cgd configuration file.
+<p><dt><b>-</b><b></b><b>u</b><dd>
+Unconfigure a cgd.
+<p><dt><b>-</b><b></b><b>V</b><i></i><i> vmeth</i><dd>
+Specify the verification method (default: none).
+<p><dt><b>-</b><b></b><b>v</b><dd>
+Be verbose.
+May be specified multiple times.
+</dl>
+        <p>
+For more information about the cryptographic algorithms and IV methods
+supported, please refer to
+<a href="../html4/cgd.html">cgd(4)</a>.
+        <h4>
+           <a name="Key Generation Methods">
+        Key Generation Methods
+           </a>
+        </h4>
+To generate the key which it will use,
+<b>cgdconfig</b>
+evaluates all of the key generation methods in the parameters file
+and uses the exclusive-or of the outputs of all the methods.
+The methods and descriptions are as follows:
+<dl compact>
+<p><dt>pkcs5_pbkdf2<dd>
+This method requires a passphrase which is entered at configuration
+time.
+It is a salted hmac-based scheme detailed in
+``PKCS#5 v2.0: Password-Based Cryptography Standard'',
+RSA Laboratories, March 25, 1999, pages 8-10.
+PKCS #5 was also republished as RFC 2898.
+<p><dt>randomkey<dd>
+The method simply reads
+<code></code><code>/dev/random</code>
+and uses the resulting bits as the key.
+It does not require a passphrase to be entered.
+This method is typically used to present disk devices that do not
+need to survive a reboot, such as the swap partition.
+It is also handy to facilitate overwriting the contents of
+a disk volume with meaningless data prior to use.
+<p><dt>storedkey<dd>
+This method stores its key in the parameters file.
+</dl>
+        <h4>
+           <a name="Verification Method">
+        Verification Method
+           </a>
+        </h4>
+The verification method is how
+<b>cgdconfig</b>
+determines if the generated key is correct.
+If the newly configured disk fails to verify, then
+<b>cgdconfig</b>
+will regenerate the key and re-configure the device.
+It only makes sense to specify a verification method if at least of the
+key generation methods is error prone, e.g. uses a user-entered passphrase.
+The following verification methods are supported:
+        <p>
+<dl compact>
+<dt>none<dd>
+perform no verification.
+<dt>disklabel<dd>
+scan for a valid disklabel.
+<dt>ffs<dd>
+scan for a valid FFS file system.
+</dl>
+        <h4>
+           <a name="/etc/cgd/cgd.conf">
+        /etc/cgd/cgd.conf
+           </a>
+        </h4>
+The file
+<code></code><code>/etc/cgd/cgd.conf</code>
+is used to configure
+<b>cgdconfig</b>
+if either of
+<b>-</b><b></b><b>C</b>
+or
+<b>-</b><b></b><b>U</b>
+are specified.
+Each line of the file is composed of either two or three
+tokens: cgd, target, and optional paramsfile.
+        <p>
+A
+`#'
+character is interpreted as a comment and indicates that the
+rest of the line should be ignored.
+A
+`\'
+at the end of a line indicates that the next line is a continuation of
+the current line.
+        <p>
+See
+<a href="#EXAMPLES">EXAMPLES</a>
+for an example of
+<code></code><code>/etc/cgd/cgd.conf</code>.
+        <h4>
+           <a name="Parameters File">
+        Parameters File
+           </a>
+        </h4>
+The Parameters File contains the required information to generate the
+key and configure a device.
+These files are typically generated by the
+<b>-</b><b></b><b>g</b>
+flag and not edited by hand.
+When a device is configured the default parameters file is constructed
+by taking the basename of the target disk and prepending
+<code></code><code>/etc/cgd/</code>
+to it.
+E.g., if the target is
+<code></code><code>/dev/sd0h</code>,
+then the default parameters file will be
+<code></code><code>/etc/cgd/sd0h</code>.
+        <p>
+It is possible to have more than one parameters file for a given
+disk which use different key generation methods but will generate
+the same key.
+To create a parameters file that is equivalent to an existing parameters
+file, use
+<b>cgdconfig</b>
+with the
+<b>-</b><b></b><b>G</b>
+flag.
+See
+<a href="#EXAMPLES">EXAMPLES</a>
+for an example of this usage.
+        <p>
+The parameters file contains a list of statements each terminated
+with a semi-colon.
+Some statements can contain statement-blocks which are either a
+single unadorned statement, or a brace-enclosed list of semicolon
+terminated statements.
+Three types of data are understood:
+        <p>
+<dl compact>
+<dt>integer<dd>
+a 32 bit signed integer.
+<dt>string<dd>
+a string.
+<dt>base64<dd>
+a length-encoded base64 string.
+</dl>
+        <p>
+The following statements are defined:
+<dl compact>
+<p><dt>algorithm<i></i><i> string</i><dd>
+Defines the cryptographic algorithm.
+<p><dt>iv-method<i></i><i> string</i><dd>
+Defines the IV generation method.
+<p><dt>keylength<i></i><i> integer</i><dd>
+Defines the length of the key.
+<p><dt>verify_method<i></i><i> string</i><dd>
+Defines the verification method.
+<p><dt>keygen<i></i><i> string</i><i></i><i> statement_block</i><dd>
+Defines a key generation method.
+The
+<i></i><i>statement_block</i>
+contains statements that are specific to the key generation method.
+</dl>
+        <p>
+The keygen statement's statement block may contain the following statements:
+<dl compact>
+<p><dt>key<i></i><i> string</i><dd>
+The key.  Only used for the storedkey key generation method.
+<p><dt>iterations<i></i><i> integer</i><dd>
+The number of iterations.  Only used for pkcs5_pbkdf2.
+<p><dt>salt<i></i><i> base64</i><dd>
+The salt.  Only used for pkcs5_pbkdf2.
+</dl>
+        <h3>
+        FILES
+        </h3>
+<dl compact>
+<dt><code></code><code>/etc/cgd/</code><dd>
+configuration directory, used to store paramsfiles.
+<dt><code></code><code>/etc/cgd/cgd.conf</code><dd>
+cgd configuration file.
+</dl>
+        <h3>
+        EXAMPLES
+        </h3>
+To set up and configure a cgd that uses AES with a 192 bit key
+in CBC mode with the IV Method
+`encblkno'
+(encrypted block number):
+<code>
+<pre>
+        # cgdconfig -g -o /etc/cgd/wd0e aes-cbc 192
+        # cgdconfig cgd0 /dev/wd0e
+        /dev/wd0e's passphrase:
+</pre>
+</code>
+        <p>
+When using verification methods, the first time that we configure the
+disk the verification method will fail.  We overcome this by supplying
+<b>-</b><b></b><b>V</b><i></i><i> none</i>
+when we configure the first time to set up the disk.  Here is the
+sequence of commands that is recommended:
+<code>
+<pre>
+             # cgdconfig -g -o /etc/cgd/wd0e -V disklabel aes-cbc
+             # cgdconfig -V none cgd0 /dev/wd0e
+             /dev/wd0e's passphrase:
+             # disklabel -e -I cgd0
+             # cgdconfig -u cgd0
+             # cgdconfig cgd0 /dev/wd0e
+             /dev/wd0e's passphrase:
+</pre>
+</code>
+        <p>
+To create a new parameters file that will generate the same key as an old
+parameters file:
+<code>
+<pre>
+             # cgdconfig -G -o newparamsfile oldparamsfile
+             old file's passphrase:
+             new file's passphrase:
+</pre>
+</code>
+        <p>
+To configure a cgd that uses Blowfish with a 200 bit key that it
+reads from stdin:
+<code>
+<pre>
+        # cgdconfig -s cgd0 /dev/sd0h blowfish-cbc 200
+</pre>
+</code>
+        <p>
+An example parameters file which uses PKCS#5 PBKDF2:
+<code>
+<pre>
+        algorithm aes-cbc;
+        iv-method encblkno;
+        keylength 128;
+        verify_method none;
+        keygen pkcs5_pbkdf2 {
+                iterations 39361;
+                salt AAAAgMoHiYonye6Kog \
+                     dYJAobCHE=;
+        };
+</pre>
+</code>
+        <p>
+An example parameters file which stores its key locally:
+<code>
+<pre>
+        algorithm       aes-cbc;
+        iv-method       encblkno;
+        keylength       256;
+        verify_method   none;
+        keygen storedkey key AAABAK3QO6d7xzLfrXTdsgg4 \
+                             ly2TdxkFqOkYYcbyUKu/f60L;
+</pre>
+</code>
+        <p>
+An example
+<code></code><code>/etc/cgd/cgd.conf</code>:
+<code>
+<pre>
+        #
+        # /etc/cgd/cgd.conf
+        # Configuration file for cryptographic disk devices
+        #
+        <p>
+        # cgd           target          [paramsfile]
+        cgd0            /dev/wd0e
+        cgd1            /dev/sd0h       /usr/local/etc/cgd/sd0h
+</pre>
+</code>
+        <p>
+Note that this will store the parameters file as
+<code></code><code>/etc/cgd/wd0e</code>.
+And use the entered passphrase to generate the key.
+        <h3>
+        SEE ALSO
+        </h3>
+<a href="../html4/cgd.html">cgd(4)</a>
+        <p>
+``PKCS #5 v2.0: Password-Based Cryptography Standard'',
+RSA Laboratories, March 25, 1999.
+        <h3>
+        HISTORY
+        </h3>
+The
+<b>cgdconfig</b>
+utility appeared in
+NetBSD2.0.
+        <h3>
+        BUGS
+        </h3>
+Since
+<b>cgdconfig</b>
+uses
+<a href="../html3/getpass.html">getpass(3)</a>
+to read in the passphrase, it is limited to 128 characters.
+</font></body>
+</html>
+
+
+
+

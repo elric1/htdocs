@@ -1,0 +1,84 @@
+<html>
+<head>
+     <title>
+           May 25, 2002 MKHESDB 1
+
+     </title>
+        <style type="text/css">
+        <!--
+          body { margin-left:4%; }
+          H1, H2, H3, H4, H5 {
+               color: maroon; padding: 4pt; margin-left: -4%;
+               border: solid; border-width: thin; width: 100%;
+               background: rgb(204,204,255)
+          }
+        -->
+        </style>
+</head>
+<body bgcolor="#FFFFFF" text="#000000">
+     <h3>
+     Name
+     </h3>
+<b>mkhesdb</b>
+- generate DNS RRs for Hesiod Name Service
+     <h3>
+     SYNOPSIS
+     </h3>
+<b>mkhesdb</b>
+[<b>-</b><b></b><b>Ugps</b>]
+[<b>-</b><b></b><b>o</b><i></i><i> outfile</i>]
+     <h3>
+     DESCRIPTION
+     </h3>
+<b>mkhesdb</b>
+uses the standard NetBSD name-service grovelling code in libc (c.f.
+<a href="../html5/nsswitch.conf.html">nsswitch.conf(5)</a>)
+to generate
+a Hesiod file suitable for use by
+<a href="../html8/named.html">named(8)</a>.
+     <p>
+The following options are available:
+<dl compact>
+<p><dt><b>-</b><b></b><b>U</b><dd>
+Enable `Ultrix compatibility'.
+<p><dt><b>-</b><b></b><b>g</b><dd>
+Generate group entries.  Currently this will generate the Hesiod domains:
+<b></b><b>group</b>,
+and
+<b></b><b>gid</b>.
+<p><dt><b>-</b><b></b><b>p</b><dd>
+Generate passwd file entries.  Currently this will generate the Hesiod
+domains:
+<b></b><b>passwd</b>,
+<b></b><b>uid</b>,
+and
+<b></b><b>grplist</b>.
+<p><dt><b>-</b><b></b><b>s</b><dd>
+Generate shell file entires.  Currently this will only generate the Hesiod
+domain
+<b></b><b>shells</b>.
+</dl>
+     <p>
+If no options are specified,
+<b>mkhesdb</b>
+will do nothing.
+     <h3>
+     SEE ALSO
+     </h3>
+<a href="../html3/hesiod.html">hesiod(3)</a>,
+<a href="../html5/nsswitch.conf.html">nsswitch.conf(5)</a>,
+<a href="../html1/hesinfo.html">hesinfo(1)</a>,
+<a href="../html5/hesiod.conf.html">hesiod.conf(5)</a>,
+<a href="../html8/named.html">named(8)</a>,
+<a href="../html5/named.conf.html">named.conf(5)</a>.
+     <p>
+     <h3>
+     BUGS
+     </h3>
+<b>mkhesdb</b>
+currently does not generate a complete data file for
+<a href="../html8/named.html">named(8)</a>.
+It is necessary to prepend the SOA record.
+</font></body>
+</html>
+

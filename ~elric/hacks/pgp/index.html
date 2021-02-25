@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<title> RFC 2015 and the Rand MH System</title>
+<meta name="author" content="R. C. Dowdeswell">
+<meta name="keywords" content="PGP, RFC 2015, Rand MH, MH">
+</head>
+
+<body background="/gifs/backgrounds/parchment.gif">
+
+<h2> RFC 2015 and the Rand MH System</h2>
+<hr size=6>
+
+Well, not much blurb here, but just a quick description of how
+I have managed to get the Rand MH system working (almost) with RFC 2015
+encrypted MIME email...  The scripts work as follows:  mhencrypt scans
+a message for the To: line, determines if all of the names on said
+line are in your keyring and if so wordlessly encrypts the message
+to all of them (and yourself.)  pgpmail simply runs the message through
+pgp and sends the output through mhn (since it may contain more
+MIMEd things).
+
+<p>
+Simply put I just added lines:
+
+<pre>
+automhnproc:		mhencrypt
+mhn-show-multipart/encrypted: pgpmail %f
+</pre>
+
+to my .mh_profile and set up the scripts
+<a href="mhencrypt"> mhencrypt </a> and
+<a href="pgpmail"> pgpmail </a> in a hit by
+my PATH sort of way.
+
+<p>
+Oh, and mhencrypt needs two files, called
+<a href="mhl.headers"> mhl.headers </a> and
+<a href="mhl.message"> mhl.message </a>.  It
+looks for these in /usr/local/lib/pgpmail/, but
+it is quite trivial to change that.  In fact, I am
+going to change that once I get around to making the
+whole process a bit more robust.
+
+<p>
+These scripts use ksh, since I wanted to use the RANDOM
+environment variable, but it should be trivial to change
+the to sh.  (In fact I think it does work -- just the tmp
+files have different names.)
+
+<p>
+Obviously these scripts are not a finished solution, but
+I find that time is quite lacking.  But the sorts of things
+that I need to do are:
+
+<ul>
+  <li>  Deal with multipart/signed.
+  <li>  Make sure that the tmp files do not exist.
+  <li>  Have the autoencrypt ask a few questions or at least
+        have the option to have it ask questions.
+  <li>  Honour TMPDIR, and not just assume /tmp.  Consider a PGPTMPDIR.
+  <li>  Check cc: as well as To: (should be easy :)
+  <li>  Check for existence of Bcc: and if it exists, then
+        don't encrypt.  (To encrypt to the Bcc: people would
+        defeat the purpose of them being blind, and to not
+        encrypt to them would defeat the purpose of sending
+        it to them...)
+  <li>  Only encrypt to self if Fcc: is present.(??) Or
+        just let the user's config handle it.
+  <li>  I have been tossing around the concept of rewriting
+        large chunks of nmh's (new MH) mhn to deal better
+        with multipart types.  That would make the whole
+        process a lot better.  (Esp. adding a bit that allows
+        the output of a command to be reinterpreted...)
+  <li>  Etc.
+</ul>
+
+But hopefully these might be of some use to someone who can
+hack them around a bit.
+
+<!--#include virtual="/~elric/include/footer.html" -->
+
+</body>
+</html>

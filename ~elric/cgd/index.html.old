@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<title>The Cryptographic Disk Driver</title>
+<meta name="author" content="R. C. Dowdeswell">
+<meta name="keywords" content="Roland, Dowdeswell, R. C. Dowdeswell, Roland Dowdeswell">
+<meta name="description" content="Home Page of Roland Dowdeswell">
+</head>
+
+<body bgcolor=white text=black>
+
+<h1>The CryptoGraphic Disk Driver</h1>
+
+<blockquote>
+We present the design and implementation of CGD, the CryptoGraphic
+Disk driver.  CGD is a pseudo-device driver that sits below the
+buffer cache, and provides an encrypted view of an underlying raw
+partition.  It was designed with high performance and ease of use
+in mind.  CGD is aimed at laptops, other single-user computers or
+removable storage, where protection from other concurrent users is
+not essential, but protection against loss or theft is important.
+</blockquote>
+
+<p>
+Documentation:
+
+<ul>
+ <li><a href="cgd.pdf">The Cryptographic Disk Driver</a> (FREENIX paper)</li>
+ <li>Man pages:
+  <ul>
+   <li>cgd(4) [<a href="html4/cgd.html">HTML</a>|<a href="pdf4/cgd.pdf">PDF</a>]</li>
+   <li>cgdconfig(8) [<a href="html8/cgdconfig.html">HTML</a>|<a href="pdf8/cgdconfig.pdf">PDF</a>]</li>
+  </ul>
+  <li><a href="slides.ps">Slides</a> from a talk I gave at NYCBUG.</li>
+</ul>
+
+<p>
+<b>NOTE:</b> The PDFs turned out quite well, but the HTML leaves a
+	     little to be desired.
+
+</body>
+</html>

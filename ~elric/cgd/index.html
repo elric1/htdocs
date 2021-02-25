@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<title>The Cryptographic Disk Driver</title>
+<meta name="author" content="R. C. Dowdeswell">
+<meta name="keywords" content="Roland, Dowdeswell, R. C. Dowdeswell, Roland Dowdeswell">
+<meta name="description" content="Home Page of Roland Dowdeswell">
+</head>
+
+<body bgcolor=white text=black>
+
+<h1>The CryptoGraphic Disk Driver</h1>
+
+<blockquote>
+We present the design and implementation of CGD, the CryptoGraphic
+Disk driver.  CGD is a pseudo-device driver that sits below the
+buffer cache, and provides an encrypted view of an underlying raw
+partition.  It was designed with high performance and ease of use
+in mind.  CGD is aimed at laptops, other single-user computers or
+removable storage, where protection from other concurrent users is
+not essential, but protection against loss or theft is important.
+</blockquote>
+
+<h2>Documentation</h2>
+
+<ul>
+ <li><a href="cgd.pdf">The Cryptographic Disk Driver</a> (FREENIX paper)</li>
+ <li>Man pages:
+  <ul>
+   <li>cgd(4) [<a href="html4/cgd.html">HTML</a>|<a href="pdf4/cgd.pdf">PDF</a>]</li>
+   <li>cgdconfig(8) [<a href="html8/cgdconfig.html">HTML</a>|<a href="pdf8/cgdconfig.pdf">PDF</a>]</li>
+  </ul>
+  <li><a href="slides.ps">Slides</a> from a talk I gave at NYCBUG.</li>
+  <li>An <a href="http://www.onlamp.com/pub/a/bsd/2005/12/21/netbsd_cgd.html">interview</a> that I did with Federico Biancuzzi.
+</ul>
+
+<p>
+<b>NOTE:</b> The PDFs turned out quite well, but the HTML leaves a
+	     little to be desired.
+<p>
+
+<h2>Random Conversation Topics</h2>
+
+<h3>Choosing an IV method for CBC mode</h3>
+
+Some concern has been expressed about using the encrypted block
+number as the IV by various parties.  So, let's have a quick
+discussion about what an IV actually is and what properties that
+you want it to have:
+
+<ol>
+  <li>the IV is never repeated,</li>
+  <li>the IV has most of the properties you expect of a
+      cryptographically secure PRNG such as the hamming
+      distance between IVs is high, etc., and
+  </li>
+  <li>if an attacker can choose chosen plaintext then they
+      don't also know the IV while making the choice.
+  </li>
+</ol>
+
+In general, the IV is transmitted in the clear along with the
+ciphertext (e.g. in network protocols.) In this case, IVs are
+pseudo-randomly generated.  For cryptographic disks, storing the
+IV separately poses atomicity issues leaving us needing to either
+deterministically create the IV for each sector or transactionally
+store the IVs on the disk.  The latter has generally unacceptable
+performance characteristics.
+<p>
+
+Choosing an incredibly strong IV does not affect the strength of
+the final system terribly much.  Remember that in CBC mode, the IV
+for each ciphertext block is the preceeding block.  So, if you
+generate IVs that are more difficult to crack than the algorithm
+that you are using to encrypt the ciphertext blocks then you had
+better also store all of the data that you want to protect in the
+first 128 bits of each sector!  Conversely choosing IVs that do
+not have the above properties will adversely affect the resulting
+system.
+
+<p>
+So, let's keep things in perspective.  And discuss a few alternatives:
+
+<h4>Encrypted Block Number</h4>
+
+A number of people have expressed some level of concern that CGD's
+encrypted block number IV generation method uses the same key as
+it does to encrypt the data.  Now, it is true that if you are
+transmitting the IV in the clear as you would on e.g. a network
+protocol then this poses a significant issue---but CGD does not
+store the IV and so the attacker does not have access to it.  As
+far as I know there aren't known exploits in this case.
+
+<p>
+It does satisfy the properties that I outlined above reasonably
+obviously:
+
+<ol>
+  <li>As the encryption algorithm is a bijection and the block
+      numbers are unique, we can assert that no IV shall be
+      repeated on different blocks.  If you rewrite a block,
+      you will end up re-using the same IV and so there is
+      some level of structural analysis that might open up.
+  </li>
+  <li>The output of a block cipher on a sequence is a well
+      recognised cryptographically secure PRNG, so we can
+      assert that we have the required properties about
+      hamming distance and all that.
+  </li>
+  <li>Given that for the attacker to be able to predict the
+      IV for any particular block, he would need to more or
+      less be able to crack the encryption algorithm, I think
+      that we can assert that the IV will not be predictable
+      to the attacker at at any point.  Unless it doesn't really
+      matter anyway (that is the attacker has cracked the disk).
+  </li>
+</ol>
+
+Now that said, it's unfortunate that the IV is constant under
+different writes.
+
+<h4>ESSIV</h4>
+
+This method more or less uses an HMAC combined with the sector
+number to generate the IV.
+
+<p>
+This seems to be a pretty reasonable way to go about things as
+well.  The only thing that I prefer about encrypted block number
+is that guarantees that the IVs are not repeated whereas ESSIV
+doesn't.  But, that said, the statistical chance of a repeated IV
+is so low that in practice it won't happen.
+
+<p>
+I have chosen to not implement ESSIV because I do not think that
+it changes the security properties of the system much in the final
+analysis.  I may implement it in the future, but only for compatibility
+with other encrypted disks.
+
+<h4>Plain Block Number</h4>
+
+Well, this one rather obviously violates constraints (2) and (3).
+And so it's vulnerable to watermark attacks.  That is, an attacker
+can construct a file which if you save it on your disk will still
+be obvious upon inspection of the ciphertext.  This is actually so
+shockingly obvious that using the plain block number did not occur
+to me when I was writing CGD.
+
+<h3>An Initial Analysis of GBDE</h3>
+
+GBDE (GEOM Based Disk Encryption) is an encrypted disk for FreeBSD
+which was checked in a couple of weeks or so after I checked in
+CGD.  So, they were developed mostly at the same time, although
+neither I nor GBDE's author knew of the other's work.
+
+<p>
+Quite some time ago now, there was a relatively heated discussion
+about CGD and GBDE and various properties that related to both in
+which I participated.  At the time, I started writing a paper about
+my perceived problems with GBDE.  At this point, the subject is no
+longer relevant because it seems that GBDE has been replaced by
+GELI (which is much better).  So, I've stopped writing the paper
+and put up the work in progress for anyone who is interested:
+
+<p>
+<a href="gbde-analysis2.pdf">An Initial Analysis of GBDE</a>
+
+<p>
+If anyone is interested in finishing up all the combinatorics that
+I didn't bother with, I'd be happy to work with you to complete
+this.  But, again, I'm not really sure that it has continuing
+relevance.
+
+</body>
+</html>

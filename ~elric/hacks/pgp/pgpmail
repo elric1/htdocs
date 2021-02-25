@@ -1,0 +1,14 @@
+#!/usr/bin/ksh
+#
+# a little prescript to run on incoming mail
+# that will sort of decompose it into a bit
+# more of a unpgp'ed deal...  :)
+#
+
+#
+# Well, we need to basically say that this will
+# be run on multipart/encrypt messages, and will
+# decode them and then run mhn on them...
+#
+
+< $2 pgp +verbose=0 -ft | mhn -file -

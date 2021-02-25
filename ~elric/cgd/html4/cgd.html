@@ -1,0 +1,150 @@
+<html>
+<head>
+        <title>
+                 August 14, 2003 CGD 4
+
+        </title>
+        <style type="text/css">
+        <!--
+                body { margin-left:4%; }
+                H1, H2, H3, H4, H5 {
+                        color: maroon; padding: 4pt; margin-left: -4%;
+                        border: solid; border-width: thin; width: 100%;
+                        background: rgb(204,204,255)
+                }
+        -->
+        </style>
+</head>
+<body bgcolor="#FFFFFF" text="#000000">
+        <h3>
+        NAME
+        </h3>
+<b>cgd</b>
+- cryptographic disk driver
+        <h3>
+        SYNOPSIS
+        </h3>
+<b></b><b>pseudo-device cgd[</b><i></i><i> count</i>]
+        <h3>
+        DESCRIPTION
+        </h3>
+The
+<b>cgd</b>
+driver provides the capability of encrypting blocks on their way
+to and from a disk or partition.
+        <p>
+In order to compile support for the
+<b>cgd</b>
+into your kernel, you must add the driver to your kernel configuration
+file.
+To do this, add a line similar to:
+<dl compact><dt><dd>
+<pre>
+pseudo-device   cgd     4       # cryptographic disk driver
+</pre>
+</dl>
+        <p>
+The count argument defines how many
+<b>Ns</b><b>'s</b>
+may be configured at a time.
+        <h4>
+           <a name="Encryption Algorithms">
+        Encryption Algorithms
+           </a>
+        </h4>
+Currently the following cryptographic algorithms are supported:
+<dl compact>
+<p><dt>aes-cbc<dd>
+AES in CBC mode.
+AES uses a 128 bit blocksize and can accept keys of
+length 128, 192, or 256.
+The default key length is 128.
+<p><dt>3des-cbc<dd>
+Triple DES in CBC mode.
+Triple DES uses a 64 bit blocksize and is
+performed in EDE3 mode with a 168 bit key.
+The key passed to the kernel
+is 192 bits but the parity bits are ignored.
+<p><dt>blowfish-cbc<dd>
+Blowfish in CBC mode.
+Blowfish uses a 64 bit blocksize and can accept keys of length 128.
+</dl>
+        <h4>
+           <a name="IV Methods">
+        IV Methods
+           </a>
+        </h4>
+Currently, the only IV Method supported is
+<i></i><i>encblkno</i>
+(Encrypted Block Number).
+This method encrypts the block number of the
+physical disk block with the cipher and key provided and uses that as the
+IV for CBC mode.
+This method should ensure that each block has a different
+IV and that the IV is reasonably unpredictable.
+        <h4>
+           <a name="IOCTLS">
+        IOCTLS
+           </a>
+        </h4>
+A
+<b>cgd</b>
+responds to all of the standard disk
+<a href="../html2/ioctl.html">ioctl(2)</a>
+calls defined in
+<a href="../html4/sd.html">sd(4)</a>,
+and also defines the following:
+<dl compact>
+<p><dt>CGDIOCSET<dd>
+configure the
+<b>.</b>
+This
+<a href="../html2/ioctl.html">ioctl(2)</a>
+sets up the encryption parameters and points the
+<b>cgd</b>
+at the underlying disk.
+<p><dt>CGDIOCCLR<dd>
+unconfigures the
+<b>.</b>
+</dl>
+        <p>
+These
+<a href="../html2/ioctl.html">ioctl(2)</a>'s
+and their associated data structures are defined in
+<code></code><code>/usr/include/dev/cgdvar.h</code>.
+        <h3>
+        WARNINGS
+        </h3>
+It goes without saying that if you forget the passphrase that you used
+to configure a
+<b>,</b>
+then you have irrevocably lost all of the data on the disk.
+Please ensure that you are using an appropriate backup strategy.
+        <h3>
+        FILES
+        </h3>
+<dl compact>
+<p><dt>/dev/{,r}cgd*<dd>
+<b>cgd</b>
+device special files.
+</dl>
+        <h3>
+        SEE ALSO
+        </h3>
+<a href="../html2/ioctl.html">ioctl(2)</a>,
+<a href="../html4/sd.html">sd(4)</a>,
+<a href="../html8/MAKEDEV.html">MAKEDEV(8)</a>,
+<a href="../html8/cgdconfig.html">cgdconfig(8)</a>,
+<a href="../html8/config.html">config(8)</a>
+        <h3>
+        HISTORY
+        </h3>
+The
+<b>cgd</b>
+driver was written by Roland C. Dowdeswell for
+NetBSD.
+The
+<b>cgd</b>
+driver originally appeared in
+NetBSD2.0.
+</font></body>

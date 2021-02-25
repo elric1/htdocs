@@ -1,0 +1,73 @@
+#!/usr/bin/ksh
+#
+
+#
+# set up variables
+#
+
+BOUNDARY="Enc.$RANDOM.`date +%s`.$$.$RANDOM"
+TMPFILE="/tmp/pgpencrypt.$$.`date +%s`.$RANDOM"
+TO=""
+
+#
+# set up functions
+#
+
+#if head -20 $* | grep -s '^--------$' ; then
+#	sed -ne '1,/^--------$/p' $* > $TMPFILE
+#else
+#	sed -ne '1,/^$/p' $* > $TMPFILE
+#fi
+
+to_whom() {
+sed -ne '1,/^--------$/p' $1 |\
+sed -ne '/^[Tt]o:/,/^[A-Za-z]/p' | sed -e 's/^[Tt]o://' | sed -ne '/^[^A-Za-z]/p' |\
+  tr , '\012' | {
+	read LINE;
+	while [ -n "$LINE" ]; do
+		if pgp +batchmode=on -kv "$LINE" >/dev/null 2>&1; then
+			TO="$TO $LINE"
+		else
+			TO=""
+			return 0;
+		fi
+		read LINE
+	done
+	echo "$TO"
+	}
+}
+
+construct_message() {
+/usr/local/mh/lib/mhl -form /usr/local/lib/pgpmail/mhl.headers $1
+echo "MIME-Type: 1.0"
+echo 'Content-Type: multipart/encrypted; boundary="'$BOUNDARY'"; protocol="application/pgp-encrypted"'
+echo
+echo "--$BOUNDARY"
+echo "Content-Type: application/pgp-encrypted"
+echo
+echo "Version: 1.0"
+echo 
+echo "--$BOUNDARY"
+echo "Content-Type: application/octet-stream"
+echo
+/usr/local/mh/lib/mhl -form /usr/local/lib/pgpmail/mhl.message $1 |\
+	pgp +ENCRYPTTOSELF=on +verbose=0 -feat $TO
+echo
+echo "--$BOUNDARY--"
+}
+
+#
+# main (in a sense)
+#
+
+# mhspell $1
+
+TO=`to_whom $1`
+if [ X"$TO" != X"" ]; then
+	mhn "$@"
+	construct_message $1 > "$TMPFILE"
+	cp "$TMPFILE" "$1"
+	rm -f "$TMPFILE"
+else
+	mhn "$@"
+fi

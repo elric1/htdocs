@@ -33,3 +33,6 @@ exclude:
   - LICENSE
   - README.md
   - CNAME
+
+include:
+  - ~elric

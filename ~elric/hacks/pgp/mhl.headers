@@ -1,0 +1,9 @@
+ignores=Subject,Mime-Version,Content-Type,Content-Encoding
+overflowoffset=8
+width=0
+To:
+cc:
+Bcc:
+Fcc:
+:Subject: Encrypted
+extras:nocomponent

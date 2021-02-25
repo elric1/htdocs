@@ -1,0 +1,38 @@
+This patch is designed to be applied in xsrc/xfree/xc/config/cf.
+
+Index: Imake.tmpl
+===================================================================
+RCS file: /cvsroot/xsrc/xfree/xc/config/cf/Imake.tmpl,v
+retrieving revision 1.1.1.4
+diff -u -r1.1.1.4 Imake.tmpl
+--- Imake.tmpl	2002/01/19 14:53:23	1.1.1.4
++++ Imake.tmpl	2002/08/08 21:14:12
+@@ -492,7 +492,7 @@
+ #define KrbIVLibraries -lkafs -lkrb -ldes
+ #endif
+ #endif
+-#if HasKrb5
++#if HasKrb5 || HasKrb5Login
+ #ifndef Krb5Includes
+ #define Krb5Includes -I/krb5/include
+ #endif
+Index: NetBSD.cf
+===================================================================
+RCS file: /cvsroot/xsrc/xfree/xc/config/cf/NetBSD.cf,v
+retrieving revision 1.28
+diff -u -r1.28 NetBSD.cf
+--- NetBSD.cf	2002/07/05 17:42:02	1.28
++++ NetBSD.cf	2002/08/08 21:14:13
+@@ -641,3 +641,12 @@
+ #ifndef UseSeparateConfDir
+ #define UseSeparateConfDir NO	/* We don't want appdefs in "/etc/X11". */
+ #endif
++
++#ifndef HasKrb5Login
++#define HasKrb5Login YES
++#endif
++
++#if HasKrb5 || HasKrb5Login
++#define Krb5Includes -I/usr/include/krb5
++#define Krb5Libraries -lkrb5 -lasn1 -lroken -lcrypto -lcom_err
++#endif
