@@ -36,3 +36,4 @@ exclude:
 
 include:
   - ~elric
+  - ~viktor
