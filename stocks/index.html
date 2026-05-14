@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#0b0d10">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Quotes">
+    <title>Quotes</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="elm.js"></script>
+    <script>
+      var selectedSymbolsKey = "ticker.selectedSymbols";
+      var cachedQuotesKey = "ticker.cachedQuotes";
+
+      function loadSelectedSymbols() {
+        try {
+          var raw = window.localStorage.getItem(selectedSymbolsKey);
+          if (!raw) {
+            return null;
+          }
+
+          var parsed = JSON.parse(raw);
+          return Array.isArray(parsed) ? parsed : null;
+        } catch (_) {
+          return null;
+        }
+      }
+
+      function loadCachedQuotes() {
+        try {
+          var raw = window.localStorage.getItem(cachedQuotesKey);
+          if (!raw) {
+            return null;
+          }
+
+          var parsed = JSON.parse(raw);
+          return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : null;
+        } catch (_) {
+          return null;
+        }
+      }
+
+      var app = Elm.Main.init({
+        node: document.getElementById("app"),
+        flags: {
+          selectedSymbols: loadSelectedSymbols(),
+          cachedQuotes: loadCachedQuotes()
+        }
+      });
+
+      app.ports.saveSelectedSymbols.subscribe(function (selectedSymbols) {
+        try {
+          window.localStorage.setItem(selectedSymbolsKey, JSON.stringify(selectedSymbols));
+        } catch (_) {}
+      });
+
+      app.ports.saveCachedQuotes.subscribe(function (cachedQuotes) {
+        try {
+          window.localStorage.setItem(cachedQuotesKey, JSON.stringify(cachedQuotes));
+        } catch (_) {}
+      });
+
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker.register("sw.js");
+        });
+      }
+    </script>
+  </body>
+</html>
