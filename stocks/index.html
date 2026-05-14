@@ -18,6 +18,7 @@
     <script>
       var selectedSymbolsKey = "ticker.selectedSymbols";
       var cachedQuotesKey = "ticker.cachedQuotes";
+      var customQuotesKey = "ticker.customQuotes";
 
       function loadSelectedSymbols() {
         try {
@@ -47,11 +48,26 @@
         }
       }
 
+      function loadCustomQuotes() {
+        try {
+          var raw = window.localStorage.getItem(customQuotesKey);
+          if (!raw) {
+            return null;
+          }
+
+          var parsed = JSON.parse(raw);
+          return Array.isArray(parsed) ? parsed : null;
+        } catch (_) {
+          return null;
+        }
+      }
+
       var app = Elm.Main.init({
         node: document.getElementById("app"),
         flags: {
           selectedSymbols: loadSelectedSymbols(),
-          cachedQuotes: loadCachedQuotes()
+          cachedQuotes: loadCachedQuotes(),
+          customQuotes: loadCustomQuotes()
         }
       });
 
@@ -64,6 +80,12 @@
       app.ports.saveCachedQuotes.subscribe(function (cachedQuotes) {
         try {
           window.localStorage.setItem(cachedQuotesKey, JSON.stringify(cachedQuotes));
+        } catch (_) {}
+      });
+
+      app.ports.saveCustomQuotes.subscribe(function (customQuotes) {
+        try {
+          window.localStorage.setItem(customQuotesKey, JSON.stringify(customQuotes));
         } catch (_) {}
       });
 

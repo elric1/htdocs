@@ -784,11 +784,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.X.G === region.ab.G)
+	if (region.ai.S === region.ao.S)
 	{
-		return 'on line ' + region.X.G;
+		return 'on line ' + region.ai.S;
 	}
-	return 'on lines ' + region.X.G + ' through ' + region.ab.G;
+	return 'on lines ' + region.ai.S + ' through ' + region.ao.S;
 }
 
 
@@ -1857,9 +1857,9 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.aW,
-		impl.a8,
 		impl.a5,
+		impl.bi,
+		impl.bf,
 		function() { return function() {} }
 	);
 });
@@ -2719,9 +2719,9 @@ var _VirtualDom_mapEventTuple = F2(function(func, tuple)
 var _VirtualDom_mapEventRecord = F2(function(func, record)
 {
 	return {
-		s: func(record.s),
-		Y: record.Y,
-		V: record.V
+		C: func(record.C),
+		aj: record.aj,
+		ag: record.ag
 	}
 });
 
@@ -2989,11 +2989,11 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 		// 3 = Custom
 
 		var value = result.a;
-		var message = !tag ? value : tag < 3 ? value.a : value.s;
-		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.Y;
+		var message = !tag ? value : tag < 3 ? value.a : value.C;
+		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.aj;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
-			(tag == 2 ? value.b : tag == 3 && value.V) && event.preventDefault(),
+			(tag == 2 ? value.b : tag == 3 && value.ag) && event.preventDefault(),
 			eventNode
 		);
 		var tagger;
@@ -3943,11 +3943,11 @@ var _Browser_element = _Debugger_element || F4(function(impl, flagDecoder, debug
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.aW,
-		impl.a8,
 		impl.a5,
+		impl.bi,
+		impl.bf,
 		function(sendToApp, initialModel) {
-			var view = impl.a9;
+			var view = impl.bj;
 			/**/
 			var domNode = args['node'];
 			//*/
@@ -3979,12 +3979,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.aW,
-		impl.a8,
 		impl.a5,
+		impl.bi,
+		impl.bf,
 		function(sendToApp, initialModel) {
-			var divertHrefToApp = impl.W && impl.W(sendToApp)
-			var view = impl.a9;
+			var divertHrefToApp = impl.ah && impl.ah(sendToApp)
+			var view = impl.bj;
 			var title = _VirtualDom_doc.title;
 			var bodyNode = _VirtualDom_doc.body;
 			var currNode = _VirtualDom_virtualize(bodyNode);
@@ -3992,12 +3992,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 			{
 				_VirtualDom_divertHrefToApp = divertHrefToApp;
 				var doc = view(model);
-				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.aP);
+				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.a_);
 				var patches = _VirtualDom_diff(currNode, nextNode);
 				bodyNode = _VirtualDom_applyPatches(bodyNode, currNode, patches, sendToApp);
 				currNode = nextNode;
 				_VirtualDom_divertHrefToApp = 0;
-				(title !== doc.a7) && (_VirtualDom_doc.title = title = doc.a7);
+				(title !== doc.bh) && (_VirtualDom_doc.title = title = doc.bh);
 			});
 		}
 	);
@@ -4053,12 +4053,12 @@ function _Browser_makeAnimator(model, draw)
 
 function _Browser_application(impl)
 {
-	var onUrlChange = impl.aZ;
-	var onUrlRequest = impl.a_;
+	var onUrlChange = impl.a7;
+	var onUrlRequest = impl.a8;
 	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
 
 	return _Browser_document({
-		W: function(sendToApp)
+		ah: function(sendToApp)
 		{
 			key.a = sendToApp;
 			_Browser_window.addEventListener('popstate', key);
@@ -4074,9 +4074,9 @@ function _Browser_application(impl)
 					var next = $elm$url$Url$fromString(href).a;
 					sendToApp(onUrlRequest(
 						(next
-							&& curr.au === next.au
-							&& curr.ai === next.ai
-							&& curr.aq.a === next.aq.a
+							&& curr.aG === next.aG
+							&& curr.at === next.at
+							&& curr.aC.a === next.aC.a
 						)
 							? $elm$browser$Browser$Internal(next)
 							: $elm$browser$Browser$External(href)
@@ -4084,13 +4084,13 @@ function _Browser_application(impl)
 				}
 			});
 		},
-		aW: function(flags)
+		a5: function(flags)
 		{
-			return A3(impl.aW, flags, _Browser_getUrl(), key);
+			return A3(impl.a5, flags, _Browser_getUrl(), key);
 		},
-		a9: impl.a9,
-		a8: impl.a8,
-		a5: impl.a5
+		bj: impl.bj,
+		bi: impl.bi,
+		bf: impl.bf
 	});
 }
 
@@ -4156,17 +4156,17 @@ var _Browser_decodeEvent = F2(function(decoder, event)
 function _Browser_visibilityInfo()
 {
 	return (typeof _VirtualDom_doc.hidden !== 'undefined')
-		? { aU: 'hidden', aQ: 'visibilitychange' }
+		? { a3: 'hidden', a$: 'visibilitychange' }
 		:
 	(typeof _VirtualDom_doc.mozHidden !== 'undefined')
-		? { aU: 'mozHidden', aQ: 'mozvisibilitychange' }
+		? { a3: 'mozHidden', a$: 'mozvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.msHidden !== 'undefined')
-		? { aU: 'msHidden', aQ: 'msvisibilitychange' }
+		? { a3: 'msHidden', a$: 'msvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.webkitHidden !== 'undefined')
-		? { aU: 'webkitHidden', aQ: 'webkitvisibilitychange' }
-		: { aU: 'hidden', aQ: 'visibilitychange' };
+		? { a3: 'webkitHidden', a$: 'webkitvisibilitychange' }
+		: { a3: 'hidden', a$: 'visibilitychange' };
 }
 
 
@@ -4247,12 +4247,12 @@ var _Browser_call = F2(function(functionName, id)
 function _Browser_getViewport()
 {
 	return {
-		aC: _Browser_getScene(),
-		aI: {
-			aK: _Browser_window.pageXOffset,
-			aL: _Browser_window.pageYOffset,
-			aJ: _Browser_doc.documentElement.clientWidth,
-			ah: _Browser_doc.documentElement.clientHeight
+		aN: _Browser_getScene(),
+		aT: {
+			aV: _Browser_window.pageXOffset,
+			aW: _Browser_window.pageYOffset,
+			aU: _Browser_doc.documentElement.clientWidth,
+			as: _Browser_doc.documentElement.clientHeight
 		}
 	};
 }
@@ -4262,8 +4262,8 @@ function _Browser_getScene()
 	var body = _Browser_doc.body;
 	var elem = _Browser_doc.documentElement;
 	return {
-		aJ: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
-		ah: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
+		aU: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
+		as: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
 	};
 }
 
@@ -4286,15 +4286,15 @@ function _Browser_getViewportOf(id)
 	return _Browser_withNode(id, function(node)
 	{
 		return {
-			aC: {
-				aJ: node.scrollWidth,
-				ah: node.scrollHeight
+			aN: {
+				aU: node.scrollWidth,
+				as: node.scrollHeight
 			},
-			aI: {
-				aK: node.scrollLeft,
-				aL: node.scrollTop,
-				aJ: node.clientWidth,
-				ah: node.clientHeight
+			aT: {
+				aV: node.scrollLeft,
+				aW: node.scrollTop,
+				aU: node.clientWidth,
+				as: node.clientHeight
 			}
 		};
 	});
@@ -4324,18 +4324,18 @@ function _Browser_getElement(id)
 		var x = _Browser_window.pageXOffset;
 		var y = _Browser_window.pageYOffset;
 		return {
-			aC: _Browser_getScene(),
-			aI: {
-				aK: x,
-				aL: y,
-				aJ: _Browser_doc.documentElement.clientWidth,
-				ah: _Browser_doc.documentElement.clientHeight
+			aN: _Browser_getScene(),
+			aT: {
+				aV: x,
+				aW: y,
+				aU: _Browser_doc.documentElement.clientWidth,
+				as: _Browser_doc.documentElement.clientHeight
 			},
-			aS: {
-				aK: x + rect.left,
-				aL: y + rect.top,
-				aJ: rect.width,
-				ah: rect.height
+			a1: {
+				aV: x + rect.left,
+				aW: y + rect.top,
+				aU: rect.width,
+				as: rect.height
 			}
 		};
 	});
@@ -4380,25 +4380,25 @@ var _Http_toTask = F3(function(router, toTask, request)
 	return _Scheduler_binding(function(callback)
 	{
 		function done(response) {
-			callback(toTask(request.ae.a(response)));
+			callback(toTask(request._.a(response)));
 		}
 
 		var xhr = new XMLHttpRequest();
 		xhr.addEventListener('error', function() { done($elm$http$Http$NetworkError_); });
 		xhr.addEventListener('timeout', function() { done($elm$http$Http$Timeout_); });
-		xhr.addEventListener('load', function() { done(_Http_toResponse(request.ae.b, xhr)); });
-		$elm$core$Maybe$isJust(request.aG) && _Http_track(router, xhr, request.aG.a);
+		xhr.addEventListener('load', function() { done(_Http_toResponse(request._.b, xhr)); });
+		$elm$core$Maybe$isJust(request.aS) && _Http_track(router, xhr, request.aS.a);
 
 		try {
-			xhr.open(request.aX, request.aH, true);
+			xhr.open(request.a6, request.ad, true);
 		} catch (e) {
-			return done($elm$http$Http$BadUrl_(request.aH));
+			return done($elm$http$Http$BadUrl_(request.ad));
 		}
 
 		_Http_configureRequest(xhr, request);
 
-		request.aP.a && xhr.setRequestHeader('Content-Type', request.aP.a);
-		xhr.send(request.aP.b);
+		request.a_.a && xhr.setRequestHeader('Content-Type', request.a_.a);
+		xhr.send(request.a_.b);
 
 		return function() { xhr.c = true; xhr.abort(); };
 	});
@@ -4409,13 +4409,13 @@ var _Http_toTask = F3(function(router, toTask, request)
 
 function _Http_configureRequest(xhr, request)
 {
-	for (var headers = request.ag; headers.b; headers = headers.b) // WHILE_CONS
+	for (var headers = request.ar; headers.b; headers = headers.b) // WHILE_CONS
 	{
 		xhr.setRequestHeader(headers.a.a, headers.a.b);
 	}
-	xhr.timeout = request.a6.a || 0;
-	xhr.responseType = request.ae.d;
-	xhr.withCredentials = request.aN;
+	xhr.timeout = request.bg.a || 0;
+	xhr.responseType = request._.d;
+	xhr.withCredentials = request.aY;
 }
 
 
@@ -4436,10 +4436,10 @@ function _Http_toResponse(toBody, xhr)
 function _Http_toMetadata(xhr)
 {
 	return {
-		aH: xhr.responseURL,
-		a3: xhr.status,
-		a4: xhr.statusText,
-		ag: _Http_parseHeaders(xhr.getAllResponseHeaders())
+		ad: xhr.responseURL,
+		bd: xhr.status,
+		be: xhr.statusText,
+		ar: _Http_parseHeaders(xhr.getAllResponseHeaders())
 	};
 }
 
@@ -4534,15 +4534,15 @@ function _Http_track(router, xhr, tracker)
 	xhr.upload.addEventListener('progress', function(event) {
 		if (xhr.c) { return; }
 		_Scheduler_rawSpawn(A2($elm$core$Platform$sendToSelf, router, _Utils_Tuple2(tracker, $elm$http$Http$Sending({
-			a2: event.loaded,
-			aD: event.total
+			bc: event.loaded,
+			aO: event.total
 		}))));
 	});
 	xhr.addEventListener('progress', function(event) {
 		if (xhr.c) { return; }
 		_Scheduler_rawSpawn(A2($elm$core$Platform$sendToSelf, router, _Utils_Tuple2(tracker, $elm$http$Http$Receiving({
-			a0: event.loaded,
-			aD: event.lengthComputable ? $elm$core$Maybe$Just(event.total) : $elm$core$Maybe$Nothing
+			ba: event.loaded,
+			aO: event.lengthComputable ? $elm$core$Maybe$Just(event.total) : $elm$core$Maybe$Nothing
 		}))));
 	});
 }
@@ -4592,6 +4592,23 @@ function _Time_getZoneName()
 	});
 }
 
+
+function _Url_percentEncode(string)
+{
+	return encodeURIComponent(string);
+}
+
+function _Url_percentDecode(string)
+{
+	try
+	{
+		return $elm$core$Maybe$Just(decodeURIComponent(string));
+	}
+	catch (e)
+	{
+		return $elm$core$Maybe$Nothing;
+	}
+}
 
 
 var _Bitwise_and = F2(function(a, b)
@@ -5034,25 +5051,25 @@ var $elm$core$Array$treeFromBuilder = F2(
 	});
 var $elm$core$Array$builderToArray = F2(
 	function (reverseNodeList, builder) {
-		if (!builder.b) {
+		if (!builder.c) {
 			return A4(
 				$elm$core$Array$Array_elm_builtin,
-				$elm$core$Elm$JsArray$length(builder.c),
+				$elm$core$Elm$JsArray$length(builder.h),
 				$elm$core$Array$shiftStep,
 				$elm$core$Elm$JsArray$empty,
-				builder.c);
+				builder.h);
 		} else {
-			var treeLen = builder.b * $elm$core$Array$branchFactor;
+			var treeLen = builder.c * $elm$core$Array$branchFactor;
 			var depth = $elm$core$Basics$floor(
 				A2($elm$core$Basics$logBase, $elm$core$Array$branchFactor, treeLen - 1));
-			var correctNodeList = reverseNodeList ? $elm$core$List$reverse(builder.d) : builder.d;
-			var tree = A2($elm$core$Array$treeFromBuilder, correctNodeList, builder.b);
+			var correctNodeList = reverseNodeList ? $elm$core$List$reverse(builder.j) : builder.j;
+			var tree = A2($elm$core$Array$treeFromBuilder, correctNodeList, builder.c);
 			return A4(
 				$elm$core$Array$Array_elm_builtin,
-				$elm$core$Elm$JsArray$length(builder.c) + treeLen,
+				$elm$core$Elm$JsArray$length(builder.h) + treeLen,
 				A2($elm$core$Basics$max, 5, depth * $elm$core$Array$shiftStep),
 				tree,
-				builder.c);
+				builder.h);
 		}
 	});
 var $elm$core$Basics$idiv = _Basics_idiv;
@@ -5065,7 +5082,7 @@ var $elm$core$Array$initializeHelp = F5(
 				return A2(
 					$elm$core$Array$builderToArray,
 					false,
-					{d: nodeList, b: (len / $elm$core$Array$branchFactor) | 0, c: tail});
+					{j: nodeList, c: (len / $elm$core$Array$branchFactor) | 0, h: tail});
 			} else {
 				var leaf = $elm$core$Array$Leaf(
 					A3($elm$core$Elm$JsArray$initialize, $elm$core$Array$branchFactor, fromIndex, fn));
@@ -5132,7 +5149,7 @@ var $elm$url$Url$Http = 0;
 var $elm$url$Url$Https = 1;
 var $elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {af: fragment, ai: host, ao: path, aq: port_, au: protocol, av: query};
+		return {aq: fragment, at: host, aA: path, aC: port_, aG: protocol, aH: query};
 	});
 var $elm$core$String$contains = _String_contains;
 var $elm$core$String$length = _String_length;
@@ -5412,6 +5429,61 @@ var $elm$core$Task$perform = F2(
 	});
 var $elm$browser$Browser$element = _Browser_element;
 var $author$project$Main$QuotesPage = 0;
+var $author$project$Main$SearchIdle = {$: 0};
+var $author$project$Main$SearchSecurities = 0;
+var $author$project$Main$Kraken = function (a) {
+	return {$: 0, a: a};
+};
+var $author$project$Main$Loading = {$: 0};
+var $author$project$Main$krakenRow = F6(
+	function (quoteId, symbol, name, apiPair, pricePrefix, priceDecimals) {
+		return {
+			b: 'Crypto',
+			a: quoteId,
+			i: name,
+			n: priceDecimals,
+			o: pricePrefix,
+			p: $author$project$Main$Kraken(apiPair),
+			q: $author$project$Main$Loading,
+			g: symbol
+		};
+	});
+var $author$project$Main$YahooSpark = function (a) {
+	return {$: 1, a: a};
+};
+var $author$project$Main$yahooSparkQuote = F7(
+	function (quoteId, symbol, name, category, encodedApiSymbol, pricePrefix, priceDecimals) {
+		return {
+			b: category,
+			a: quoteId,
+			i: name,
+			n: priceDecimals,
+			o: pricePrefix,
+			p: $author$project$Main$YahooSpark(encodedApiSymbol),
+			q: $author$project$Main$Loading,
+			g: symbol
+		};
+	});
+var $author$project$Main$builtInQuotes = _List_fromArray(
+	[
+		A6($author$project$Main$krakenRow, 'btc-usd', 'BTC/USD', 'Bitcoin', 'XBTUSD', '$', 2),
+		A6($author$project$Main$krakenRow, 'eth-usd', 'ETH/USD', 'Ethereum', 'ETHUSD', '$', 2),
+		A6($author$project$Main$krakenRow, 'sol-usd', 'SOL/USD', 'Solana', 'SOLUSD', '$', 2),
+		A6($author$project$Main$krakenRow, 'xrp-usd', 'XRP/USD', 'XRP', 'XRPUSD', '$', 4),
+		A6($author$project$Main$krakenRow, 'ada-usd', 'ADA/USD', 'Cardano', 'ADAUSD', '$', 4),
+		A6($author$project$Main$krakenRow, 'doge-usd', 'DOGE/USD', 'Dogecoin', 'XDGUSD', '$', 4),
+		A7($author$project$Main$yahooSparkQuote, 'gbp-usd', 'GBP/USD', 'British pound / US dollar', 'Forex', 'GBPUSD=X', '', 5),
+		A7($author$project$Main$yahooSparkQuote, 'nasdaq', 'NASDAQ', 'NASDAQ Composite', 'Index', '%5EIXIC', '', 2),
+		A7($author$project$Main$yahooSparkQuote, 'djia', 'DJIA', 'Dow Jones Industrial Average', 'Index', '%5EDJI', '', 2),
+		A7($author$project$Main$yahooSparkQuote, 'sp500', 'SP500', 'S&P 500', 'Index', '%5EGSPC', '', 2),
+		A7($author$project$Main$yahooSparkQuote, 'ftse100', 'FTSE100', 'FTSE 100', 'Index', '%5EFTSE', '', 2),
+		A7($author$project$Main$yahooSparkQuote, 'ftse250', 'FTSE250', 'FTSE 250', 'Index', '%5EFTMC', '', 2),
+		A7($author$project$Main$yahooSparkQuote, 'xau-usd', 'XAU/USD', 'Gold futures', 'Commodity', 'GC=F', '$', 2),
+		A7($author$project$Main$yahooSparkQuote, 'xag-usd', 'XAG/USD', 'Silver futures', 'Commodity', 'SI=F', '$', 2),
+		A7($author$project$Main$yahooSparkQuote, 'xpl-usd', 'XPL/USD', 'Platinum futures', 'Commodity', 'PL=F', '$', 2),
+		A7($author$project$Main$yahooSparkQuote, 'xpa-usd', 'XPA/USD', 'Palladium futures', 'Commodity', 'PA=F', '$', 2),
+		A7($author$project$Main$yahooSparkQuote, 'oil', 'OIL', 'Crude oil futures', 'Commodity', 'CL=F', '$', 2)
+	]);
 var $elm$core$Basics$composeR = F3(
 	function (f, g, x) {
 		return g(
@@ -5568,7 +5640,7 @@ var $elm$json$Json$Decode$nullable = function (decoder) {
 };
 var $author$project$Main$QuoteData = F2(
 	function (price, percent) {
-		return {I: percent, P: price};
+		return {U: percent, ab: price};
 	});
 var $elm$json$Json$Decode$float = _Json_decodeFloat;
 var $author$project$Main$quoteDataDecoder = A3(
@@ -5605,6 +5677,132 @@ var $author$project$Main$cachedQuotesFromFlags = function (flags) {
 		return cache;
 	} else {
 		return $elm$core$Dict$empty;
+	}
+};
+var $elm$json$Json$Decode$list = _Json_decodeList;
+var $elm$json$Json$Decode$int = _Json_decodeInt;
+var $elm$json$Json$Decode$map7 = _Json_map7;
+var $elm$json$Json$Decode$andThen = _Json_andThen;
+var $elm$json$Json$Decode$fail = _Json_fail;
+var $elm$json$Json$Decode$string = _Json_decodeString;
+var $author$project$Main$quoteSourceDecoder = A2(
+	$elm$json$Json$Decode$andThen,
+	function (sourceType) {
+		switch (sourceType) {
+			case 'kraken':
+				return A2(
+					$elm$json$Json$Decode$map,
+					$author$project$Main$Kraken,
+					A2($elm$json$Json$Decode$field, 'value', $elm$json$Json$Decode$string));
+			case 'yahoo':
+				return A2(
+					$elm$json$Json$Decode$map,
+					$author$project$Main$YahooSpark,
+					A2($elm$json$Json$Decode$field, 'value', $elm$json$Json$Decode$string));
+			default:
+				return $elm$json$Json$Decode$fail('Unknown quote source');
+		}
+	},
+	A2($elm$json$Json$Decode$field, 'type', $elm$json$Json$Decode$string));
+var $author$project$Main$storedQuoteDecoder = A8(
+	$elm$json$Json$Decode$map7,
+	F7(
+		function (quoteId, symbol, name, category, source, pricePrefix, priceDecimals) {
+			return {b: category, a: quoteId, i: name, n: priceDecimals, o: pricePrefix, p: source, q: $author$project$Main$Loading, g: symbol};
+		}),
+	A2($elm$json$Json$Decode$field, 'id', $elm$json$Json$Decode$string),
+	A2($elm$json$Json$Decode$field, 'symbol', $elm$json$Json$Decode$string),
+	$elm$json$Json$Decode$oneOf(
+		_List_fromArray(
+			[
+				A2($elm$json$Json$Decode$field, 'name', $elm$json$Json$Decode$string),
+				$elm$json$Json$Decode$succeed('')
+			])),
+	$elm$json$Json$Decode$oneOf(
+		_List_fromArray(
+			[
+				A2($elm$json$Json$Decode$field, 'category', $elm$json$Json$Decode$string),
+				$elm$json$Json$Decode$succeed('Custom')
+			])),
+	A2($elm$json$Json$Decode$field, 'source', $author$project$Main$quoteSourceDecoder),
+	$elm$json$Json$Decode$oneOf(
+		_List_fromArray(
+			[
+				A2($elm$json$Json$Decode$field, 'pricePrefix', $elm$json$Json$Decode$string),
+				$elm$json$Json$Decode$succeed('')
+			])),
+	$elm$json$Json$Decode$oneOf(
+		_List_fromArray(
+			[
+				A2($elm$json$Json$Decode$field, 'priceDecimals', $elm$json$Json$Decode$int),
+				$elm$json$Json$Decode$succeed(2)
+			])));
+var $author$project$Main$customQuotesDecoder = A2(
+	$elm$json$Json$Decode$map,
+	A2(
+		$elm$core$Basics$composeR,
+		$elm$core$Maybe$withDefault($elm$core$Maybe$Nothing),
+		$elm$core$Maybe$withDefault(_List_Nil)),
+	$elm$json$Json$Decode$maybe(
+		A2(
+			$elm$json$Json$Decode$field,
+			'customQuotes',
+			$elm$json$Json$Decode$nullable(
+				$elm$json$Json$Decode$list($author$project$Main$storedQuoteDecoder)))));
+var $elm$core$List$any = F2(
+	function (isOkay, list) {
+		any:
+		while (true) {
+			if (!list.b) {
+				return false;
+			} else {
+				var x = list.a;
+				var xs = list.b;
+				if (isOkay(x)) {
+					return true;
+				} else {
+					var $temp$isOkay = isOkay,
+						$temp$list = xs;
+					isOkay = $temp$isOkay;
+					list = $temp$list;
+					continue any;
+				}
+			}
+		}
+	});
+var $author$project$Main$dedupeQuotes = function (quotes) {
+	dedupeQuotes:
+	while (true) {
+		if (!quotes.b) {
+			return _List_Nil;
+		} else {
+			var quote = quotes.a;
+			var rest = quotes.b;
+			if (A2(
+				$elm$core$List$any,
+				function (other) {
+					return _Utils_eq(other.a, quote.a);
+				},
+				rest)) {
+				var $temp$quotes = rest;
+				quotes = $temp$quotes;
+				continue dedupeQuotes;
+			} else {
+				return A2(
+					$elm$core$List$cons,
+					quote,
+					$author$project$Main$dedupeQuotes(rest));
+			}
+		}
+	}
+};
+var $author$project$Main$customQuotesFromFlags = function (flags) {
+	var _v0 = A2($elm$json$Json$Decode$decodeValue, $author$project$Main$customQuotesDecoder, flags);
+	if (!_v0.$) {
+		var quotes = _v0.a;
+		return $author$project$Main$dedupeQuotes(quotes);
+	} else {
+		return _List_Nil;
 	}
 };
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
@@ -6092,7 +6290,7 @@ var $elm$http$Http$resolve = F2(
 			case 3:
 				var metadata = response.a;
 				return $elm$core$Result$Err(
-					$elm$http$Http$BadStatus(metadata.a3));
+					$elm$http$Http$BadStatus(metadata.bd));
 			default:
 				var body = response.b;
 				return A2(
@@ -6126,7 +6324,7 @@ var $elm$http$Http$Request = function (a) {
 };
 var $elm$http$Http$State = F2(
 	function (reqs, subs) {
-		return {ay: reqs, aE: subs};
+		return {aK: reqs, aQ: subs};
 	});
 var $elm$http$Http$init = $elm$core$Task$succeed(
 	A2($elm$http$Http$State, $elm$core$Dict$empty, _List_Nil));
@@ -6170,7 +6368,7 @@ var $elm$http$Http$updateReqs = F3(
 					return A2(
 						$elm$core$Task$andThen,
 						function (pid) {
-							var _v4 = req.aG;
+							var _v4 = req.aS;
 							if (_v4.$ === 1) {
 								return A3($elm$http$Http$updateReqs, router, otherCmds, reqs);
 							} else {
@@ -6200,7 +6398,7 @@ var $elm$http$Http$onEffects = F4(
 				return $elm$core$Task$succeed(
 					A2($elm$http$Http$State, reqs, subs));
 			},
-			A3($elm$http$Http$updateReqs, router, cmds, state.ay));
+			A3($elm$http$Http$updateReqs, router, cmds, state.aK));
 	});
 var $elm$core$List$maybeCons = F3(
 	function (f, mx, xs) {
@@ -6243,7 +6441,7 @@ var $elm$http$Http$onSelfMsg = F3(
 				A2(
 					$elm$core$List$filterMap,
 					A3($elm$http$Http$maybeSend, router, tracker, progress),
-					state.aE)));
+					state.aQ)));
 	});
 var $elm$http$Http$Cancel = function (a) {
 	return {$: 0, a: a};
@@ -6257,14 +6455,14 @@ var $elm$http$Http$cmdMap = F2(
 			var r = cmd.a;
 			return $elm$http$Http$Request(
 				{
-					aN: r.aN,
-					aP: r.aP,
-					ae: A2(_Http_mapExpect, func, r.ae),
-					ag: r.ag,
-					aX: r.aX,
+					aY: r.aY,
+					a_: r.a_,
+					_: A2(_Http_mapExpect, func, r._),
+					ar: r.ar,
 					a6: r.a6,
-					aG: r.aG,
-					aH: r.aH
+					bg: r.bg,
+					aS: r.aS,
+					ad: r.ad
 				});
 		}
 	});
@@ -6287,22 +6485,21 @@ var $elm$http$Http$subscription = _Platform_leaf('Http');
 var $elm$http$Http$request = function (r) {
 	return $elm$http$Http$command(
 		$elm$http$Http$Request(
-			{aN: false, aP: r.aP, ae: r.ae, ag: r.ag, aX: r.aX, a6: r.a6, aG: r.aG, aH: r.aH}));
+			{aY: false, a_: r.a_, _: r._, ar: r.ar, a6: r.a6, bg: r.bg, aS: r.aS, ad: r.ad}));
 };
 var $elm$http$Http$get = function (r) {
 	return $elm$http$Http$request(
-		{aP: $elm$http$Http$emptyBody, ae: r.ae, ag: _List_Nil, aX: 'GET', a6: $elm$core$Maybe$Nothing, aG: $elm$core$Maybe$Nothing, aH: r.aH});
+		{a_: $elm$http$Http$emptyBody, _: r._, ar: _List_Nil, a6: 'GET', bg: $elm$core$Maybe$Nothing, aS: $elm$core$Maybe$Nothing, ad: r.ad});
 };
 var $author$project$Main$KrakenResponse = F2(
 	function (errors, result) {
-		return {ac: errors, aB: result};
+		return {Z: errors, ac: result};
 	});
 var $author$project$Main$KrakenQuote = F2(
 	function (lastTrade, openToday) {
-		return {ak: lastTrade, an: openToday};
+		return {av: lastTrade, ay: openToday};
 	});
 var $elm$json$Json$Decode$index = _Json_decodeIndex;
-var $elm$json$Json$Decode$string = _Json_decodeString;
 var $author$project$Main$krakenQuoteDecoder = A3(
 	$elm$json$Json$Decode$map2,
 	$author$project$Main$KrakenQuote,
@@ -6311,7 +6508,6 @@ var $author$project$Main$krakenQuoteDecoder = A3(
 		'c',
 		A2($elm$json$Json$Decode$index, 0, $elm$json$Json$Decode$string)),
 	A2($elm$json$Json$Decode$field, 'o', $elm$json$Json$Decode$string));
-var $elm$json$Json$Decode$list = _Json_decodeList;
 var $author$project$Main$krakenResponseDecoder = A3(
 	$elm$json$Json$Decode$map2,
 	$author$project$Main$KrakenResponse,
@@ -6325,24 +6521,24 @@ var $author$project$Main$krakenResponseDecoder = A3(
 		$elm$json$Json$Decode$dict($author$project$Main$krakenQuoteDecoder)));
 var $author$project$Main$fetchQuote = F2(
 	function (attempt, quote) {
-		var _v0 = quote.S;
+		var _v0 = quote.p;
 		if (!_v0.$) {
 			var apiPair = _v0.a;
 			return $elm$http$Http$get(
 				{
-					ae: A2(
+					_: A2(
 						$elm$http$Http$expectJson,
 						A2($author$project$Main$GotKraken, quote.a, attempt),
 						$author$project$Main$krakenResponseDecoder),
-					aH: 'https://api.kraken.com/0/public/Ticker?pair=' + apiPair
+					ad: 'https://api.kraken.com/0/public/Ticker?pair=' + apiPair
 				});
 		} else {
 			var encodedApiSymbol = _v0.a;
 			return $elm$http$Http$get(
 				{
-					ae: $elm$http$Http$expectString(
+					_: $elm$http$Http$expectString(
 						A2($author$project$Main$GotYahooSpark, quote.a, attempt)),
-					aH: 'https://r.jina.ai/http://https://query1.finance.yahoo.com/v7/finance/spark?symbols=' + (encodedApiSymbol + '&range=1d&interval=1m')
+					ad: 'https://r.jina.ai/http://https://query1.finance.yahoo.com/v7/finance/spark?symbols=' + (encodedApiSymbol + '&range=1d&interval=1m')
 				});
 		}
 	});
@@ -6354,65 +6550,6 @@ var $author$project$Main$fetchQuotes = F2(
 				$author$project$Main$fetchQuote(attempt),
 				quotes));
 	});
-var $elm$core$List$isEmpty = function (xs) {
-	if (!xs.b) {
-		return true;
-	} else {
-		return false;
-	}
-};
-var $elm$time$Time$Posix = $elm$core$Basics$identity;
-var $elm$time$Time$millisToPosix = $elm$core$Basics$identity;
-var $elm$core$Basics$not = _Basics_not;
-var $author$project$Main$Kraken = function (a) {
-	return {$: 0, a: a};
-};
-var $author$project$Main$Loading = {$: 0};
-var $author$project$Main$krakenRow = F5(
-	function (quoteId, symbol, apiPair, pricePrefix, priceDecimals) {
-		return {
-			a: quoteId,
-			Q: priceDecimals,
-			R: pricePrefix,
-			S: $author$project$Main$Kraken(apiPair),
-			k: $author$project$Main$Loading,
-			J: symbol
-		};
-	});
-var $author$project$Main$YahooSpark = function (a) {
-	return {$: 1, a: a};
-};
-var $author$project$Main$yahooSparkQuote = F5(
-	function (quoteId, symbol, encodedApiSymbol, pricePrefix, priceDecimals) {
-		return {
-			a: quoteId,
-			Q: priceDecimals,
-			R: pricePrefix,
-			S: $author$project$Main$YahooSpark(encodedApiSymbol),
-			k: $author$project$Main$Loading,
-			J: symbol
-		};
-	});
-var $author$project$Main$allQuotes = _List_fromArray(
-	[
-		A5($author$project$Main$krakenRow, 'btc-usd', 'BTC/USD', 'XBTUSD', '$', 2),
-		A5($author$project$Main$krakenRow, 'eth-usd', 'ETH/USD', 'ETHUSD', '$', 2),
-		A5($author$project$Main$krakenRow, 'sol-usd', 'SOL/USD', 'SOLUSD', '$', 2),
-		A5($author$project$Main$krakenRow, 'xrp-usd', 'XRP/USD', 'XRPUSD', '$', 4),
-		A5($author$project$Main$krakenRow, 'ada-usd', 'ADA/USD', 'ADAUSD', '$', 4),
-		A5($author$project$Main$krakenRow, 'doge-usd', 'DOGE/USD', 'XDGUSD', '$', 4),
-		A5($author$project$Main$yahooSparkQuote, 'gbp-usd', 'GBP/USD', 'GBPUSD=X', '', 5),
-		A5($author$project$Main$yahooSparkQuote, 'nasdaq', 'NASDAQ', '%5EIXIC', '', 2),
-		A5($author$project$Main$yahooSparkQuote, 'djia', 'DJIA', '%5EDJI', '', 2),
-		A5($author$project$Main$yahooSparkQuote, 'sp500', 'SP500', '%5EGSPC', '', 2),
-		A5($author$project$Main$yahooSparkQuote, 'ftse100', 'FTSE100', '%5EFTSE', '', 2),
-		A5($author$project$Main$yahooSparkQuote, 'ftse250', 'FTSE250', '%5EFTMC', '', 2),
-		A5($author$project$Main$yahooSparkQuote, 'xau-usd', 'XAU/USD', 'GC=F', '$', 2),
-		A5($author$project$Main$yahooSparkQuote, 'xag-usd', 'XAG/USD', 'SI=F', '$', 2),
-		A5($author$project$Main$yahooSparkQuote, 'xpl-usd', 'XPL/USD', 'PL=F', '$', 2),
-		A5($author$project$Main$yahooSparkQuote, 'xpa-usd', 'XPA/USD', 'PA=F', '$', 2),
-		A5($author$project$Main$yahooSparkQuote, 'oil', 'OIL', 'CL=F', '$', 2)
-	]);
 var $elm$core$List$filter = F2(
 	function (isGood, list) {
 		return A3(
@@ -6424,27 +6561,25 @@ var $elm$core$List$filter = F2(
 			_List_Nil,
 			list);
 	});
-var $elm$core$List$any = F2(
-	function (isOkay, list) {
-		any:
-		while (true) {
-			if (!list.b) {
-				return false;
-			} else {
-				var x = list.a;
-				var xs = list.b;
-				if (isOkay(x)) {
-					return true;
-				} else {
-					var $temp$isOkay = isOkay,
-						$temp$list = xs;
-					isOkay = $temp$isOkay;
-					list = $temp$list;
-					continue any;
-				}
-			}
-		}
+var $elm$core$List$isEmpty = function (xs) {
+	if (!xs.b) {
+		return true;
+	} else {
+		return false;
+	}
+};
+var $author$project$Main$isKnownQuoteId = F2(
+	function (catalog, quoteId) {
+		return A2(
+			$elm$core$List$any,
+			function (quote) {
+				return _Utils_eq(quote.a, quoteId);
+			},
+			catalog);
 	});
+var $elm$time$Time$Posix = $elm$core$Basics$identity;
+var $elm$time$Time$millisToPosix = $elm$core$Basics$identity;
+var $elm$core$Basics$not = _Basics_not;
 var $elm$core$List$member = F2(
 	function (x, xs) {
 		return A2(
@@ -6485,15 +6620,15 @@ var $author$project$Main$quoteWithExistingState = F3(
 				return _Utils_update(
 					quote,
 					{
-						k: $author$project$Main$Ready(cachedData)
+						q: $author$project$Main$Ready(cachedData)
 					});
 			} else {
 				return quote;
 			}
 		}
 	});
-var $author$project$Main$quotesFromSelectedIds = F3(
-	function (selectedIds, existingQuotes, cache) {
+var $author$project$Main$quotesFromSelectedIds = F4(
+	function (catalog, selectedIds, existingQuotes, cache) {
 		return A2(
 			$elm$core$List$map,
 			A2($author$project$Main$quoteWithExistingState, existingQuotes, cache),
@@ -6502,7 +6637,7 @@ var $author$project$Main$quotesFromSelectedIds = F3(
 				function (quote) {
 					return A2($elm$core$List$member, quote.a, selectedIds);
 				},
-				$author$project$Main$allQuotes));
+				catalog));
 	});
 var $author$project$Main$dedupe = function (values) {
 	dedupe:
@@ -6530,15 +6665,7 @@ var $author$project$Main$defaultSelectedIds = A2(
 	function ($) {
 		return $.a;
 	},
-	$author$project$Main$allQuotes);
-var $author$project$Main$isKnownQuoteId = function (quoteId) {
-	return A2(
-		$elm$core$List$any,
-		function (quote) {
-			return _Utils_eq(quote.a, quoteId);
-		},
-		$author$project$Main$allQuotes);
-};
+	$author$project$Main$builtInQuotes);
 var $author$project$Main$selectedIdsDecoder = A2(
 	$elm$json$Json$Decode$map,
 	$elm$core$Maybe$withDefault($elm$core$Maybe$Nothing),
@@ -6548,20 +6675,31 @@ var $author$project$Main$selectedIdsDecoder = A2(
 			'selectedSymbols',
 			$elm$json$Json$Decode$nullable(
 				$elm$json$Json$Decode$list($elm$json$Json$Decode$string)))));
-var $author$project$Main$selectedIdsFromFlags = function (flags) {
-	var _v0 = A2($elm$json$Json$Decode$decodeValue, $author$project$Main$selectedIdsDecoder, flags);
-	if ((!_v0.$) && (!_v0.a.$)) {
-		var selectedIds = _v0.a.a;
-		return $author$project$Main$dedupe(
-			A2($elm$core$List$filter, $author$project$Main$isKnownQuoteId, selectedIds));
-	} else {
-		return $author$project$Main$defaultSelectedIds;
-	}
-};
+var $author$project$Main$selectedIdsFromFlags = F2(
+	function (catalog, flags) {
+		var _v0 = A2($elm$json$Json$Decode$decodeValue, $author$project$Main$selectedIdsDecoder, flags);
+		if ((!_v0.$) && (!_v0.a.$)) {
+			var selectedIds = _v0.a.a;
+			return $author$project$Main$dedupe(
+				A2(
+					$elm$core$List$filter,
+					$author$project$Main$isKnownQuoteId(catalog),
+					selectedIds));
+		} else {
+			return $author$project$Main$defaultSelectedIds;
+		}
+	});
 var $author$project$Main$init = function (flags) {
-	var selectedIds = $author$project$Main$selectedIdsFromFlags(flags);
+	var customQuotes = A2(
+		$elm$core$List$filter,
+		function (quote) {
+			return !A2($author$project$Main$isKnownQuoteId, $author$project$Main$builtInQuotes, quote.a);
+		},
+		$author$project$Main$customQuotesFromFlags(flags));
+	var catalog = _Utils_ap($author$project$Main$builtInQuotes, customQuotes);
+	var selectedIds = A2($author$project$Main$selectedIdsFromFlags, catalog, flags);
 	var cache = $author$project$Main$cachedQuotesFromFlags(flags);
-	var selectedQuotes = A3($author$project$Main$quotesFromSelectedIds, selectedIds, _List_Nil, cache);
+	var selectedQuotes = A4($author$project$Main$quotesFromSelectedIds, catalog, selectedIds, _List_Nil, cache);
 	var pendingIds = A2(
 		$elm$core$List$map,
 		function ($) {
@@ -6569,21 +6707,26 @@ var $author$project$Main$init = function (flags) {
 		},
 		selectedQuotes);
 	var model = {
-		v: cache,
-		F: $elm$core$Maybe$Nothing,
-		O: $elm$time$Time$millisToPosix(0),
-		H: 0,
-		o: pendingIds,
+		B: cache,
+		L: customQuotes,
+		R: $elm$core$Maybe$Nothing,
+		aa: $elm$time$Time$millisToPosix(0),
+		T: 0,
+		u: pendingIds,
 		e: selectedQuotes,
-		z: !$elm$core$List$isEmpty(pendingIds),
-		p: selectedIds
+		E: !$elm$core$List$isEmpty(pendingIds),
+		y: 0,
+		J: '',
+		f: _List_Nil,
+		d: $author$project$Main$SearchIdle,
+		l: selectedIds
 	};
 	return _Utils_Tuple2(
 		model,
 		A2($author$project$Main$fetchQuotes, 0, selectedQuotes));
 };
 var $author$project$Main$Tick = function (a) {
-	return {$: 7, a: a};
+	return {$: 13, a: a};
 };
 var $elm$time$Time$Every = F2(
 	function (a, b) {
@@ -6591,7 +6734,7 @@ var $elm$time$Time$Every = F2(
 	});
 var $elm$time$Time$State = F2(
 	function (taggers, processes) {
-		return {at: processes, aF: taggers};
+		return {aF: processes, aR: taggers};
 	});
 var $elm$time$Time$init = $elm$core$Task$succeed(
 	A2($elm$time$Time$State, $elm$core$Dict$empty, $elm$core$Dict$empty));
@@ -6738,7 +6881,7 @@ var $elm$time$Time$spawnHelp = F3(
 	});
 var $elm$time$Time$onEffects = F3(
 	function (router, subs, _v0) {
-		var processes = _v0.at;
+		var processes = _v0.aF;
 		var rightStep = F3(
 			function (_v6, id, _v7) {
 				var spawns = _v7.a;
@@ -6805,7 +6948,7 @@ var $elm$time$Time$onEffects = F3(
 var $elm$time$Time$now = _Time_now($elm$time$Time$millisToPosix);
 var $elm$time$Time$onSelfMsg = F3(
 	function (router, interval, state) {
-		var _v0 = A2($elm$core$Dict$get, interval, state.aF);
+		var _v0 = A2($elm$core$Dict$get, interval, state.aR);
 		if (_v0.$ === 1) {
 			return $elm$core$Task$succeed(state);
 		} else {
@@ -6854,12 +6997,103 @@ var $elm$time$Time$every = F2(
 var $author$project$Main$subscriptions = function (_v0) {
 	return A2($elm$time$Time$every, 60 * 1000, $author$project$Main$Tick);
 };
+var $author$project$Main$SearchFailed = function (a) {
+	return {$: 2, a: a};
+};
+var $author$project$Main$Searching = {$: 1};
 var $author$project$Main$SymbolsPage = 1;
 var $author$project$Main$addPendingIds = F2(
 	function (newIds, pendingIds) {
 		return $author$project$Main$dedupe(
 			_Utils_ap(pendingIds, newIds));
 	});
+var $author$project$Main$availableQuotes = function (model) {
+	return _Utils_ap($author$project$Main$builtInQuotes, model.L);
+};
+var $elm$json$Json$Encode$list = F2(
+	function (func, entries) {
+		return _Json_wrap(
+			A3(
+				$elm$core$List$foldl,
+				_Json_addEntry(func),
+				_Json_emptyArray(0),
+				entries));
+	});
+var $elm$json$Json$Encode$int = _Json_wrap;
+var $elm$json$Json$Encode$object = function (pairs) {
+	return _Json_wrap(
+		A3(
+			$elm$core$List$foldl,
+			F2(
+				function (_v0, obj) {
+					var k = _v0.a;
+					var v = _v0.b;
+					return A3(_Json_addField, k, v, obj);
+				}),
+			_Json_emptyObject(0),
+			pairs));
+};
+var $elm$json$Json$Encode$string = _Json_wrap;
+var $author$project$Main$quoteSourceToValue = function (source) {
+	if (!source.$) {
+		var apiPair = source.a;
+		return $elm$json$Json$Encode$object(
+			_List_fromArray(
+				[
+					_Utils_Tuple2(
+					'type',
+					$elm$json$Json$Encode$string('kraken')),
+					_Utils_Tuple2(
+					'value',
+					$elm$json$Json$Encode$string(apiPair))
+				]));
+	} else {
+		var encodedApiSymbol = source.a;
+		return $elm$json$Json$Encode$object(
+			_List_fromArray(
+				[
+					_Utils_Tuple2(
+					'type',
+					$elm$json$Json$Encode$string('yahoo')),
+					_Utils_Tuple2(
+					'value',
+					$elm$json$Json$Encode$string(encodedApiSymbol))
+				]));
+	}
+};
+var $author$project$Main$quoteToValue = function (quote) {
+	return $elm$json$Json$Encode$object(
+		_List_fromArray(
+			[
+				_Utils_Tuple2(
+				'id',
+				$elm$json$Json$Encode$string(quote.a)),
+				_Utils_Tuple2(
+				'symbol',
+				$elm$json$Json$Encode$string(quote.g)),
+				_Utils_Tuple2(
+				'name',
+				$elm$json$Json$Encode$string(quote.i)),
+				_Utils_Tuple2(
+				'category',
+				$elm$json$Json$Encode$string(quote.b)),
+				_Utils_Tuple2(
+				'source',
+				$author$project$Main$quoteSourceToValue(quote.p)),
+				_Utils_Tuple2(
+				'pricePrefix',
+				$elm$json$Json$Encode$string(quote.o)),
+				_Utils_Tuple2(
+				'priceDecimals',
+				$elm$json$Json$Encode$int(quote.n))
+			]));
+};
+var $author$project$Main$customQuotesToValue = function (quotes) {
+	return A2(
+		$elm$json$Json$Encode$list,
+		$elm$core$Basics$identity,
+		A2($elm$core$List$map, $author$project$Main$quoteToValue, quotes));
+};
 var $author$project$Main$findQuote = F2(
 	function (quoteId, quotes) {
 		return $elm$core$List$head(
@@ -6870,6 +7104,130 @@ var $author$project$Main$findQuote = F2(
 				},
 				quotes));
 	});
+var $author$project$Main$maybeToList = function (value) {
+	if (!value.$) {
+		var item = value.a;
+		return _List_fromArray(
+			[item]);
+	} else {
+		return _List_Nil;
+	}
+};
+var $author$project$Main$quoteFromSearchResult = function (result) {
+	return {b: result.b, a: result.a, i: result.i, n: result.n, o: result.o, p: result.p, q: $author$project$Main$Loading, g: result.g};
+};
+var $author$project$Main$saveCustomQuotes = _Platform_outgoingPort('saveCustomQuotes', $elm$core$Basics$identity);
+var $author$project$Main$saveSelectedSymbols = _Platform_outgoingPort(
+	'saveSelectedSymbols',
+	$elm$json$Json$Encode$list($elm$json$Json$Encode$string));
+var $author$project$Main$addSearchResult = F2(
+	function (result, model) {
+		var quote = $author$project$Main$quoteFromSearchResult(result);
+		var catalog = $author$project$Main$availableQuotes(model);
+		var alreadySelected = A2($elm$core$List$member, quote.a, model.l);
+		var nextSelectedIds = alreadySelected ? model.l : _Utils_ap(
+			model.l,
+			_List_fromArray(
+				[quote.a]));
+		var alreadyKnown = A2($author$project$Main$isKnownQuoteId, catalog, quote.a);
+		var nextCustomQuotes = alreadyKnown ? model.L : _Utils_ap(
+			model.L,
+			_List_fromArray(
+				[quote]));
+		var nextCatalog = _Utils_ap($author$project$Main$builtInQuotes, nextCustomQuotes);
+		var nextQuotes = A4($author$project$Main$quotesFromSelectedIds, nextCatalog, nextSelectedIds, model.e, model.B);
+		var newlySelectedQuotes = alreadySelected ? _List_Nil : $author$project$Main$maybeToList(
+			A2($author$project$Main$findQuote, quote.a, nextQuotes));
+		var nextPendingIds = A2(
+			$author$project$Main$addPendingIds,
+			A2(
+				$elm$core$List$map,
+				function ($) {
+					return $.a;
+				},
+				newlySelectedQuotes),
+			model.u);
+		var nextModel = _Utils_update(
+			model,
+			{
+				L: nextCustomQuotes,
+				u: nextPendingIds,
+				e: nextQuotes,
+				E: !$elm$core$List$isEmpty(nextPendingIds),
+				l: nextSelectedIds
+			});
+		return _Utils_Tuple2(
+			nextModel,
+			$elm$core$Platform$Cmd$batch(
+				_List_fromArray(
+					[
+						$author$project$Main$saveSelectedSymbols(nextSelectedIds),
+						$author$project$Main$saveCustomQuotes(
+						$author$project$Main$customQuotesToValue(nextCustomQuotes)),
+						A2($author$project$Main$fetchQuotes, 0, newlySelectedQuotes)
+					])));
+	});
+var $author$project$Main$GotKrakenAssetPairs = function (a) {
+	return {$: 11, a: a};
+};
+var $author$project$Main$KrakenAssetPairsResponse = F2(
+	function (errors, result) {
+		return {Z: errors, ac: result};
+	});
+var $author$project$Main$KrakenAssetPair = F4(
+	function (altname, wsname, pairDecimals, status) {
+		return {Q: altname, az: pairDecimals, aP: status, ak: wsname};
+	});
+var $elm$json$Json$Decode$map4 = _Json_map4;
+var $author$project$Main$krakenAssetPairDecoder = A5(
+	$elm$json$Json$Decode$map4,
+	$author$project$Main$KrakenAssetPair,
+	A2($elm$json$Json$Decode$field, 'altname', $elm$json$Json$Decode$string),
+	$elm$json$Json$Decode$oneOf(
+		_List_fromArray(
+			[
+				A2($elm$json$Json$Decode$field, 'wsname', $elm$json$Json$Decode$string),
+				$elm$json$Json$Decode$succeed('')
+			])),
+	$elm$json$Json$Decode$oneOf(
+		_List_fromArray(
+			[
+				A2($elm$json$Json$Decode$field, 'pair_decimals', $elm$json$Json$Decode$int),
+				$elm$json$Json$Decode$succeed(2)
+			])),
+	$elm$json$Json$Decode$oneOf(
+		_List_fromArray(
+			[
+				A2($elm$json$Json$Decode$field, 'status', $elm$json$Json$Decode$string),
+				$elm$json$Json$Decode$succeed('online')
+			])));
+var $author$project$Main$krakenAssetPairsDecoder = A3(
+	$elm$json$Json$Decode$map2,
+	$author$project$Main$KrakenAssetPairsResponse,
+	A2(
+		$elm$json$Json$Decode$field,
+		'error',
+		$elm$json$Json$Decode$list($elm$json$Json$Decode$string)),
+	A2(
+		$elm$json$Json$Decode$field,
+		'result',
+		$elm$json$Json$Decode$dict($author$project$Main$krakenAssetPairDecoder)));
+var $author$project$Main$fetchKrakenAssetPairs = $elm$http$Http$get(
+	{
+		_: A2($elm$http$Http$expectJson, $author$project$Main$GotKrakenAssetPairs, $author$project$Main$krakenAssetPairsDecoder),
+		ad: 'https://api.kraken.com/0/public/AssetPairs'
+	});
+var $author$project$Main$GotYahooSearch = function (a) {
+	return {$: 10, a: a};
+};
+var $elm$url$Url$percentEncode = _Url_percentEncode;
+var $author$project$Main$fetchYahooSearch = function (query) {
+	return $elm$http$Http$get(
+		{
+			_: $elm$http$Http$expectString($author$project$Main$GotYahooSearch),
+			ad: 'https://r.jina.ai/http://https://query1.finance.yahoo.com/v1/finance/search?q=' + ($elm$url$Url$percentEncode(query) + '&quotesCount=12&newsCount=0&listsCount=0')
+		});
+};
 var $author$project$Main$Failed = function (a) {
 	return {$: 2, a: a};
 };
@@ -6883,7 +7241,7 @@ var $elm$core$Maybe$andThen = F2(
 		}
 	});
 var $author$project$Main$quoteReadyData = function (quote) {
-	var _v0 = quote.k;
+	var _v0 = quote.q;
 	if (_v0.$ === 1) {
 		var data = _v0.a;
 		return $elm$core$Maybe$Just(data);
@@ -6893,7 +7251,7 @@ var $author$project$Main$quoteReadyData = function (quote) {
 };
 var $author$project$Main$cachedOrCurrentData = F2(
 	function (quoteId, model) {
-		var _v0 = A2($elm$core$Dict$get, quoteId, model.v);
+		var _v0 = A2($elm$core$Dict$get, quoteId, model.B);
 		if (!_v0.$) {
 			var data = _v0.a;
 			return $elm$core$Maybe$Just(data);
@@ -6914,16 +7272,16 @@ var $author$project$Main$removeId = F2(
 	});
 var $author$project$Main$finishQuoteUpdate = F4(
 	function (nextQuotes, nextCache, completedQuoteId, model) {
-		var nextPendingIds = A2($author$project$Main$removeId, completedQuoteId, model.o);
-		var nextLastUpdated = $elm$core$List$isEmpty(nextPendingIds) ? $elm$core$Maybe$Just(model.O) : model.F;
+		var nextPendingIds = A2($author$project$Main$removeId, completedQuoteId, model.u);
+		var nextLastUpdated = $elm$core$List$isEmpty(nextPendingIds) ? $elm$core$Maybe$Just(model.aa) : model.R;
 		return _Utils_update(
 			model,
 			{
-				v: nextCache,
-				F: nextLastUpdated,
-				o: nextPendingIds,
+				B: nextCache,
+				R: nextLastUpdated,
+				u: nextPendingIds,
 				e: nextQuotes,
-				z: !$elm$core$List$isEmpty(nextPendingIds)
+				E: !$elm$core$List$isEmpty(nextPendingIds)
 			});
 	});
 var $author$project$Main$setQuoteState = F3(
@@ -6933,7 +7291,7 @@ var $author$project$Main$setQuoteState = F3(
 			function (quote) {
 				return _Utils_eq(quote.a, quoteId) ? _Utils_update(
 					quote,
-					{k: state}) : quote;
+					{q: state}) : quote;
 			},
 			quotes);
 	});
@@ -6951,24 +7309,11 @@ var $author$project$Main$finishFetchFailure = F2(
 		return A4(
 			$author$project$Main$finishQuoteUpdate,
 			A3($author$project$Main$setQuoteState, quoteId, fallbackState, model.e),
-			model.v,
+			model.B,
 			quoteId,
 			model);
 	});
 var $elm$json$Json$Encode$float = _Json_wrap;
-var $elm$json$Json$Encode$object = function (pairs) {
-	return _Json_wrap(
-		A3(
-			$elm$core$List$foldl,
-			F2(
-				function (_v0, obj) {
-					var k = _v0.a;
-					var v = _v0.b;
-					return A3(_Json_addField, k, v, obj);
-				}),
-			_Json_emptyObject(0),
-			pairs));
-};
 var $author$project$Main$cacheToValue = function (cache) {
 	return $elm$json$Json$Encode$object(
 		A2(
@@ -6983,10 +7328,10 @@ var $author$project$Main$cacheToValue = function (cache) {
 							[
 								_Utils_Tuple2(
 								'price',
-								$elm$json$Json$Encode$float(data.P)),
+								$elm$json$Json$Encode$float(data.ab)),
 								_Utils_Tuple2(
 								'percent',
-								$elm$json$Json$Encode$float(data.I))
+								$elm$json$Json$Encode$float(data.U))
 							])));
 			},
 			$elm$core$Dict$toList(cache)));
@@ -6994,7 +7339,7 @@ var $author$project$Main$cacheToValue = function (cache) {
 var $author$project$Main$saveCachedQuotes = _Platform_outgoingPort('saveCachedQuotes', $elm$core$Basics$identity);
 var $author$project$Main$finishFetchSuccess = F3(
 	function (quoteId, data, model) {
-		var nextCache = A3($elm$core$Dict$insert, quoteId, data, model.v);
+		var nextCache = A3($elm$core$Dict$insert, quoteId, data, model.B);
 		var nextModel = A4(
 			$author$project$Main$finishQuoteUpdate,
 			A3(
@@ -7036,30 +7381,11 @@ var $author$project$Main$handleFetchResult = F4(
 			var data = result.a;
 			return A3($author$project$Main$finishFetchSuccess, quoteId, data, model);
 		} else {
-			return ((_Utils_cmp(attempt, $author$project$Main$maxRetries) < 0) && A2($elm$core$List$member, quoteId, model.p)) ? _Utils_Tuple2(
+			return ((_Utils_cmp(attempt, $author$project$Main$maxRetries) < 0) && A2($elm$core$List$member, quoteId, model.l)) ? _Utils_Tuple2(
 				model,
 				A2($author$project$Main$scheduleRetry, quoteId, attempt + 1)) : _Utils_Tuple2(
 				A2($author$project$Main$finishFetchFailure, quoteId, model),
 				$elm$core$Platform$Cmd$none);
-		}
-	});
-var $author$project$Main$markRefreshing = function (quote) {
-	var _v0 = quote.k;
-	if (_v0.$ === 2) {
-		return _Utils_update(
-			quote,
-			{k: $author$project$Main$Loading});
-	} else {
-		return quote;
-	}
-};
-var $elm$core$Result$fromMaybe = F2(
-	function (err, maybe) {
-		if (!maybe.$) {
-			var v = maybe.a;
-			return $elm$core$Result$Ok(v);
-		} else {
-			return $elm$core$Result$Err(err);
 		}
 	});
 var $author$project$Main$httpErrorToText = function (error) {
@@ -7077,6 +7403,285 @@ var $author$project$Main$httpErrorToText = function (error) {
 			return 'Unexpected response';
 	}
 };
+var $elm$core$String$toLower = _String_toLower;
+var $author$project$Main$krakenPairIsOnline = function (pair) {
+	return $elm$core$String$toLower(pair.aP) === 'online';
+};
+var $elm$core$Basics$min = F2(
+	function (x, y) {
+		return (_Utils_cmp(x, y) < 0) ? x : y;
+	});
+var $author$project$Main$clampInt = F3(
+	function (low, high, value) {
+		return A2(
+			$elm$core$Basics$max,
+			low,
+			A2($elm$core$Basics$min, high, value));
+	});
+var $elm$core$String$endsWith = _String_endsWith;
+var $author$project$Main$pricePrefixForKrakenPair = function (symbol) {
+	return (A2($elm$core$String$endsWith, '/USD', symbol) || A2($elm$core$String$endsWith, 'USD', symbol)) ? '$' : '';
+};
+var $author$project$Main$krakenPairToSearchResult = function (pair) {
+	var symbol = $elm$core$String$isEmpty(pair.ak) ? pair.Q : pair.ak;
+	return $elm$core$String$isEmpty(pair.Q) ? $elm$core$Maybe$Nothing : $elm$core$Maybe$Just(
+		{
+			b: 'Crypto',
+			a: 'kraken:' + pair.Q,
+			i: 'Kraken ' + symbol,
+			n: A3($author$project$Main$clampInt, 2, 6, pair.az),
+			o: $author$project$Main$pricePrefixForKrakenPair(symbol),
+			p: $author$project$Main$Kraken(pair.Q),
+			g: symbol
+		});
+};
+var $author$project$Main$nonEmptyResults = function (results) {
+	return $elm$core$List$isEmpty(results) ? $elm$core$Result$Err('No matches') : $elm$core$Result$Ok(results);
+};
+var $elm$core$String$trim = _String_trim;
+var $author$project$Main$searchResultMatches = F2(
+	function (query, result) {
+		var searchable = $elm$core$String$toLower(result.g + (' ' + (result.i + (' ' + result.b))));
+		var normalizedQuery = $elm$core$String$toLower(
+			$elm$core$String$trim(query));
+		return A2($elm$core$String$contains, normalizedQuery, searchable);
+	});
+var $elm$core$List$takeReverse = F3(
+	function (n, list, kept) {
+		takeReverse:
+		while (true) {
+			if (n <= 0) {
+				return kept;
+			} else {
+				if (!list.b) {
+					return kept;
+				} else {
+					var x = list.a;
+					var xs = list.b;
+					var $temp$n = n - 1,
+						$temp$list = xs,
+						$temp$kept = A2($elm$core$List$cons, x, kept);
+					n = $temp$n;
+					list = $temp$list;
+					kept = $temp$kept;
+					continue takeReverse;
+				}
+			}
+		}
+	});
+var $elm$core$List$takeTailRec = F2(
+	function (n, list) {
+		return $elm$core$List$reverse(
+			A3($elm$core$List$takeReverse, n, list, _List_Nil));
+	});
+var $elm$core$List$takeFast = F3(
+	function (ctr, n, list) {
+		if (n <= 0) {
+			return _List_Nil;
+		} else {
+			var _v0 = _Utils_Tuple2(n, list);
+			_v0$1:
+			while (true) {
+				_v0$5:
+				while (true) {
+					if (!_v0.b.b) {
+						return list;
+					} else {
+						if (_v0.b.b.b) {
+							switch (_v0.a) {
+								case 1:
+									break _v0$1;
+								case 2:
+									var _v2 = _v0.b;
+									var x = _v2.a;
+									var _v3 = _v2.b;
+									var y = _v3.a;
+									return _List_fromArray(
+										[x, y]);
+								case 3:
+									if (_v0.b.b.b.b) {
+										var _v4 = _v0.b;
+										var x = _v4.a;
+										var _v5 = _v4.b;
+										var y = _v5.a;
+										var _v6 = _v5.b;
+										var z = _v6.a;
+										return _List_fromArray(
+											[x, y, z]);
+									} else {
+										break _v0$5;
+									}
+								default:
+									if (_v0.b.b.b.b && _v0.b.b.b.b.b) {
+										var _v7 = _v0.b;
+										var x = _v7.a;
+										var _v8 = _v7.b;
+										var y = _v8.a;
+										var _v9 = _v8.b;
+										var z = _v9.a;
+										var _v10 = _v9.b;
+										var w = _v10.a;
+										var tl = _v10.b;
+										return (ctr > 1000) ? A2(
+											$elm$core$List$cons,
+											x,
+											A2(
+												$elm$core$List$cons,
+												y,
+												A2(
+													$elm$core$List$cons,
+													z,
+													A2(
+														$elm$core$List$cons,
+														w,
+														A2($elm$core$List$takeTailRec, n - 4, tl))))) : A2(
+											$elm$core$List$cons,
+											x,
+											A2(
+												$elm$core$List$cons,
+												y,
+												A2(
+													$elm$core$List$cons,
+													z,
+													A2(
+														$elm$core$List$cons,
+														w,
+														A3($elm$core$List$takeFast, ctr + 1, n - 4, tl)))));
+									} else {
+										break _v0$5;
+									}
+							}
+						} else {
+							if (_v0.a === 1) {
+								break _v0$1;
+							} else {
+								break _v0$5;
+							}
+						}
+					}
+				}
+				return list;
+			}
+			var _v1 = _v0.b;
+			var x = _v1.a;
+			return _List_fromArray(
+				[x]);
+		}
+	});
+var $elm$core$List$take = F2(
+	function (n, list) {
+		return A3($elm$core$List$takeFast, 0, n, list);
+	});
+var $elm$core$Dict$values = function (dict) {
+	return A3(
+		$elm$core$Dict$foldr,
+		F3(
+			function (key, value, valueList) {
+				return A2($elm$core$List$cons, value, valueList);
+			}),
+		_List_Nil,
+		dict);
+};
+var $author$project$Main$krakenSearchResults = F2(
+	function (query, response) {
+		var _v0 = response.Z;
+		if (!_v0.b) {
+			return $author$project$Main$nonEmptyResults(
+				A2(
+					$elm$core$List$take,
+					10,
+					A2(
+						$elm$core$List$filter,
+						$author$project$Main$searchResultMatches(query),
+						A2(
+							$elm$core$List$filterMap,
+							$author$project$Main$krakenPairToSearchResult,
+							A2(
+								$elm$core$List$filter,
+								$author$project$Main$krakenPairIsOnline,
+								$elm$core$Dict$values(response.ac))))));
+		} else {
+			var firstError = _v0.a;
+			return $elm$core$Result$Err(firstError);
+		}
+	});
+var $author$project$Main$searchModeAllowsResult = F2(
+	function (searchMode, result) {
+		if (searchMode === 1) {
+			return result.b === 'Crypto';
+		} else {
+			return result.b !== 'Crypto';
+		}
+	});
+var $author$project$Main$searchResultFromQuote = function (quote) {
+	return {b: quote.b, a: quote.a, i: quote.i, n: quote.n, o: quote.o, p: quote.p, g: quote.g};
+};
+var $author$project$Main$localSearchResults = F3(
+	function (searchMode, query, quotes) {
+		return A2(
+			$elm$core$List$take,
+			10,
+			A2(
+				$elm$core$List$filter,
+				$author$project$Main$searchResultMatches(query),
+				A2(
+					$elm$core$List$filter,
+					$author$project$Main$searchModeAllowsResult(searchMode),
+					A2($elm$core$List$map, $author$project$Main$searchResultFromQuote, quotes))));
+	});
+var $author$project$Main$markRefreshing = function (quote) {
+	var _v0 = quote.q;
+	if (_v0.$ === 2) {
+		return _Utils_update(
+			quote,
+			{q: $author$project$Main$Loading});
+	} else {
+		return quote;
+	}
+};
+var $author$project$Main$dedupeSearchResults = function (results) {
+	dedupeSearchResults:
+	while (true) {
+		if (!results.b) {
+			return _List_Nil;
+		} else {
+			var result = results.a;
+			var rest = results.b;
+			if (A2(
+				$elm$core$List$any,
+				function (other) {
+					return _Utils_eq(other.a, result.a);
+				},
+				rest)) {
+				var $temp$results = rest;
+				results = $temp$results;
+				continue dedupeSearchResults;
+			} else {
+				return A2(
+					$elm$core$List$cons,
+					result,
+					$author$project$Main$dedupeSearchResults(rest));
+			}
+		}
+	}
+};
+var $author$project$Main$mergeSearchResults = F2(
+	function (firstResults, secondResults) {
+		return A2(
+			$elm$core$List$take,
+			10,
+			$author$project$Main$dedupeSearchResults(
+				_Utils_ap(firstResults, secondResults)));
+	});
+var $elm$core$Result$fromMaybe = F2(
+	function (err, maybe) {
+		if (!maybe.$) {
+			var v = maybe.a;
+			return $elm$core$Result$Ok(v);
+		} else {
+			return $elm$core$Result$Err(err);
+		}
+	});
 var $elm$core$Maybe$map2 = F3(
 	function (func, ma, mb) {
 		if (ma.$ === 1) {
@@ -7095,30 +7700,20 @@ var $elm$core$Maybe$map2 = F3(
 var $author$project$Main$quoteDataFromPrices = F2(
 	function (price, openToday) {
 		var percent = (!openToday) ? 0 : (((price - openToday) / openToday) * 100);
-		return {I: percent, P: price};
+		return {U: percent, ab: price};
 	});
 var $elm$core$String$toFloat = _String_toFloat;
 var $author$project$Main$quoteDataFromKraken = function (krakenQuote) {
 	return A3(
 		$elm$core$Maybe$map2,
 		$author$project$Main$quoteDataFromPrices,
-		$elm$core$String$toFloat(krakenQuote.ak),
-		$elm$core$String$toFloat(krakenQuote.an));
-};
-var $elm$core$Dict$values = function (dict) {
-	return A3(
-		$elm$core$Dict$foldr,
-		F3(
-			function (key, value, valueList) {
-				return A2($elm$core$List$cons, value, valueList);
-			}),
-		_List_Nil,
-		dict);
+		$elm$core$String$toFloat(krakenQuote.av),
+		$elm$core$String$toFloat(krakenQuote.ay));
 };
 var $author$project$Main$quoteDataResultFromKraken = function (result) {
 	if (!result.$) {
 		var response = result.a;
-		var _v1 = response.ac;
+		var _v1 = response.Z;
 		if (!_v1.b) {
 			return A2(
 				$elm$core$Result$fromMaybe,
@@ -7127,7 +7722,7 @@ var $author$project$Main$quoteDataResultFromKraken = function (result) {
 					$elm$core$Maybe$andThen,
 					$author$project$Main$quoteDataFromKraken,
 					$elm$core$List$head(
-						$elm$core$Dict$values(response.aB))));
+						$elm$core$Dict$values(response.ac))));
 		} else {
 			var firstError = _v1.a;
 			return $elm$core$Result$Err(firstError);
@@ -7138,7 +7733,6 @@ var $author$project$Main$quoteDataResultFromKraken = function (result) {
 			$author$project$Main$httpErrorToText(httpError));
 	}
 };
-var $elm$core$String$trim = _String_trim;
 var $author$project$Main$jsonFromJinaBody = function (body) {
 	var trimmed = $elm$core$String$trim(body);
 	var marker = 'Markdown Content:\n';
@@ -7173,7 +7767,7 @@ var $elm$json$Json$Decode$at = F2(
 	});
 var $author$project$Main$YahooSparkMeta = F2(
 	function (regularMarketPrice, previousClose) {
-		return {ar: previousClose, aw: regularMarketPrice};
+		return {aD: previousClose, aI: regularMarketPrice};
 	});
 var $author$project$Main$yahooSparkMetaDecoder = A3(
 	$elm$json$Json$Decode$map2,
@@ -7208,7 +7802,7 @@ var $author$project$Main$quoteDataResultFromYahooSpark = function (result) {
 				A2(
 					$elm$core$Result$map,
 					function (meta) {
-						return A2($author$project$Main$quoteDataFromPrices, meta.aw, meta.ar);
+						return A2($author$project$Main$quoteDataFromPrices, meta.aI, meta.aD);
 					},
 					A2($elm$json$Json$Decode$decodeString, $author$project$Main$yahooSparkDecoder, json)));
 		} else {
@@ -7220,19 +7814,97 @@ var $author$project$Main$quoteDataResultFromYahooSpark = function (result) {
 			$author$project$Main$httpErrorToText(httpError));
 	}
 };
-var $elm$json$Json$Encode$list = F2(
-	function (func, entries) {
-		return _Json_wrap(
-			A3(
-				$elm$core$List$foldl,
-				_Json_addEntry(func),
-				_Json_emptyArray(0),
-				entries));
+var $elm$core$Result$andThen = F2(
+	function (callback, result) {
+		if (!result.$) {
+			var value = result.a;
+			return callback(value);
+		} else {
+			var msg = result.a;
+			return $elm$core$Result$Err(msg);
+		}
 	});
-var $elm$json$Json$Encode$string = _Json_wrap;
-var $author$project$Main$saveSelectedSymbols = _Platform_outgoingPort(
-	'saveSelectedSymbols',
-	$elm$json$Json$Encode$list($elm$json$Json$Encode$string));
+var $author$project$Main$YahooSearchQuote = F3(
+	function (symbol, name, category) {
+		return {b: category, i: name, g: symbol};
+	});
+var $elm$json$Json$Decode$map3 = _Json_map3;
+var $author$project$Main$yahooSearchQuoteDecoder = A4(
+	$elm$json$Json$Decode$map3,
+	$author$project$Main$YahooSearchQuote,
+	A2($elm$json$Json$Decode$field, 'symbol', $elm$json$Json$Decode$string),
+	$elm$json$Json$Decode$oneOf(
+		_List_fromArray(
+			[
+				A2($elm$json$Json$Decode$field, 'shortname', $elm$json$Json$Decode$string),
+				A2($elm$json$Json$Decode$field, 'longname', $elm$json$Json$Decode$string),
+				A2($elm$json$Json$Decode$field, 'name', $elm$json$Json$Decode$string),
+				A2($elm$json$Json$Decode$field, 'symbol', $elm$json$Json$Decode$string)
+			])),
+	$elm$json$Json$Decode$oneOf(
+		_List_fromArray(
+			[
+				A2($elm$json$Json$Decode$field, 'typeDisp', $elm$json$Json$Decode$string),
+				A2($elm$json$Json$Decode$field, 'quoteType', $elm$json$Json$Decode$string),
+				$elm$json$Json$Decode$succeed('quote')
+			])));
+var $author$project$Main$yahooSearchDecoder = A2(
+	$elm$json$Json$Decode$field,
+	'quotes',
+	$elm$json$Json$Decode$list($author$project$Main$yahooSearchQuoteDecoder));
+var $author$project$Main$nonEmptyOr = F2(
+	function (fallback, value) {
+		var trimmed = $elm$core$String$trim(value);
+		return $elm$core$String$isEmpty(trimmed) ? fallback : trimmed;
+	});
+var $author$project$Main$normalizeCategory = function (category) {
+	var lowered = $elm$core$String$toLower(category);
+	return A2($elm$core$String$contains, 'index', lowered) ? 'Index' : (A2($elm$core$String$contains, 'crypto', lowered) ? 'Crypto' : ((A2($elm$core$String$contains, 'currency', lowered) || A2($elm$core$String$contains, 'forex', lowered)) ? 'Forex' : (A2($elm$core$String$contains, 'future', lowered) ? 'Future' : (A2($elm$core$String$contains, 'etf', lowered) ? 'ETF' : (A2($elm$core$String$contains, 'equity', lowered) ? 'Stock' : A2($author$project$Main$nonEmptyOr, 'Quote', category))))));
+};
+var $author$project$Main$yahooDecimals = F2(
+	function (symbol, category) {
+		return (A2($elm$core$String$endsWith, '=X', symbol) || (category === 'Forex')) ? 5 : 2;
+	});
+var $author$project$Main$yahooSearchQuoteToResult = function (quote) {
+	var symbol = $elm$core$String$trim(quote.g);
+	var category = $author$project$Main$normalizeCategory(quote.b);
+	return $elm$core$String$isEmpty(symbol) ? $elm$core$Maybe$Nothing : $elm$core$Maybe$Just(
+		{
+			b: category,
+			a: 'yahoo:' + symbol,
+			i: A2($author$project$Main$nonEmptyOr, symbol, quote.i),
+			n: A2($author$project$Main$yahooDecimals, symbol, category),
+			o: '',
+			p: $author$project$Main$YahooSpark(
+				$elm$url$Url$percentEncode(symbol)),
+			g: symbol
+		});
+};
+var $author$project$Main$yahooSearchResultsFromBody = function (body) {
+	var _v0 = $author$project$Main$jsonFromJinaBody(body);
+	if (!_v0.$) {
+		var json = _v0.a;
+		return A2(
+			$elm$core$Result$andThen,
+			$author$project$Main$nonEmptyResults,
+			A2(
+				$elm$core$Result$mapError,
+				function (_v1) {
+					return 'No matches';
+				},
+				A2(
+					$elm$core$Result$map,
+					function (quotes) {
+						return A2(
+							$elm$core$List$take,
+							10,
+							A2($elm$core$List$filterMap, $author$project$Main$yahooSearchQuoteToResult, quotes));
+					},
+					A2($elm$json$Json$Decode$decodeString, $author$project$Main$yahooSearchDecoder, json))));
+	} else {
+		return $elm$core$Result$Err('No matches');
+	}
+};
 var $author$project$Main$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
@@ -7248,9 +7920,9 @@ var $author$project$Main$update = F2(
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{o: nextPendingIds, e: nextQuotes, z: isRefreshing}),
+						{u: nextPendingIds, e: nextQuotes, E: isRefreshing}),
 					A2($author$project$Main$fetchQuotes, 0, nextQuotes));
-			case 7:
+			case 13:
 				var now = msg.a;
 				var nextQuotes = A2($elm$core$List$map, $author$project$Main$markRefreshing, model.e);
 				var nextPendingIds = A2(
@@ -7263,38 +7935,39 @@ var $author$project$Main$update = F2(
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{O: now, o: nextPendingIds, e: nextQuotes, z: isRefreshing}),
+						{aa: now, u: nextPendingIds, e: nextQuotes, E: isRefreshing}),
 					A2($author$project$Main$fetchQuotes, 0, nextQuotes));
 			case 4:
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{H: 1}),
+						{T: 1}),
 					$elm$core$Platform$Cmd$none);
 			case 5:
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{H: 0}),
+						{T: 0}),
 					$elm$core$Platform$Cmd$none);
 			case 6:
 				var quoteId = msg.a;
-				var wasSelected = A2($elm$core$List$member, quoteId, model.p);
+				var wasSelected = A2($elm$core$List$member, quoteId, model.l);
 				var nextSelectedIds = wasSelected ? A2(
 					$elm$core$List$filter,
 					$elm$core$Basics$neq(quoteId),
-					model.p) : _Utils_ap(
-					model.p,
+					model.l) : _Utils_ap(
+					model.l,
 					_List_fromArray(
 						[quoteId]));
-				var nextQuotes = A3($author$project$Main$quotesFromSelectedIds, nextSelectedIds, model.e, model.v);
+				var catalog = $author$project$Main$availableQuotes(model);
+				var nextQuotes = A4($author$project$Main$quotesFromSelectedIds, catalog, nextSelectedIds, model.e, model.B);
 				var newlySelectedQuotes = wasSelected ? _List_Nil : A2(
 					$elm$core$List$filter,
 					function (quote) {
 						return _Utils_eq(quote.a, quoteId);
 					},
 					nextQuotes);
-				var nextPendingIds = wasSelected ? A2($author$project$Main$removeId, quoteId, model.o) : A2(
+				var nextPendingIds = wasSelected ? A2($author$project$Main$removeId, quoteId, model.u) : A2(
 					$author$project$Main$addPendingIds,
 					A2(
 						$elm$core$List$map,
@@ -7302,18 +7975,165 @@ var $author$project$Main$update = F2(
 							return $.a;
 						},
 						newlySelectedQuotes),
-					model.o);
+					model.u);
 				var isRefreshing = !$elm$core$List$isEmpty(nextPendingIds);
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{o: nextPendingIds, e: nextQuotes, z: isRefreshing, p: nextSelectedIds}),
+						{u: nextPendingIds, e: nextQuotes, E: isRefreshing, l: nextSelectedIds}),
 					$elm$core$Platform$Cmd$batch(
 						_List_fromArray(
 							[
 								$author$project$Main$saveSelectedSymbols(nextSelectedIds),
 								A2($author$project$Main$fetchQuotes, 0, newlySelectedQuotes)
 							])));
+			case 7:
+				var query = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{J: query}),
+					$elm$core$Platform$Cmd$none);
+			case 8:
+				var searchMode = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{y: searchMode, f: _List_Nil, d: $author$project$Main$SearchIdle}),
+					$elm$core$Platform$Cmd$none);
+			case 9:
+				var query = $elm$core$String$trim(model.J);
+				if ($elm$core$String$isEmpty(query)) {
+					return _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{
+								f: _List_Nil,
+								d: $author$project$Main$SearchFailed('Enter a search term')
+							}),
+						$elm$core$Platform$Cmd$none);
+				} else {
+					var _v1 = model.y;
+					if (!_v1) {
+						return _Utils_Tuple2(
+							_Utils_update(
+								model,
+								{f: _List_Nil, d: $author$project$Main$Searching}),
+							$author$project$Main$fetchYahooSearch(query));
+					} else {
+						return _Utils_Tuple2(
+							_Utils_update(
+								model,
+								{f: _List_Nil, d: $author$project$Main$Searching}),
+							$author$project$Main$fetchKrakenAssetPairs);
+					}
+				}
+			case 10:
+				var result = msg.a;
+				var localResults = A3(
+					$author$project$Main$localSearchResults,
+					model.y,
+					$elm$core$String$trim(model.J),
+					$author$project$Main$availableQuotes(model));
+				if (!result.$) {
+					var body = result.a;
+					var _v3 = $author$project$Main$yahooSearchResultsFromBody(body);
+					if (!_v3.$) {
+						var results = _v3.a;
+						return _Utils_Tuple2(
+							_Utils_update(
+								model,
+								{
+									f: A2($author$project$Main$mergeSearchResults, localResults, results),
+									d: $author$project$Main$SearchIdle
+								}),
+							$elm$core$Platform$Cmd$none);
+					} else {
+						var message = _v3.a;
+						return $elm$core$List$isEmpty(localResults) ? _Utils_Tuple2(
+							_Utils_update(
+								model,
+								{
+									f: _List_Nil,
+									d: $author$project$Main$SearchFailed(message)
+								}),
+							$elm$core$Platform$Cmd$none) : _Utils_Tuple2(
+							_Utils_update(
+								model,
+								{f: localResults, d: $author$project$Main$SearchIdle}),
+							$elm$core$Platform$Cmd$none);
+					}
+				} else {
+					var httpError = result.a;
+					return $elm$core$List$isEmpty(localResults) ? _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{
+								f: _List_Nil,
+								d: $author$project$Main$SearchFailed(
+									$author$project$Main$httpErrorToText(httpError))
+							}),
+						$elm$core$Platform$Cmd$none) : _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{f: localResults, d: $author$project$Main$SearchIdle}),
+						$elm$core$Platform$Cmd$none);
+				}
+			case 11:
+				var result = msg.a;
+				var query = $elm$core$String$trim(model.J);
+				var localResults = A3(
+					$author$project$Main$localSearchResults,
+					model.y,
+					query,
+					$author$project$Main$availableQuotes(model));
+				if (!result.$) {
+					var response = result.a;
+					var _v5 = A2($author$project$Main$krakenSearchResults, query, response);
+					if (!_v5.$) {
+						var results = _v5.a;
+						return _Utils_Tuple2(
+							_Utils_update(
+								model,
+								{
+									f: A2($author$project$Main$mergeSearchResults, localResults, results),
+									d: $author$project$Main$SearchIdle
+								}),
+							$elm$core$Platform$Cmd$none);
+					} else {
+						var message = _v5.a;
+						return $elm$core$List$isEmpty(localResults) ? _Utils_Tuple2(
+							_Utils_update(
+								model,
+								{
+									f: _List_Nil,
+									d: $author$project$Main$SearchFailed(message)
+								}),
+							$elm$core$Platform$Cmd$none) : _Utils_Tuple2(
+							_Utils_update(
+								model,
+								{f: localResults, d: $author$project$Main$SearchIdle}),
+							$elm$core$Platform$Cmd$none);
+					}
+				} else {
+					var httpError = result.a;
+					return $elm$core$List$isEmpty(localResults) ? _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{
+								f: _List_Nil,
+								d: $author$project$Main$SearchFailed(
+									$author$project$Main$httpErrorToText(httpError))
+							}),
+						$elm$core$Platform$Cmd$none) : _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{f: localResults, d: $author$project$Main$SearchIdle}),
+						$elm$core$Platform$Cmd$none);
+				}
+			case 12:
+				var result = msg.a;
+				return A2($author$project$Main$addSearchResult, result, model);
 			case 0:
 				var quoteId = msg.a;
 				var attempt = msg.b;
@@ -7337,9 +8157,9 @@ var $author$project$Main$update = F2(
 			default:
 				var quoteId = msg.a;
 				var attempt = msg.b;
-				var _v1 = A2($author$project$Main$findQuote, quoteId, model.e);
-				if (!_v1.$) {
-					var quote = _v1.a;
+				var _v6 = A2($author$project$Main$findQuote, quoteId, model.e);
+				if (!_v6.$) {
+					var quote = _v6.a;
 					return _Utils_Tuple2(
 						model,
 						A2($author$project$Main$fetchQuote, attempt, quote));
@@ -7371,7 +8191,7 @@ var $author$project$Main$styleNode = A3(
 	_List_Nil,
 	_List_fromArray(
 		[
-			$elm$html$Html$text('\n:root {\n  color-scheme: dark;\n  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;\n  background: #0b0d10;\n}\n\n* {\n  box-sizing: border-box;\n}\n\nhtml,\nbody {\n  min-height: 100%;\n  margin: 0;\n}\n\nbody {\n  background: #0b0d10;\n  color: #f5f7fb;\n  overflow-x: hidden;\n}\n\nbutton {\n  font: inherit;\n}\n\n.app-shell {\n  min-height: 100vh;\n  min-height: 100dvh;\n  padding: max(18px, env(safe-area-inset-top)) 16px max(20px, env(safe-area-inset-bottom));\n}\n\n.top-bar {\n  align-items: center;\n  display: flex;\n  justify-content: space-between;\n  margin: 0 auto 10px;\n  max-width: 620px;\n  padding: 6px 2px 12px;\n  width: min(100%, calc(100vw - 32px));\n}\n\n.toolbar-actions {\n  align-items: center;\n  display: flex;\n  gap: 10px;\n}\n\n.title {\n  font-size: 34px;\n  font-weight: 760;\n  letter-spacing: 0;\n  line-height: 1;\n}\n\n.subtitle {\n  color: #8e98a8;\n  font-size: 13px;\n  line-height: 1.5;\n  margin-top: 6px;\n}\n\n.icon-button {\n  align-items: center;\n  background: #1b2028;\n  border: 1px solid #303744;\n  border-radius: 50%;\n  color: #f5f7fb;\n  display: inline-flex;\n  height: 42px;\n  justify-content: center;\n  line-height: 1;\n  padding: 0;\n  width: 42px;\n}\n\n.refresh-button::before {\n  content: "\\21bb";\n  font-size: 23px;\n  line-height: 1;\n}\n\n.settings-button::before {\n  content: "\\2699";\n  font-size: 21px;\n  line-height: 1;\n}\n\n.done-button {\n  background: #1b2028;\n  border: 1px solid #303744;\n  border-radius: 999px;\n  color: #f5f7fb;\n  font-size: 16px;\n  font-weight: 680;\n  line-height: 1;\n  padding: 12px 15px;\n}\n\n.icon-button:active {\n  transform: scale(0.96);\n}\n\n.done-button:active {\n  transform: scale(0.97);\n}\n\n.quote-list,\n.symbol-list {\n  margin: 0 auto;\n  max-width: 620px;\n  width: min(100%, calc(100vw - 32px));\n}\n\n.quote-row {\n  align-items: center;\n  border-bottom: 1px solid #252b35;\n  display: grid;\n  gap: 12px;\n  grid-template-columns: minmax(0, 1fr) auto;\n  min-height: 62px;\n  padding: 10px 2px;\n}\n\n.quote-row:first-child {\n  border-top: 1px solid #252b35;\n}\n\n.empty-state {\n  border-bottom: 1px solid #252b35;\n  border-top: 1px solid #252b35;\n  color: #8e98a8;\n  font-size: 17px;\n  line-height: 1.4;\n  padding: 22px 2px;\n}\n\n.symbol-choice {\n  align-items: center;\n  border-bottom: 1px solid #252b35;\n  display: flex;\n  gap: 16px;\n  justify-content: space-between;\n  min-height: 58px;\n  padding: 10px 2px;\n}\n\n.symbol-choice:first-child {\n  border-top: 1px solid #252b35;\n}\n\n.symbol-choice-copy {\n  min-width: 0;\n}\n\n.choice-symbol {\n  color: #f5f7fb;\n  font-size: 20px;\n  font-weight: 720;\n  letter-spacing: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.symbol-toggle {\n  appearance: none;\n  background: #303744;\n  border: 1px solid #46505f;\n  border-radius: 999px;\n  flex: 0 0 auto;\n  height: 30px;\n  margin: 0;\n  position: relative;\n  width: 52px;\n}\n\n.symbol-toggle::before {\n  background: #f5f7fb;\n  border-radius: 50%;\n  content: "";\n  height: 24px;\n  left: 2px;\n  position: absolute;\n  top: 2px;\n  transition: transform 120ms ease;\n  width: 24px;\n}\n\n.symbol-toggle:checked {\n  background: #31d158;\n  border-color: #31d158;\n}\n\n.symbol-toggle:checked::before {\n  transform: translateX(22px);\n}\n\n.symbol {\n  color: #f5f7fb;\n  font-size: 20px;\n  font-weight: 720;\n  letter-spacing: 0;\n  min-width: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.quote-values {\n  align-items: end;\n  display: grid;\n  gap: 5px;\n  justify-items: end;\n  min-width: 128px;\n}\n\n.price {\n  color: #f5f7fb;\n  font-size: 19px;\n  font-variant-numeric: tabular-nums;\n  font-weight: 650;\n  line-height: 1.1;\n}\n\n.change {\n  border-radius: 5px;\n  color: #07130c;\n  font-size: 15px;\n  font-variant-numeric: tabular-nums;\n  font-weight: 720;\n  line-height: 1;\n  max-width: 164px;\n  min-width: 78px;\n  overflow: hidden;\n  padding: 6px 8px;\n  text-align: center;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.up .change {\n  background: #31d158;\n}\n\n.down .change {\n  background: #ff453a;\n  color: #1c0605;\n}\n\n.muted {\n  color: #6f7785;\n}\n\n.muted-pill {\n  background: #242a33;\n  color: #8e98a8;\n}\n\n.error-text {\n  color: #ff9f0a;\n}\n\n.failed-pill {\n  background: #3a2b15;\n  color: #ffd28a;\n  font-size: 12px;\n}\n\n@media (max-width: 360px) {\n  .app-shell {\n    padding-left: 12px;\n    padding-right: 12px;\n  }\n\n  .top-bar,\n  .quote-list,\n  .symbol-list {\n    width: min(100%, calc(100vw - 24px));\n  }\n\n  .title {\n    font-size: 30px;\n  }\n\n  .symbol {\n    font-size: 18px;\n  }\n\n  .choice-symbol {\n    font-size: 18px;\n  }\n\n  .price {\n    font-size: 17px;\n  }\n\n  .quote-values {\n    min-width: 112px;\n  }\n\n  .change {\n    font-size: 14px;\n    min-width: 72px;\n  }\n}\n')
+			$elm$html$Html$text('\n:root {\n  color-scheme: dark;\n  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;\n  background: #0b0d10;\n}\n\n* {\n  box-sizing: border-box;\n}\n\nhtml,\nbody {\n  min-height: 100%;\n  margin: 0;\n}\n\nbody {\n  background: #0b0d10;\n  color: #f5f7fb;\n  overflow-x: hidden;\n}\n\nbutton {\n  font: inherit;\n}\n\n.app-shell {\n  min-height: 100vh;\n  min-height: 100dvh;\n  padding: max(18px, env(safe-area-inset-top)) 16px max(20px, env(safe-area-inset-bottom));\n}\n\n.top-bar {\n  align-items: center;\n  display: flex;\n  justify-content: space-between;\n  margin: 0 auto 10px;\n  max-width: 620px;\n  padding: 6px 2px 12px;\n  width: min(100%, calc(100vw - 32px));\n}\n\n.toolbar-actions {\n  align-items: center;\n  display: flex;\n  gap: 10px;\n}\n\n.title {\n  font-size: 34px;\n  font-weight: 760;\n  letter-spacing: 0;\n  line-height: 1;\n}\n\n.subtitle {\n  color: #8e98a8;\n  font-size: 13px;\n  line-height: 1.5;\n  margin-top: 6px;\n}\n\n.icon-button {\n  align-items: center;\n  background: #1b2028;\n  border: 1px solid #303744;\n  border-radius: 50%;\n  color: #f5f7fb;\n  display: inline-flex;\n  height: 42px;\n  justify-content: center;\n  line-height: 1;\n  padding: 0;\n  width: 42px;\n}\n\n.refresh-button::before {\n  content: "\\21bb";\n  font-size: 23px;\n  line-height: 1;\n}\n\n.settings-button::before {\n  content: "\\2699";\n  font-size: 21px;\n  line-height: 1;\n}\n\n.done-button {\n  background: #1b2028;\n  border: 1px solid #303744;\n  border-radius: 999px;\n  color: #f5f7fb;\n  font-size: 16px;\n  font-weight: 680;\n  line-height: 1;\n  padding: 12px 15px;\n}\n\n.icon-button:active {\n  transform: scale(0.96);\n}\n\n.done-button:active {\n  transform: scale(0.97);\n}\n\n.quote-list,\n.symbol-list {\n  margin: 0 auto;\n  max-width: 620px;\n  width: min(100%, calc(100vw - 32px));\n}\n\n.quote-row {\n  align-items: center;\n  border-bottom: 1px solid #252b35;\n  display: grid;\n  gap: 12px;\n  grid-template-columns: minmax(0, 1fr) auto;\n  min-height: 62px;\n  padding: 10px 2px;\n}\n\n.quote-row:first-child {\n  border-top: 1px solid #252b35;\n}\n\n.empty-state {\n  border-bottom: 1px solid #252b35;\n  border-top: 1px solid #252b35;\n  color: #8e98a8;\n  font-size: 17px;\n  line-height: 1.4;\n  padding: 22px 2px;\n}\n\n.symbol-search {\n  border-bottom: 1px solid #252b35;\n  border-top: 1px solid #252b35;\n  display: grid;\n  gap: 12px;\n  padding: 12px 2px 14px;\n}\n\n.mode-toggle {\n  background: #151a21;\n  border: 1px solid #303744;\n  border-radius: 8px;\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  padding: 3px;\n}\n\n.mode-button {\n  background: transparent;\n  border: 0;\n  border-radius: 6px;\n  color: #8e98a8;\n  font-size: 15px;\n  font-weight: 700;\n  line-height: 1;\n  padding: 10px 8px;\n}\n\n.mode-button.active {\n  background: #303744;\n  color: #f5f7fb;\n}\n\n.search-row {\n  display: grid;\n  gap: 10px;\n  grid-template-columns: minmax(0, 1fr) auto;\n}\n\n.search-input {\n  background: #151a21;\n  border: 1px solid #303744;\n  border-radius: 8px;\n  color: #f5f7fb;\n  font: inherit;\n  font-size: 16px;\n  min-width: 0;\n  padding: 12px 12px;\n}\n\n.search-input::placeholder {\n  color: #6f7785;\n}\n\n.search-button,\n.add-symbol-button {\n  background: #1b2028;\n  border: 1px solid #303744;\n  border-radius: 8px;\n  color: #f5f7fb;\n  font-size: 15px;\n  font-weight: 720;\n  line-height: 1;\n  padding: 0 14px;\n}\n\n.search-button {\n  min-width: 78px;\n}\n\n.search-button:disabled,\n.add-symbol-button:disabled {\n  color: #6f7785;\n}\n\n.search-message {\n  border-bottom: 1px solid #252b35;\n  color: #8e98a8;\n  font-size: 15px;\n  line-height: 1.4;\n  padding: 12px 2px;\n}\n\n.search-error {\n  color: #ffd28a;\n}\n\n.symbol-section-title {\n  color: #8e98a8;\n  font-size: 12px;\n  font-weight: 760;\n  letter-spacing: 0;\n  padding: 18px 2px 6px;\n  text-transform: uppercase;\n}\n\n.search-result {\n  align-items: center;\n  border-bottom: 1px solid #252b35;\n  display: flex;\n  gap: 16px;\n  justify-content: space-between;\n  min-height: 62px;\n  padding: 10px 2px;\n}\n\n.symbol-choice {\n  align-items: center;\n  border-bottom: 1px solid #252b35;\n  display: flex;\n  gap: 16px;\n  justify-content: space-between;\n  min-height: 58px;\n  padding: 10px 2px;\n}\n\n.symbol-choice:first-child {\n  border-top: 0;\n}\n\n.symbol-choice-copy {\n  display: grid;\n  gap: 4px;\n  min-width: 0;\n}\n\n.choice-symbol {\n  display: block;\n  color: #f5f7fb;\n  font-size: 20px;\n  font-weight: 720;\n  letter-spacing: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.choice-name {\n  color: #8e98a8;\n  display: block;\n  font-size: 13px;\n  line-height: 1.25;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.symbol-toggle {\n  appearance: none;\n  background: #303744;\n  border: 1px solid #46505f;\n  border-radius: 999px;\n  flex: 0 0 auto;\n  height: 30px;\n  margin: 0;\n  position: relative;\n  width: 52px;\n}\n\n.symbol-toggle::before {\n  background: #f5f7fb;\n  border-radius: 50%;\n  content: "";\n  height: 24px;\n  left: 2px;\n  position: absolute;\n  top: 2px;\n  transition: transform 120ms ease;\n  width: 24px;\n}\n\n.symbol-toggle:checked {\n  background: #31d158;\n  border-color: #31d158;\n}\n\n.symbol-toggle:checked::before {\n  transform: translateX(22px);\n}\n\n.symbol {\n  color: #f5f7fb;\n  font-size: 20px;\n  font-weight: 720;\n  letter-spacing: 0;\n  min-width: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.quote-values {\n  align-items: end;\n  display: grid;\n  gap: 5px;\n  justify-items: end;\n  min-width: 128px;\n}\n\n.price {\n  color: #f5f7fb;\n  font-size: 19px;\n  font-variant-numeric: tabular-nums;\n  font-weight: 650;\n  line-height: 1.1;\n}\n\n.change {\n  border-radius: 5px;\n  color: #07130c;\n  font-size: 15px;\n  font-variant-numeric: tabular-nums;\n  font-weight: 720;\n  line-height: 1;\n  max-width: 164px;\n  min-width: 78px;\n  overflow: hidden;\n  padding: 6px 8px;\n  text-align: center;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.up .change {\n  background: #31d158;\n}\n\n.down .change {\n  background: #ff453a;\n  color: #1c0605;\n}\n\n.muted {\n  color: #6f7785;\n}\n\n.muted-pill {\n  background: #242a33;\n  color: #8e98a8;\n}\n\n.error-text {\n  color: #ff9f0a;\n}\n\n.failed-pill {\n  background: #3a2b15;\n  color: #ffd28a;\n  font-size: 12px;\n}\n\n@media (max-width: 360px) {\n  .app-shell {\n    padding-left: 12px;\n    padding-right: 12px;\n  }\n\n  .top-bar,\n  .quote-list,\n  .symbol-list {\n    width: min(100%, calc(100vw - 24px));\n  }\n\n  .title {\n    font-size: 30px;\n  }\n\n  .symbol {\n    font-size: 18px;\n  }\n\n  .choice-symbol {\n    font-size: 18px;\n  }\n\n  .price {\n    font-size: 17px;\n  }\n\n  .quote-values {\n    min-width: 112px;\n  }\n\n  .change {\n    font-size: 14px;\n    min-width: 72px;\n  }\n}\n')
 		]));
 var $author$project$Main$OpenSymbols = {$: 4};
 var $author$project$Main$Refresh = {$: 3};
@@ -7407,10 +8227,10 @@ var $author$project$Main$statusText = function (model) {
 	if ($elm$core$List$isEmpty(model.e)) {
 		return 'No symbols selected';
 	} else {
-		if (model.z) {
+		if (model.E) {
 			return 'Updating...';
 		} else {
-			var _v0 = model.F;
+			var _v0 = model.R;
 			if (!_v0.$) {
 				return 'Updated now';
 			} else {
@@ -7477,17 +8297,17 @@ var $author$project$Main$formatPercent = function (percent) {
 var $author$project$Main$formatPrice = F2(
 	function (quote, price) {
 		return _Utils_ap(
-			quote.R,
-			A2($author$project$Main$formatWithDecimals, quote.Q, price));
+			quote.o,
+			A2($author$project$Main$formatWithDecimals, quote.n, price));
 	});
 var $elm$html$Html$span = _VirtualDom_node('span');
 var $author$project$Main$viewQuote = function (quote) {
 	var stateClass = function () {
-		var _v1 = quote.k;
+		var _v1 = quote.q;
 		switch (_v1.$) {
 			case 1:
 				var data = _v1.a;
-				return (data.I < 0) ? 'down' : 'up';
+				return (data.U < 0) ? 'down' : 'up';
 			case 2:
 				return 'failed';
 			default:
@@ -7510,7 +8330,7 @@ var $author$project$Main$viewQuote = function (quote) {
 					]),
 				_List_fromArray(
 					[
-						$elm$html$Html$text(quote.J)
+						$elm$html$Html$text(quote.g)
 					])),
 				A2(
 				$elm$html$Html$div,
@@ -7519,7 +8339,7 @@ var $author$project$Main$viewQuote = function (quote) {
 						$elm$html$Html$Attributes$class('quote-values')
 					]),
 				function () {
-					var _v0 = quote.k;
+					var _v0 = quote.q;
 					switch (_v0.$) {
 						case 0:
 							return _List_fromArray(
@@ -7558,7 +8378,7 @@ var $author$project$Main$viewQuote = function (quote) {
 									_List_fromArray(
 										[
 											$elm$html$Html$text(
-											A2($author$project$Main$formatPrice, quote, data.P))
+											A2($author$project$Main$formatPrice, quote, data.ab))
 										])),
 									A2(
 									$elm$html$Html$span,
@@ -7569,7 +8389,7 @@ var $author$project$Main$viewQuote = function (quote) {
 									_List_fromArray(
 										[
 											$elm$html$Html$text(
-											$author$project$Main$formatPercent(data.I))
+											$author$project$Main$formatPercent(data.U))
 										]))
 								]);
 						default:
@@ -7692,10 +8512,10 @@ var $author$project$Main$viewQuotesPage = function (model) {
 var $author$project$Main$CloseSymbols = {$: 5};
 var $author$project$Main$selectedCountText = function (model) {
 	return $elm$core$String$fromInt(
-		$elm$core$List$length(model.p)) + ' selected';
+		$elm$core$List$length(model.l)) + ' selected';
 };
-var $author$project$Main$ToggleSymbol = function (a) {
-	return {$: 6, a: a};
+var $author$project$Main$AddSearchResult = function (a) {
+	return {$: 12, a: a};
 };
 var $elm$json$Json$Encode$bool = _Json_wrap;
 var $elm$html$Html$Attributes$boolProperty = F2(
@@ -7705,6 +8525,117 @@ var $elm$html$Html$Attributes$boolProperty = F2(
 			key,
 			$elm$json$Json$Encode$bool(bool));
 	});
+var $elm$html$Html$Attributes$disabled = $elm$html$Html$Attributes$boolProperty('disabled');
+var $author$project$Main$viewSearchResult = F2(
+	function (selectedIds, result) {
+		var alreadySelected = A2($elm$core$List$member, result.a, selectedIds);
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('search-result')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('symbol-choice-copy')
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$span,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('choice-symbol')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text(result.g)
+								])),
+							A2(
+							$elm$html$Html$span,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('choice-name')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text(result.i + (' - ' + result.b))
+								]))
+						])),
+					A2(
+					$elm$html$Html$button,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('add-symbol-button'),
+							$elm$html$Html$Events$onClick(
+							$author$project$Main$AddSearchResult(result)),
+							$elm$html$Html$Attributes$disabled(alreadySelected)
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text(
+							alreadySelected ? 'Selected' : 'Add')
+						]))
+				]));
+	});
+var $author$project$Main$viewSearchResults = function (model) {
+	var _v0 = model.d;
+	switch (_v0.$) {
+		case 1:
+			return _List_fromArray(
+				[
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('search-message')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Searching...')
+						]))
+				]);
+		case 2:
+			var message = _v0.a;
+			return _List_fromArray(
+				[
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('search-message search-error')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text(message)
+						]))
+				]);
+		default:
+			return $elm$core$List$isEmpty(model.f) ? _List_Nil : A2(
+				$elm$core$List$cons,
+				A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('symbol-section-title')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Results')
+						])),
+				A2(
+					$elm$core$List$map,
+					$author$project$Main$viewSearchResult(model.l),
+					model.f));
+	}
+};
+var $author$project$Main$ToggleSymbol = function (a) {
+	return {$: 6, a: a};
+};
 var $elm$html$Html$Attributes$checked = $elm$html$Html$Attributes$boolProperty('checked');
 var $elm$html$Html$input = _VirtualDom_node('input');
 var $elm$html$Html$label = _VirtualDom_node('label');
@@ -7747,7 +8678,17 @@ var $author$project$Main$viewSymbolChoice = F2(
 								]),
 							_List_fromArray(
 								[
-									$elm$html$Html$text(quote.J)
+									$elm$html$Html$text(quote.g)
+								])),
+							A2(
+							$elm$html$Html$span,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('choice-name')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text(quote.i + (' - ' + quote.b))
 								]))
 						])),
 					A2(
@@ -7766,6 +8707,147 @@ var $author$project$Main$viewSymbolChoice = F2(
 					_List_Nil)
 				]));
 	});
+var $author$project$Main$SearchCrypto = 1;
+var $author$project$Main$SearchSymbols = {$: 9};
+var $author$project$Main$SetSearchMode = function (a) {
+	return {$: 8, a: a};
+};
+var $author$project$Main$UpdateSearchQuery = function (a) {
+	return {$: 7, a: a};
+};
+var $author$project$Main$modeButtonClass = F2(
+	function (activeMode, buttonMode) {
+		return _Utils_eq(activeMode, buttonMode) ? 'mode-button active' : 'mode-button';
+	});
+var $elm$html$Html$Events$alwaysStop = function (x) {
+	return _Utils_Tuple2(x, true);
+};
+var $elm$virtual_dom$VirtualDom$MayStopPropagation = function (a) {
+	return {$: 1, a: a};
+};
+var $elm$html$Html$Events$stopPropagationOn = F2(
+	function (event, decoder) {
+		return A2(
+			$elm$virtual_dom$VirtualDom$on,
+			event,
+			$elm$virtual_dom$VirtualDom$MayStopPropagation(decoder));
+	});
+var $elm$html$Html$Events$targetValue = A2(
+	$elm$json$Json$Decode$at,
+	_List_fromArray(
+		['target', 'value']),
+	$elm$json$Json$Decode$string);
+var $elm$html$Html$Events$onInput = function (tagger) {
+	return A2(
+		$elm$html$Html$Events$stopPropagationOn,
+		'input',
+		A2(
+			$elm$json$Json$Decode$map,
+			$elm$html$Html$Events$alwaysStop,
+			A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetValue)));
+};
+var $elm$html$Html$Attributes$placeholder = $elm$html$Html$Attributes$stringProperty('placeholder');
+var $author$project$Main$searchButtonText = function (status) {
+	if (status.$ === 1) {
+		return '...';
+	} else {
+		return 'Search';
+	}
+};
+var $author$project$Main$searchPlaceholder = function (searchMode) {
+	if (!searchMode) {
+		return 'AAPL, S&P 500, FTSE';
+	} else {
+		return 'BTC, ETH, SOL';
+	}
+};
+var $elm$html$Html$Attributes$value = $elm$html$Html$Attributes$stringProperty('value');
+var $author$project$Main$viewSymbolSearch = function (model) {
+	return _List_fromArray(
+		[
+			A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('symbol-search')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('mode-toggle'),
+							A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Search type')
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$button,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class(
+									A2($author$project$Main$modeButtonClass, model.y, 0)),
+									$elm$html$Html$Events$onClick(
+									$author$project$Main$SetSearchMode(0))
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text('Stocks')
+								])),
+							A2(
+							$elm$html$Html$button,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class(
+									A2($author$project$Main$modeButtonClass, model.y, 1)),
+									$elm$html$Html$Events$onClick(
+									$author$project$Main$SetSearchMode(1))
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text('Crypto')
+								]))
+						])),
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('search-row')
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$input,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('search-input'),
+									$elm$html$Html$Attributes$type_('search'),
+									$elm$html$Html$Attributes$placeholder(
+									$author$project$Main$searchPlaceholder(model.y)),
+									$elm$html$Html$Attributes$value(model.J),
+									$elm$html$Html$Events$onInput($author$project$Main$UpdateSearchQuery),
+									A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Search symbols')
+								]),
+							_List_Nil),
+							A2(
+							$elm$html$Html$button,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('search-button'),
+									$elm$html$Html$Events$onClick($author$project$Main$SearchSymbols),
+									$elm$html$Html$Attributes$disabled(
+									_Utils_eq(model.d, $author$project$Main$Searching))
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text(
+									$author$project$Main$searchButtonText(model.d))
+								]))
+						]))
+				]))
+		]);
+};
 var $author$project$Main$viewSymbolsPage = function (model) {
 	return _List_fromArray(
 		[
@@ -7823,10 +8905,28 @@ var $author$project$Main$viewSymbolsPage = function (model) {
 					$elm$html$Html$Attributes$class('symbol-list'),
 					A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Symbol choices')
 				]),
-			A2(
-				$elm$core$List$map,
-				$author$project$Main$viewSymbolChoice(model.p),
-				$author$project$Main$allQuotes))
+			_Utils_ap(
+				$author$project$Main$viewSymbolSearch(model),
+				_Utils_ap(
+					$author$project$Main$viewSearchResults(model),
+					_Utils_ap(
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$div,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('symbol-section-title')
+									]),
+								_List_fromArray(
+									[
+										$elm$html$Html$text('Watchlist')
+									]))
+							]),
+						A2(
+							$elm$core$List$map,
+							$author$project$Main$viewSymbolChoice(model.l),
+							$author$project$Main$availableQuotes(model))))))
 		]);
 };
 var $author$project$Main$view = function (model) {
@@ -7840,7 +8940,7 @@ var $author$project$Main$view = function (model) {
 			$elm$core$List$cons,
 			$author$project$Main$styleNode,
 			function () {
-				var _v0 = model.H;
+				var _v0 = model.T;
 				if (!_v0) {
 					return $author$project$Main$viewQuotesPage(model);
 				} else {
@@ -7849,5 +8949,5 @@ var $author$project$Main$view = function (model) {
 			}()));
 };
 var $author$project$Main$main = $elm$browser$Browser$element(
-	{aW: $author$project$Main$init, a5: $author$project$Main$subscriptions, a8: $author$project$Main$update, a9: $author$project$Main$view});
+	{a5: $author$project$Main$init, bf: $author$project$Main$subscriptions, bi: $author$project$Main$update, bj: $author$project$Main$view});
 _Platform_export({'Main':{'init':$author$project$Main$main($elm$json$Json$Decode$value)(0)}});}(this));
