@@ -784,11 +784,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.ai.S === region.ao.S)
+	if (region.aj.S === region.ap.S)
 	{
-		return 'on line ' + region.ai.S;
+		return 'on line ' + region.aj.S;
 	}
-	return 'on lines ' + region.ai.S + ' through ' + region.ao.S;
+	return 'on lines ' + region.aj.S + ' through ' + region.ap.S;
 }
 
 
@@ -1857,9 +1857,9 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.a5,
-		impl.bi,
-		impl.bf,
+		impl.a6,
+		impl.bj,
+		impl.bg,
 		function() { return function() {} }
 	);
 });
@@ -2720,8 +2720,8 @@ var _VirtualDom_mapEventRecord = F2(function(func, record)
 {
 	return {
 		C: func(record.C),
-		aj: record.aj,
-		ag: record.ag
+		ak: record.ak,
+		ah: record.ah
 	}
 });
 
@@ -2990,10 +2990,10 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 
 		var value = result.a;
 		var message = !tag ? value : tag < 3 ? value.a : value.C;
-		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.aj;
+		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.ak;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
-			(tag == 2 ? value.b : tag == 3 && value.ag) && event.preventDefault(),
+			(tag == 2 ? value.b : tag == 3 && value.ah) && event.preventDefault(),
 			eventNode
 		);
 		var tagger;
@@ -3943,11 +3943,11 @@ var _Browser_element = _Debugger_element || F4(function(impl, flagDecoder, debug
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.a5,
-		impl.bi,
-		impl.bf,
+		impl.a6,
+		impl.bj,
+		impl.bg,
 		function(sendToApp, initialModel) {
-			var view = impl.bj;
+			var view = impl.bk;
 			/**/
 			var domNode = args['node'];
 			//*/
@@ -3979,12 +3979,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.a5,
-		impl.bi,
-		impl.bf,
+		impl.a6,
+		impl.bj,
+		impl.bg,
 		function(sendToApp, initialModel) {
-			var divertHrefToApp = impl.ah && impl.ah(sendToApp)
-			var view = impl.bj;
+			var divertHrefToApp = impl.ai && impl.ai(sendToApp)
+			var view = impl.bk;
 			var title = _VirtualDom_doc.title;
 			var bodyNode = _VirtualDom_doc.body;
 			var currNode = _VirtualDom_virtualize(bodyNode);
@@ -3992,12 +3992,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 			{
 				_VirtualDom_divertHrefToApp = divertHrefToApp;
 				var doc = view(model);
-				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.a_);
+				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.a$);
 				var patches = _VirtualDom_diff(currNode, nextNode);
 				bodyNode = _VirtualDom_applyPatches(bodyNode, currNode, patches, sendToApp);
 				currNode = nextNode;
 				_VirtualDom_divertHrefToApp = 0;
-				(title !== doc.bh) && (_VirtualDom_doc.title = title = doc.bh);
+				(title !== doc.bi) && (_VirtualDom_doc.title = title = doc.bi);
 			});
 		}
 	);
@@ -4053,12 +4053,12 @@ function _Browser_makeAnimator(model, draw)
 
 function _Browser_application(impl)
 {
-	var onUrlChange = impl.a7;
-	var onUrlRequest = impl.a8;
+	var onUrlChange = impl.a8;
+	var onUrlRequest = impl.a9;
 	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
 
 	return _Browser_document({
-		ah: function(sendToApp)
+		ai: function(sendToApp)
 		{
 			key.a = sendToApp;
 			_Browser_window.addEventListener('popstate', key);
@@ -4074,9 +4074,9 @@ function _Browser_application(impl)
 					var next = $elm$url$Url$fromString(href).a;
 					sendToApp(onUrlRequest(
 						(next
-							&& curr.aG === next.aG
-							&& curr.at === next.at
-							&& curr.aC.a === next.aC.a
+							&& curr.aH === next.aH
+							&& curr.au === next.au
+							&& curr.aD.a === next.aD.a
 						)
 							? $elm$browser$Browser$Internal(next)
 							: $elm$browser$Browser$External(href)
@@ -4084,13 +4084,13 @@ function _Browser_application(impl)
 				}
 			});
 		},
-		a5: function(flags)
+		a6: function(flags)
 		{
-			return A3(impl.a5, flags, _Browser_getUrl(), key);
+			return A3(impl.a6, flags, _Browser_getUrl(), key);
 		},
+		bk: impl.bk,
 		bj: impl.bj,
-		bi: impl.bi,
-		bf: impl.bf
+		bg: impl.bg
 	});
 }
 
@@ -4156,17 +4156,17 @@ var _Browser_decodeEvent = F2(function(decoder, event)
 function _Browser_visibilityInfo()
 {
 	return (typeof _VirtualDom_doc.hidden !== 'undefined')
-		? { a3: 'hidden', a$: 'visibilitychange' }
+		? { a4: 'hidden', a0: 'visibilitychange' }
 		:
 	(typeof _VirtualDom_doc.mozHidden !== 'undefined')
-		? { a3: 'mozHidden', a$: 'mozvisibilitychange' }
+		? { a4: 'mozHidden', a0: 'mozvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.msHidden !== 'undefined')
-		? { a3: 'msHidden', a$: 'msvisibilitychange' }
+		? { a4: 'msHidden', a0: 'msvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.webkitHidden !== 'undefined')
-		? { a3: 'webkitHidden', a$: 'webkitvisibilitychange' }
-		: { a3: 'hidden', a$: 'visibilitychange' };
+		? { a4: 'webkitHidden', a0: 'webkitvisibilitychange' }
+		: { a4: 'hidden', a0: 'visibilitychange' };
 }
 
 
@@ -4247,12 +4247,12 @@ var _Browser_call = F2(function(functionName, id)
 function _Browser_getViewport()
 {
 	return {
-		aN: _Browser_getScene(),
-		aT: {
-			aV: _Browser_window.pageXOffset,
-			aW: _Browser_window.pageYOffset,
-			aU: _Browser_doc.documentElement.clientWidth,
-			as: _Browser_doc.documentElement.clientHeight
+		aO: _Browser_getScene(),
+		aU: {
+			aW: _Browser_window.pageXOffset,
+			aX: _Browser_window.pageYOffset,
+			aV: _Browser_doc.documentElement.clientWidth,
+			at: _Browser_doc.documentElement.clientHeight
 		}
 	};
 }
@@ -4262,8 +4262,8 @@ function _Browser_getScene()
 	var body = _Browser_doc.body;
 	var elem = _Browser_doc.documentElement;
 	return {
-		aU: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
-		as: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
+		aV: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
+		at: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
 	};
 }
 
@@ -4286,15 +4286,15 @@ function _Browser_getViewportOf(id)
 	return _Browser_withNode(id, function(node)
 	{
 		return {
-			aN: {
-				aU: node.scrollWidth,
-				as: node.scrollHeight
+			aO: {
+				aV: node.scrollWidth,
+				at: node.scrollHeight
 			},
-			aT: {
-				aV: node.scrollLeft,
-				aW: node.scrollTop,
-				aU: node.clientWidth,
-				as: node.clientHeight
+			aU: {
+				aW: node.scrollLeft,
+				aX: node.scrollTop,
+				aV: node.clientWidth,
+				at: node.clientHeight
 			}
 		};
 	});
@@ -4324,18 +4324,18 @@ function _Browser_getElement(id)
 		var x = _Browser_window.pageXOffset;
 		var y = _Browser_window.pageYOffset;
 		return {
-			aN: _Browser_getScene(),
-			aT: {
-				aV: x,
-				aW: y,
-				aU: _Browser_doc.documentElement.clientWidth,
-				as: _Browser_doc.documentElement.clientHeight
+			aO: _Browser_getScene(),
+			aU: {
+				aW: x,
+				aX: y,
+				aV: _Browser_doc.documentElement.clientWidth,
+				at: _Browser_doc.documentElement.clientHeight
 			},
-			a1: {
-				aV: x + rect.left,
-				aW: y + rect.top,
-				aU: rect.width,
-				as: rect.height
+			a2: {
+				aW: x + rect.left,
+				aX: y + rect.top,
+				aV: rect.width,
+				at: rect.height
 			}
 		};
 	});
@@ -4380,25 +4380,25 @@ var _Http_toTask = F3(function(router, toTask, request)
 	return _Scheduler_binding(function(callback)
 	{
 		function done(response) {
-			callback(toTask(request._.a(response)));
+			callback(toTask(request.aa.a(response)));
 		}
 
 		var xhr = new XMLHttpRequest();
 		xhr.addEventListener('error', function() { done($elm$http$Http$NetworkError_); });
 		xhr.addEventListener('timeout', function() { done($elm$http$Http$Timeout_); });
-		xhr.addEventListener('load', function() { done(_Http_toResponse(request._.b, xhr)); });
-		$elm$core$Maybe$isJust(request.aS) && _Http_track(router, xhr, request.aS.a);
+		xhr.addEventListener('load', function() { done(_Http_toResponse(request.aa.b, xhr)); });
+		$elm$core$Maybe$isJust(request.aT) && _Http_track(router, xhr, request.aT.a);
 
 		try {
-			xhr.open(request.a6, request.ad, true);
+			xhr.open(request.a7, request.ae, true);
 		} catch (e) {
-			return done($elm$http$Http$BadUrl_(request.ad));
+			return done($elm$http$Http$BadUrl_(request.ae));
 		}
 
 		_Http_configureRequest(xhr, request);
 
-		request.a_.a && xhr.setRequestHeader('Content-Type', request.a_.a);
-		xhr.send(request.a_.b);
+		request.a$.a && xhr.setRequestHeader('Content-Type', request.a$.a);
+		xhr.send(request.a$.b);
 
 		return function() { xhr.c = true; xhr.abort(); };
 	});
@@ -4409,13 +4409,13 @@ var _Http_toTask = F3(function(router, toTask, request)
 
 function _Http_configureRequest(xhr, request)
 {
-	for (var headers = request.ar; headers.b; headers = headers.b) // WHILE_CONS
+	for (var headers = request.as; headers.b; headers = headers.b) // WHILE_CONS
 	{
 		xhr.setRequestHeader(headers.a.a, headers.a.b);
 	}
-	xhr.timeout = request.bg.a || 0;
-	xhr.responseType = request._.d;
-	xhr.withCredentials = request.aY;
+	xhr.timeout = request.bh.a || 0;
+	xhr.responseType = request.aa.d;
+	xhr.withCredentials = request.aZ;
 }
 
 
@@ -4436,10 +4436,10 @@ function _Http_toResponse(toBody, xhr)
 function _Http_toMetadata(xhr)
 {
 	return {
-		ad: xhr.responseURL,
-		bd: xhr.status,
-		be: xhr.statusText,
-		ar: _Http_parseHeaders(xhr.getAllResponseHeaders())
+		ae: xhr.responseURL,
+		be: xhr.status,
+		bf: xhr.statusText,
+		as: _Http_parseHeaders(xhr.getAllResponseHeaders())
 	};
 }
 
@@ -4534,15 +4534,15 @@ function _Http_track(router, xhr, tracker)
 	xhr.upload.addEventListener('progress', function(event) {
 		if (xhr.c) { return; }
 		_Scheduler_rawSpawn(A2($elm$core$Platform$sendToSelf, router, _Utils_Tuple2(tracker, $elm$http$Http$Sending({
-			bc: event.loaded,
-			aO: event.total
+			bd: event.loaded,
+			aP: event.total
 		}))));
 	});
 	xhr.addEventListener('progress', function(event) {
 		if (xhr.c) { return; }
 		_Scheduler_rawSpawn(A2($elm$core$Platform$sendToSelf, router, _Utils_Tuple2(tracker, $elm$http$Http$Receiving({
-			ba: event.loaded,
-			aO: event.lengthComputable ? $elm$core$Maybe$Just(event.total) : $elm$core$Maybe$Nothing
+			bb: event.loaded,
+			aP: event.lengthComputable ? $elm$core$Maybe$Just(event.total) : $elm$core$Maybe$Nothing
 		}))));
 	});
 }
@@ -5149,7 +5149,7 @@ var $elm$url$Url$Http = 0;
 var $elm$url$Url$Https = 1;
 var $elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {aq: fragment, at: host, aA: path, aC: port_, aG: protocol, aH: query};
+		return {ar: fragment, au: host, aB: path, aD: port_, aH: protocol, aI: query};
 	});
 var $elm$core$String$contains = _String_contains;
 var $elm$core$String$length = _String_length;
@@ -5640,7 +5640,7 @@ var $elm$json$Json$Decode$nullable = function (decoder) {
 };
 var $author$project$Main$QuoteData = F2(
 	function (price, percent) {
-		return {U: percent, ab: price};
+		return {U: percent, ac: price};
 	});
 var $elm$json$Json$Decode$float = _Json_decodeFloat;
 var $author$project$Main$quoteDataDecoder = A3(
@@ -6290,7 +6290,7 @@ var $elm$http$Http$resolve = F2(
 			case 3:
 				var metadata = response.a;
 				return $elm$core$Result$Err(
-					$elm$http$Http$BadStatus(metadata.bd));
+					$elm$http$Http$BadStatus(metadata.be));
 			default:
 				var body = response.b;
 				return A2(
@@ -6324,7 +6324,7 @@ var $elm$http$Http$Request = function (a) {
 };
 var $elm$http$Http$State = F2(
 	function (reqs, subs) {
-		return {aK: reqs, aQ: subs};
+		return {aL: reqs, aR: subs};
 	});
 var $elm$http$Http$init = $elm$core$Task$succeed(
 	A2($elm$http$Http$State, $elm$core$Dict$empty, _List_Nil));
@@ -6368,7 +6368,7 @@ var $elm$http$Http$updateReqs = F3(
 					return A2(
 						$elm$core$Task$andThen,
 						function (pid) {
-							var _v4 = req.aS;
+							var _v4 = req.aT;
 							if (_v4.$ === 1) {
 								return A3($elm$http$Http$updateReqs, router, otherCmds, reqs);
 							} else {
@@ -6398,7 +6398,7 @@ var $elm$http$Http$onEffects = F4(
 				return $elm$core$Task$succeed(
 					A2($elm$http$Http$State, reqs, subs));
 			},
-			A3($elm$http$Http$updateReqs, router, cmds, state.aK));
+			A3($elm$http$Http$updateReqs, router, cmds, state.aL));
 	});
 var $elm$core$List$maybeCons = F3(
 	function (f, mx, xs) {
@@ -6441,7 +6441,7 @@ var $elm$http$Http$onSelfMsg = F3(
 				A2(
 					$elm$core$List$filterMap,
 					A3($elm$http$Http$maybeSend, router, tracker, progress),
-					state.aQ)));
+					state.aR)));
 	});
 var $elm$http$Http$Cancel = function (a) {
 	return {$: 0, a: a};
@@ -6455,14 +6455,14 @@ var $elm$http$Http$cmdMap = F2(
 			var r = cmd.a;
 			return $elm$http$Http$Request(
 				{
-					aY: r.aY,
-					a_: r.a_,
-					_: A2(_Http_mapExpect, func, r._),
-					ar: r.ar,
-					a6: r.a6,
-					bg: r.bg,
-					aS: r.aS,
-					ad: r.ad
+					aZ: r.aZ,
+					a$: r.a$,
+					aa: A2(_Http_mapExpect, func, r.aa),
+					as: r.as,
+					a7: r.a7,
+					bh: r.bh,
+					aT: r.aT,
+					ae: r.ae
 				});
 		}
 	});
@@ -6485,19 +6485,19 @@ var $elm$http$Http$subscription = _Platform_leaf('Http');
 var $elm$http$Http$request = function (r) {
 	return $elm$http$Http$command(
 		$elm$http$Http$Request(
-			{aY: false, a_: r.a_, _: r._, ar: r.ar, a6: r.a6, bg: r.bg, aS: r.aS, ad: r.ad}));
+			{aZ: false, a$: r.a$, aa: r.aa, as: r.as, a7: r.a7, bh: r.bh, aT: r.aT, ae: r.ae}));
 };
 var $elm$http$Http$get = function (r) {
 	return $elm$http$Http$request(
-		{a_: $elm$http$Http$emptyBody, _: r._, ar: _List_Nil, a6: 'GET', bg: $elm$core$Maybe$Nothing, aS: $elm$core$Maybe$Nothing, ad: r.ad});
+		{a$: $elm$http$Http$emptyBody, aa: r.aa, as: _List_Nil, a7: 'GET', bh: $elm$core$Maybe$Nothing, aT: $elm$core$Maybe$Nothing, ae: r.ae});
 };
 var $author$project$Main$KrakenResponse = F2(
 	function (errors, result) {
-		return {Z: errors, ac: result};
+		return {_: errors, ad: result};
 	});
 var $author$project$Main$KrakenQuote = F2(
 	function (lastTrade, openToday) {
-		return {av: lastTrade, ay: openToday};
+		return {aw: lastTrade, az: openToday};
 	});
 var $elm$json$Json$Decode$index = _Json_decodeIndex;
 var $author$project$Main$krakenQuoteDecoder = A3(
@@ -6526,19 +6526,19 @@ var $author$project$Main$fetchQuote = F2(
 			var apiPair = _v0.a;
 			return $elm$http$Http$get(
 				{
-					_: A2(
+					aa: A2(
 						$elm$http$Http$expectJson,
 						A2($author$project$Main$GotKraken, quote.a, attempt),
 						$author$project$Main$krakenResponseDecoder),
-					ad: 'https://api.kraken.com/0/public/Ticker?pair=' + apiPair
+					ae: 'https://api.kraken.com/0/public/Ticker?pair=' + apiPair
 				});
 		} else {
 			var encodedApiSymbol = _v0.a;
 			return $elm$http$Http$get(
 				{
-					_: $elm$http$Http$expectString(
+					aa: $elm$http$Http$expectString(
 						A2($author$project$Main$GotYahooSpark, quote.a, attempt)),
-					ad: 'https://r.jina.ai/http://https://query1.finance.yahoo.com/v7/finance/spark?symbols=' + (encodedApiSymbol + '&range=1d&interval=1m')
+					ae: 'https://r.jina.ai/http://https://query1.finance.yahoo.com/v7/finance/spark?symbols=' + (encodedApiSymbol + '&range=1d&interval=1m')
 				});
 		}
 	});
@@ -6708,9 +6708,10 @@ var $author$project$Main$init = function (flags) {
 		selectedQuotes);
 	var model = {
 		B: cache,
+		Z: false,
 		L: customQuotes,
 		R: $elm$core$Maybe$Nothing,
-		aa: $elm$time$Time$millisToPosix(0),
+		ab: $elm$time$Time$millisToPosix(0),
 		T: 0,
 		u: pendingIds,
 		e: selectedQuotes,
@@ -6725,16 +6726,20 @@ var $author$project$Main$init = function (flags) {
 		model,
 		A2($author$project$Main$fetchQuotes, 0, selectedQuotes));
 };
-var $author$project$Main$Tick = function (a) {
+var $author$project$Main$InstallPromptAvailable = function (a) {
 	return {$: 13, a: a};
 };
+var $author$project$Main$Tick = function (a) {
+	return {$: 15, a: a};
+};
+var $elm$core$Platform$Sub$batch = _Platform_batch;
 var $elm$time$Time$Every = F2(
 	function (a, b) {
 		return {$: 0, a: a, b: b};
 	});
 var $elm$time$Time$State = F2(
 	function (taggers, processes) {
-		return {aF: processes, aR: taggers};
+		return {aG: processes, aS: taggers};
 	});
 var $elm$time$Time$init = $elm$core$Task$succeed(
 	A2($elm$time$Time$State, $elm$core$Dict$empty, $elm$core$Dict$empty));
@@ -6881,7 +6886,7 @@ var $elm$time$Time$spawnHelp = F3(
 	});
 var $elm$time$Time$onEffects = F3(
 	function (router, subs, _v0) {
-		var processes = _v0.aF;
+		var processes = _v0.aG;
 		var rightStep = F3(
 			function (_v6, id, _v7) {
 				var spawns = _v7.a;
@@ -6948,7 +6953,7 @@ var $elm$time$Time$onEffects = F3(
 var $elm$time$Time$now = _Time_now($elm$time$Time$millisToPosix);
 var $elm$time$Time$onSelfMsg = F3(
 	function (router, interval, state) {
-		var _v0 = A2($elm$core$Dict$get, interval, state.aR);
+		var _v0 = A2($elm$core$Dict$get, interval, state.aS);
 		if (_v0.$ === 1) {
 			return $elm$core$Task$succeed(state);
 		} else {
@@ -6994,8 +6999,15 @@ var $elm$time$Time$every = F2(
 		return $elm$time$Time$subscription(
 			A2($elm$time$Time$Every, interval, tagger));
 	});
+var $elm$json$Json$Decode$bool = _Json_decodeBool;
+var $author$project$Main$installPromptAvailable = _Platform_incomingPort('installPromptAvailable', $elm$json$Json$Decode$bool);
 var $author$project$Main$subscriptions = function (_v0) {
-	return A2($elm$time$Time$every, 60 * 1000, $author$project$Main$Tick);
+	return $elm$core$Platform$Sub$batch(
+		_List_fromArray(
+			[
+				A2($elm$time$Time$every, 60 * 1000, $author$project$Main$Tick),
+				$author$project$Main$installPromptAvailable($author$project$Main$InstallPromptAvailable)
+			]));
 };
 var $author$project$Main$SearchFailed = function (a) {
 	return {$: 2, a: a};
@@ -7172,11 +7184,11 @@ var $author$project$Main$GotKrakenAssetPairs = function (a) {
 };
 var $author$project$Main$KrakenAssetPairsResponse = F2(
 	function (errors, result) {
-		return {Z: errors, ac: result};
+		return {_: errors, ad: result};
 	});
 var $author$project$Main$KrakenAssetPair = F4(
 	function (altname, wsname, pairDecimals, status) {
-		return {Q: altname, az: pairDecimals, aP: status, ak: wsname};
+		return {Q: altname, aA: pairDecimals, aQ: status, al: wsname};
 	});
 var $elm$json$Json$Decode$map4 = _Json_map4;
 var $author$project$Main$krakenAssetPairDecoder = A5(
@@ -7214,8 +7226,8 @@ var $author$project$Main$krakenAssetPairsDecoder = A3(
 		$elm$json$Json$Decode$dict($author$project$Main$krakenAssetPairDecoder)));
 var $author$project$Main$fetchKrakenAssetPairs = $elm$http$Http$get(
 	{
-		_: A2($elm$http$Http$expectJson, $author$project$Main$GotKrakenAssetPairs, $author$project$Main$krakenAssetPairsDecoder),
-		ad: 'https://api.kraken.com/0/public/AssetPairs'
+		aa: A2($elm$http$Http$expectJson, $author$project$Main$GotKrakenAssetPairs, $author$project$Main$krakenAssetPairsDecoder),
+		ae: 'https://api.kraken.com/0/public/AssetPairs'
 	});
 var $author$project$Main$GotYahooSearch = function (a) {
 	return {$: 10, a: a};
@@ -7224,8 +7236,8 @@ var $elm$url$Url$percentEncode = _Url_percentEncode;
 var $author$project$Main$fetchYahooSearch = function (query) {
 	return $elm$http$Http$get(
 		{
-			_: $elm$http$Http$expectString($author$project$Main$GotYahooSearch),
-			ad: 'https://r.jina.ai/http://https://query1.finance.yahoo.com/v1/finance/search?q=' + ($elm$url$Url$percentEncode(query) + '&quotesCount=12&newsCount=0&listsCount=0')
+			aa: $elm$http$Http$expectString($author$project$Main$GotYahooSearch),
+			ae: 'https://r.jina.ai/http://https://query1.finance.yahoo.com/v1/finance/search?q=' + ($elm$url$Url$percentEncode(query) + '&quotesCount=12&newsCount=0&listsCount=0')
 		});
 };
 var $author$project$Main$Failed = function (a) {
@@ -7273,7 +7285,7 @@ var $author$project$Main$removeId = F2(
 var $author$project$Main$finishQuoteUpdate = F4(
 	function (nextQuotes, nextCache, completedQuoteId, model) {
 		var nextPendingIds = A2($author$project$Main$removeId, completedQuoteId, model.u);
-		var nextLastUpdated = $elm$core$List$isEmpty(nextPendingIds) ? $elm$core$Maybe$Just(model.aa) : model.R;
+		var nextLastUpdated = $elm$core$List$isEmpty(nextPendingIds) ? $elm$core$Maybe$Just(model.ab) : model.R;
 		return _Utils_update(
 			model,
 			{
@@ -7328,7 +7340,7 @@ var $author$project$Main$cacheToValue = function (cache) {
 							[
 								_Utils_Tuple2(
 								'price',
-								$elm$json$Json$Encode$float(data.ab)),
+								$elm$json$Json$Encode$float(data.ac)),
 								_Utils_Tuple2(
 								'percent',
 								$elm$json$Json$Encode$float(data.U))
@@ -7405,7 +7417,7 @@ var $author$project$Main$httpErrorToText = function (error) {
 };
 var $elm$core$String$toLower = _String_toLower;
 var $author$project$Main$krakenPairIsOnline = function (pair) {
-	return $elm$core$String$toLower(pair.aP) === 'online';
+	return $elm$core$String$toLower(pair.aQ) === 'online';
 };
 var $elm$core$Basics$min = F2(
 	function (x, y) {
@@ -7423,13 +7435,13 @@ var $author$project$Main$pricePrefixForKrakenPair = function (symbol) {
 	return (A2($elm$core$String$endsWith, '/USD', symbol) || A2($elm$core$String$endsWith, 'USD', symbol)) ? '$' : '';
 };
 var $author$project$Main$krakenPairToSearchResult = function (pair) {
-	var symbol = $elm$core$String$isEmpty(pair.ak) ? pair.Q : pair.ak;
+	var symbol = $elm$core$String$isEmpty(pair.al) ? pair.Q : pair.al;
 	return $elm$core$String$isEmpty(pair.Q) ? $elm$core$Maybe$Nothing : $elm$core$Maybe$Just(
 		{
 			b: 'Crypto',
 			a: 'kraken:' + pair.Q,
 			i: 'Kraken ' + symbol,
-			n: A3($author$project$Main$clampInt, 2, 6, pair.az),
+			n: A3($author$project$Main$clampInt, 2, 6, pair.aA),
 			o: $author$project$Main$pricePrefixForKrakenPair(symbol),
 			p: $author$project$Main$Kraken(pair.Q),
 			g: symbol
@@ -7584,7 +7596,7 @@ var $elm$core$Dict$values = function (dict) {
 };
 var $author$project$Main$krakenSearchResults = F2(
 	function (query, response) {
-		var _v0 = response.Z;
+		var _v0 = response._;
 		if (!_v0.b) {
 			return $author$project$Main$nonEmptyResults(
 				A2(
@@ -7599,7 +7611,7 @@ var $author$project$Main$krakenSearchResults = F2(
 							A2(
 								$elm$core$List$filter,
 								$author$project$Main$krakenPairIsOnline,
-								$elm$core$Dict$values(response.ac))))));
+								$elm$core$Dict$values(response.ad))))));
 		} else {
 			var firstError = _v0.a;
 			return $elm$core$Result$Err(firstError);
@@ -7700,20 +7712,20 @@ var $elm$core$Maybe$map2 = F3(
 var $author$project$Main$quoteDataFromPrices = F2(
 	function (price, openToday) {
 		var percent = (!openToday) ? 0 : (((price - openToday) / openToday) * 100);
-		return {U: percent, ab: price};
+		return {U: percent, ac: price};
 	});
 var $elm$core$String$toFloat = _String_toFloat;
 var $author$project$Main$quoteDataFromKraken = function (krakenQuote) {
 	return A3(
 		$elm$core$Maybe$map2,
 		$author$project$Main$quoteDataFromPrices,
-		$elm$core$String$toFloat(krakenQuote.av),
-		$elm$core$String$toFloat(krakenQuote.ay));
+		$elm$core$String$toFloat(krakenQuote.aw),
+		$elm$core$String$toFloat(krakenQuote.az));
 };
 var $author$project$Main$quoteDataResultFromKraken = function (result) {
 	if (!result.$) {
 		var response = result.a;
-		var _v1 = response.Z;
+		var _v1 = response._;
 		if (!_v1.b) {
 			return A2(
 				$elm$core$Result$fromMaybe,
@@ -7722,7 +7734,7 @@ var $author$project$Main$quoteDataResultFromKraken = function (result) {
 					$elm$core$Maybe$andThen,
 					$author$project$Main$quoteDataFromKraken,
 					$elm$core$List$head(
-						$elm$core$Dict$values(response.ac))));
+						$elm$core$Dict$values(response.ad))));
 		} else {
 			var firstError = _v1.a;
 			return $elm$core$Result$Err(firstError);
@@ -7767,7 +7779,7 @@ var $elm$json$Json$Decode$at = F2(
 	});
 var $author$project$Main$YahooSparkMeta = F2(
 	function (regularMarketPrice, previousClose) {
-		return {aD: previousClose, aI: regularMarketPrice};
+		return {aE: previousClose, aJ: regularMarketPrice};
 	});
 var $author$project$Main$yahooSparkMetaDecoder = A3(
 	$elm$json$Json$Decode$map2,
@@ -7802,7 +7814,7 @@ var $author$project$Main$quoteDataResultFromYahooSpark = function (result) {
 				A2(
 					$elm$core$Result$map,
 					function (meta) {
-						return A2($author$project$Main$quoteDataFromPrices, meta.aI, meta.aD);
+						return A2($author$project$Main$quoteDataFromPrices, meta.aJ, meta.aE);
 					},
 					A2($elm$json$Json$Decode$decodeString, $author$project$Main$yahooSparkDecoder, json)));
 		} else {
@@ -7814,6 +7826,12 @@ var $author$project$Main$quoteDataResultFromYahooSpark = function (result) {
 			$author$project$Main$httpErrorToText(httpError));
 	}
 };
+var $elm$json$Json$Encode$null = _Json_encodeNull;
+var $author$project$Main$requestInstallPrompt = _Platform_outgoingPort(
+	'requestInstallPrompt',
+	function ($) {
+		return $elm$json$Json$Encode$null;
+	});
 var $elm$core$Result$andThen = F2(
 	function (callback, result) {
 		if (!result.$) {
@@ -7922,7 +7940,7 @@ var $author$project$Main$update = F2(
 						model,
 						{u: nextPendingIds, e: nextQuotes, E: isRefreshing}),
 					A2($author$project$Main$fetchQuotes, 0, nextQuotes));
-			case 13:
+			case 15:
 				var now = msg.a;
 				var nextQuotes = A2($elm$core$List$map, $author$project$Main$markRefreshing, model.e);
 				var nextPendingIds = A2(
@@ -7935,7 +7953,7 @@ var $author$project$Main$update = F2(
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{aa: now, u: nextPendingIds, e: nextQuotes, E: isRefreshing}),
+						{ab: now, u: nextPendingIds, e: nextQuotes, E: isRefreshing}),
 					A2($author$project$Main$fetchQuotes, 0, nextQuotes));
 			case 4:
 				return _Utils_Tuple2(
@@ -7949,6 +7967,17 @@ var $author$project$Main$update = F2(
 						model,
 						{T: 0}),
 					$elm$core$Platform$Cmd$none);
+			case 13:
+				var canInstall = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{Z: canInstall}),
+					$elm$core$Platform$Cmd$none);
+			case 14:
+				return _Utils_Tuple2(
+					model,
+					$author$project$Main$requestInstallPrompt(0));
 			case 6:
 				var quoteId = msg.a;
 				var wasSelected = A2($elm$core$List$member, quoteId, model.l);
@@ -8191,7 +8220,7 @@ var $author$project$Main$styleNode = A3(
 	_List_Nil,
 	_List_fromArray(
 		[
-			$elm$html$Html$text('\n:root {\n  color-scheme: dark;\n  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;\n  background: #0b0d10;\n}\n\n* {\n  box-sizing: border-box;\n}\n\nhtml,\nbody {\n  min-height: 100%;\n  margin: 0;\n}\n\nbody {\n  background: #0b0d10;\n  color: #f5f7fb;\n  overflow-x: hidden;\n}\n\nbutton {\n  font: inherit;\n}\n\n.app-shell {\n  min-height: 100vh;\n  min-height: 100dvh;\n  padding: max(18px, env(safe-area-inset-top)) 16px max(20px, env(safe-area-inset-bottom));\n}\n\n.top-bar {\n  align-items: center;\n  display: flex;\n  justify-content: space-between;\n  margin: 0 auto 10px;\n  max-width: 620px;\n  padding: 6px 2px 12px;\n  width: min(100%, calc(100vw - 32px));\n}\n\n.toolbar-actions {\n  align-items: center;\n  display: flex;\n  gap: 10px;\n}\n\n.title {\n  font-size: 34px;\n  font-weight: 760;\n  letter-spacing: 0;\n  line-height: 1;\n}\n\n.subtitle {\n  color: #8e98a8;\n  font-size: 13px;\n  line-height: 1.5;\n  margin-top: 6px;\n}\n\n.icon-button {\n  align-items: center;\n  background: #1b2028;\n  border: 1px solid #303744;\n  border-radius: 50%;\n  color: #f5f7fb;\n  display: inline-flex;\n  height: 42px;\n  justify-content: center;\n  line-height: 1;\n  padding: 0;\n  width: 42px;\n}\n\n.refresh-button::before {\n  content: "\\21bb";\n  font-size: 23px;\n  line-height: 1;\n}\n\n.settings-button::before {\n  content: "\\2699";\n  font-size: 21px;\n  line-height: 1;\n}\n\n.done-button {\n  background: #1b2028;\n  border: 1px solid #303744;\n  border-radius: 999px;\n  color: #f5f7fb;\n  font-size: 16px;\n  font-weight: 680;\n  line-height: 1;\n  padding: 12px 15px;\n}\n\n.icon-button:active {\n  transform: scale(0.96);\n}\n\n.done-button:active {\n  transform: scale(0.97);\n}\n\n.quote-list,\n.symbol-list {\n  margin: 0 auto;\n  max-width: 620px;\n  width: min(100%, calc(100vw - 32px));\n}\n\n.quote-row {\n  align-items: center;\n  border-bottom: 1px solid #252b35;\n  display: grid;\n  gap: 12px;\n  grid-template-columns: minmax(0, 1fr) auto;\n  min-height: 62px;\n  padding: 10px 2px;\n}\n\n.quote-row:first-child {\n  border-top: 1px solid #252b35;\n}\n\n.empty-state {\n  border-bottom: 1px solid #252b35;\n  border-top: 1px solid #252b35;\n  color: #8e98a8;\n  font-size: 17px;\n  line-height: 1.4;\n  padding: 22px 2px;\n}\n\n.symbol-search {\n  border-bottom: 1px solid #252b35;\n  border-top: 1px solid #252b35;\n  display: grid;\n  gap: 12px;\n  padding: 12px 2px 14px;\n}\n\n.mode-toggle {\n  background: #151a21;\n  border: 1px solid #303744;\n  border-radius: 8px;\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  padding: 3px;\n}\n\n.mode-button {\n  background: transparent;\n  border: 0;\n  border-radius: 6px;\n  color: #8e98a8;\n  font-size: 15px;\n  font-weight: 700;\n  line-height: 1;\n  padding: 10px 8px;\n}\n\n.mode-button.active {\n  background: #303744;\n  color: #f5f7fb;\n}\n\n.search-row {\n  display: grid;\n  gap: 10px;\n  grid-template-columns: minmax(0, 1fr) auto;\n}\n\n.search-input {\n  background: #151a21;\n  border: 1px solid #303744;\n  border-radius: 8px;\n  color: #f5f7fb;\n  font: inherit;\n  font-size: 16px;\n  min-width: 0;\n  padding: 12px 12px;\n}\n\n.search-input::placeholder {\n  color: #6f7785;\n}\n\n.search-button,\n.add-symbol-button {\n  background: #1b2028;\n  border: 1px solid #303744;\n  border-radius: 8px;\n  color: #f5f7fb;\n  font-size: 15px;\n  font-weight: 720;\n  line-height: 1;\n  padding: 0 14px;\n}\n\n.search-button {\n  min-width: 78px;\n}\n\n.search-button:disabled,\n.add-symbol-button:disabled {\n  color: #6f7785;\n}\n\n.search-message {\n  border-bottom: 1px solid #252b35;\n  color: #8e98a8;\n  font-size: 15px;\n  line-height: 1.4;\n  padding: 12px 2px;\n}\n\n.search-error {\n  color: #ffd28a;\n}\n\n.symbol-section-title {\n  color: #8e98a8;\n  font-size: 12px;\n  font-weight: 760;\n  letter-spacing: 0;\n  padding: 18px 2px 6px;\n  text-transform: uppercase;\n}\n\n.search-result {\n  align-items: center;\n  border-bottom: 1px solid #252b35;\n  display: flex;\n  gap: 16px;\n  justify-content: space-between;\n  min-height: 62px;\n  padding: 10px 2px;\n}\n\n.symbol-choice {\n  align-items: center;\n  border-bottom: 1px solid #252b35;\n  display: flex;\n  gap: 16px;\n  justify-content: space-between;\n  min-height: 58px;\n  padding: 10px 2px;\n}\n\n.symbol-choice:first-child {\n  border-top: 0;\n}\n\n.symbol-choice-copy {\n  display: grid;\n  gap: 4px;\n  min-width: 0;\n}\n\n.choice-symbol {\n  display: block;\n  color: #f5f7fb;\n  font-size: 20px;\n  font-weight: 720;\n  letter-spacing: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.choice-name {\n  color: #8e98a8;\n  display: block;\n  font-size: 13px;\n  line-height: 1.25;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.symbol-toggle {\n  appearance: none;\n  background: #303744;\n  border: 1px solid #46505f;\n  border-radius: 999px;\n  flex: 0 0 auto;\n  height: 30px;\n  margin: 0;\n  position: relative;\n  width: 52px;\n}\n\n.symbol-toggle::before {\n  background: #f5f7fb;\n  border-radius: 50%;\n  content: "";\n  height: 24px;\n  left: 2px;\n  position: absolute;\n  top: 2px;\n  transition: transform 120ms ease;\n  width: 24px;\n}\n\n.symbol-toggle:checked {\n  background: #31d158;\n  border-color: #31d158;\n}\n\n.symbol-toggle:checked::before {\n  transform: translateX(22px);\n}\n\n.symbol {\n  color: #f5f7fb;\n  font-size: 20px;\n  font-weight: 720;\n  letter-spacing: 0;\n  min-width: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.quote-values {\n  align-items: end;\n  display: grid;\n  gap: 5px;\n  justify-items: end;\n  min-width: 128px;\n}\n\n.price {\n  color: #f5f7fb;\n  font-size: 19px;\n  font-variant-numeric: tabular-nums;\n  font-weight: 650;\n  line-height: 1.1;\n}\n\n.change {\n  border-radius: 5px;\n  color: #07130c;\n  font-size: 15px;\n  font-variant-numeric: tabular-nums;\n  font-weight: 720;\n  line-height: 1;\n  max-width: 164px;\n  min-width: 78px;\n  overflow: hidden;\n  padding: 6px 8px;\n  text-align: center;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.up .change {\n  background: #31d158;\n}\n\n.down .change {\n  background: #ff453a;\n  color: #1c0605;\n}\n\n.muted {\n  color: #6f7785;\n}\n\n.muted-pill {\n  background: #242a33;\n  color: #8e98a8;\n}\n\n.error-text {\n  color: #ff9f0a;\n}\n\n.failed-pill {\n  background: #3a2b15;\n  color: #ffd28a;\n  font-size: 12px;\n}\n\n@media (max-width: 360px) {\n  .app-shell {\n    padding-left: 12px;\n    padding-right: 12px;\n  }\n\n  .top-bar,\n  .quote-list,\n  .symbol-list {\n    width: min(100%, calc(100vw - 24px));\n  }\n\n  .title {\n    font-size: 30px;\n  }\n\n  .symbol {\n    font-size: 18px;\n  }\n\n  .choice-symbol {\n    font-size: 18px;\n  }\n\n  .price {\n    font-size: 17px;\n  }\n\n  .quote-values {\n    min-width: 112px;\n  }\n\n  .change {\n    font-size: 14px;\n    min-width: 72px;\n  }\n}\n')
+			$elm$html$Html$text('\n:root {\n  color-scheme: dark;\n  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;\n  background: #0b0d10;\n}\n\n* {\n  box-sizing: border-box;\n}\n\nhtml,\nbody {\n  min-height: 100%;\n  margin: 0;\n}\n\nbody {\n  background: #0b0d10;\n  color: #f5f7fb;\n  overflow-x: hidden;\n}\n\nbutton {\n  font: inherit;\n}\n\n.app-shell {\n  min-height: 100vh;\n  min-height: 100dvh;\n  padding: max(18px, env(safe-area-inset-top)) 16px max(20px, env(safe-area-inset-bottom));\n}\n\n.top-bar {\n  align-items: center;\n  display: flex;\n  justify-content: space-between;\n  margin: 0 auto 10px;\n  max-width: 620px;\n  padding: 6px 2px 12px;\n  width: min(100%, calc(100vw - 32px));\n}\n\n.toolbar-actions {\n  align-items: center;\n  display: flex;\n  gap: 10px;\n}\n\n.title {\n  font-size: 34px;\n  font-weight: 760;\n  letter-spacing: 0;\n  line-height: 1;\n}\n\n.subtitle {\n  color: #8e98a8;\n  font-size: 13px;\n  line-height: 1.5;\n  margin-top: 6px;\n}\n\n.icon-button {\n  align-items: center;\n  background: #1b2028;\n  border: 1px solid #303744;\n  border-radius: 50%;\n  color: #f5f7fb;\n  display: inline-flex;\n  height: 42px;\n  justify-content: center;\n  line-height: 1;\n  padding: 0;\n  width: 42px;\n}\n\n.refresh-button::before {\n  content: "\\21bb";\n  font-size: 23px;\n  line-height: 1;\n}\n\n.install-button::before {\n  content: "\\21e9";\n  font-size: 21px;\n  line-height: 1;\n}\n\n.settings-button::before {\n  content: "\\2699";\n  font-size: 21px;\n  line-height: 1;\n}\n\n.done-button {\n  background: #1b2028;\n  border: 1px solid #303744;\n  border-radius: 999px;\n  color: #f5f7fb;\n  font-size: 16px;\n  font-weight: 680;\n  line-height: 1;\n  padding: 12px 15px;\n}\n\n.icon-button:active {\n  transform: scale(0.96);\n}\n\n.done-button:active {\n  transform: scale(0.97);\n}\n\n.quote-list,\n.symbol-list {\n  margin: 0 auto;\n  max-width: 620px;\n  width: min(100%, calc(100vw - 32px));\n}\n\n.quote-row {\n  align-items: center;\n  border-bottom: 1px solid #252b35;\n  display: grid;\n  gap: 12px;\n  grid-template-columns: minmax(0, 1fr) auto;\n  min-height: 62px;\n  padding: 10px 2px;\n}\n\n.quote-row:first-child {\n  border-top: 1px solid #252b35;\n}\n\n.empty-state {\n  border-bottom: 1px solid #252b35;\n  border-top: 1px solid #252b35;\n  color: #8e98a8;\n  font-size: 17px;\n  line-height: 1.4;\n  padding: 22px 2px;\n}\n\n.symbol-search {\n  border-bottom: 1px solid #252b35;\n  border-top: 1px solid #252b35;\n  display: grid;\n  gap: 12px;\n  padding: 12px 2px 14px;\n}\n\n.mode-toggle {\n  background: #151a21;\n  border: 1px solid #303744;\n  border-radius: 8px;\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  padding: 3px;\n}\n\n.mode-button {\n  background: transparent;\n  border: 0;\n  border-radius: 6px;\n  color: #8e98a8;\n  font-size: 15px;\n  font-weight: 700;\n  line-height: 1;\n  padding: 10px 8px;\n}\n\n.mode-button.active {\n  background: #303744;\n  color: #f5f7fb;\n}\n\n.search-row {\n  display: grid;\n  gap: 10px;\n  grid-template-columns: minmax(0, 1fr) auto;\n}\n\n.search-input {\n  background: #151a21;\n  border: 1px solid #303744;\n  border-radius: 8px;\n  color: #f5f7fb;\n  font: inherit;\n  font-size: 16px;\n  min-width: 0;\n  padding: 12px 12px;\n}\n\n.search-input::placeholder {\n  color: #6f7785;\n}\n\n.search-button,\n.add-symbol-button {\n  background: #1b2028;\n  border: 1px solid #303744;\n  border-radius: 8px;\n  color: #f5f7fb;\n  font-size: 15px;\n  font-weight: 720;\n  line-height: 1;\n  padding: 0 14px;\n}\n\n.search-button {\n  min-width: 78px;\n}\n\n.search-button:disabled,\n.add-symbol-button:disabled {\n  color: #6f7785;\n}\n\n.search-message {\n  border-bottom: 1px solid #252b35;\n  color: #8e98a8;\n  font-size: 15px;\n  line-height: 1.4;\n  padding: 12px 2px;\n}\n\n.search-error {\n  color: #ffd28a;\n}\n\n.symbol-section-title {\n  color: #8e98a8;\n  font-size: 12px;\n  font-weight: 760;\n  letter-spacing: 0;\n  padding: 18px 2px 6px;\n  text-transform: uppercase;\n}\n\n.search-result {\n  align-items: center;\n  border-bottom: 1px solid #252b35;\n  display: flex;\n  gap: 16px;\n  justify-content: space-between;\n  min-height: 62px;\n  padding: 10px 2px;\n}\n\n.symbol-choice {\n  align-items: center;\n  border-bottom: 1px solid #252b35;\n  display: flex;\n  gap: 16px;\n  justify-content: space-between;\n  min-height: 58px;\n  padding: 10px 2px;\n}\n\n.symbol-choice:first-child {\n  border-top: 0;\n}\n\n.symbol-choice-copy {\n  display: grid;\n  gap: 4px;\n  min-width: 0;\n}\n\n.choice-symbol {\n  display: block;\n  color: #f5f7fb;\n  font-size: 20px;\n  font-weight: 720;\n  letter-spacing: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.choice-name {\n  color: #8e98a8;\n  display: block;\n  font-size: 13px;\n  line-height: 1.25;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.symbol-toggle {\n  appearance: none;\n  background: #303744;\n  border: 1px solid #46505f;\n  border-radius: 999px;\n  flex: 0 0 auto;\n  height: 30px;\n  margin: 0;\n  position: relative;\n  width: 52px;\n}\n\n.symbol-toggle::before {\n  background: #f5f7fb;\n  border-radius: 50%;\n  content: "";\n  height: 24px;\n  left: 2px;\n  position: absolute;\n  top: 2px;\n  transition: transform 120ms ease;\n  width: 24px;\n}\n\n.symbol-toggle:checked {\n  background: #31d158;\n  border-color: #31d158;\n}\n\n.symbol-toggle:checked::before {\n  transform: translateX(22px);\n}\n\n.symbol {\n  color: #f5f7fb;\n  font-size: 20px;\n  font-weight: 720;\n  letter-spacing: 0;\n  min-width: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.quote-values {\n  align-items: end;\n  display: grid;\n  gap: 5px;\n  justify-items: end;\n  min-width: 128px;\n}\n\n.price {\n  color: #f5f7fb;\n  font-size: 19px;\n  font-variant-numeric: tabular-nums;\n  font-weight: 650;\n  line-height: 1.1;\n}\n\n.change {\n  border-radius: 5px;\n  color: #07130c;\n  font-size: 15px;\n  font-variant-numeric: tabular-nums;\n  font-weight: 720;\n  line-height: 1;\n  max-width: 164px;\n  min-width: 78px;\n  overflow: hidden;\n  padding: 6px 8px;\n  text-align: center;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.up .change {\n  background: #31d158;\n}\n\n.down .change {\n  background: #ff453a;\n  color: #1c0605;\n}\n\n.muted {\n  color: #6f7785;\n}\n\n.muted-pill {\n  background: #242a33;\n  color: #8e98a8;\n}\n\n.error-text {\n  color: #ff9f0a;\n}\n\n.failed-pill {\n  background: #3a2b15;\n  color: #ffd28a;\n  font-size: 12px;\n}\n\n@media (max-width: 360px) {\n  .app-shell {\n    padding-left: 12px;\n    padding-right: 12px;\n  }\n\n  .top-bar,\n  .quote-list,\n  .symbol-list {\n    width: min(100%, calc(100vw - 24px));\n  }\n\n  .title {\n    font-size: 30px;\n  }\n\n  .symbol {\n    font-size: 18px;\n  }\n\n  .choice-symbol {\n    font-size: 18px;\n  }\n\n  .price {\n    font-size: 17px;\n  }\n\n  .quote-values {\n    min-width: 112px;\n  }\n\n  .change {\n    font-size: 14px;\n    min-width: 72px;\n  }\n}\n')
 		]));
 var $author$project$Main$OpenSymbols = {$: 4};
 var $author$project$Main$Refresh = {$: 3};
@@ -8205,7 +8234,7 @@ var $elm$virtual_dom$VirtualDom$attribute = F2(
 var $elm$html$Html$Attributes$attribute = $elm$virtual_dom$VirtualDom$attribute;
 var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$html$Html$header = _VirtualDom_node('header');
-var $elm$html$Html$main_ = _VirtualDom_node('main');
+var $author$project$Main$InstallApp = {$: 14};
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 0, a: a};
 };
@@ -8223,6 +8252,21 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		$elm$json$Json$Decode$succeed(msg));
 };
+var $author$project$Main$installButton = function (model) {
+	return model.Z ? _List_fromArray(
+		[
+			A2(
+			$elm$html$Html$button,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('icon-button install-button'),
+					$elm$html$Html$Events$onClick($author$project$Main$InstallApp),
+					A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Install app')
+				]),
+			_List_Nil)
+		]) : _List_Nil;
+};
+var $elm$html$Html$main_ = _VirtualDom_node('main');
 var $author$project$Main$statusText = function (model) {
 	if ($elm$core$List$isEmpty(model.e)) {
 		return 'No symbols selected';
@@ -8378,7 +8422,7 @@ var $author$project$Main$viewQuote = function (quote) {
 									_List_fromArray(
 										[
 											$elm$html$Html$text(
-											A2($author$project$Main$formatPrice, quote, data.ab))
+											A2($author$project$Main$formatPrice, quote, data.ac))
 										])),
 									A2(
 									$elm$html$Html$span,
@@ -8465,27 +8509,29 @@ var $author$project$Main$viewQuotesPage = function (model) {
 						[
 							$elm$html$Html$Attributes$class('toolbar-actions')
 						]),
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$button,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('icon-button settings-button'),
-									$elm$html$Html$Events$onClick($author$project$Main$OpenSymbols),
-									A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Choose symbols')
-								]),
-							_List_Nil),
-							A2(
-							$elm$html$Html$button,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('icon-button refresh-button'),
-									$elm$html$Html$Events$onClick($author$project$Main$Refresh),
-									A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Refresh quotes')
-								]),
-							_List_Nil)
-						]))
+					_Utils_ap(
+						$author$project$Main$installButton(model),
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$button,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('icon-button settings-button'),
+										$elm$html$Html$Events$onClick($author$project$Main$OpenSymbols),
+										A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Choose symbols')
+									]),
+								_List_Nil),
+								A2(
+								$elm$html$Html$button,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('icon-button refresh-button'),
+										$elm$html$Html$Events$onClick($author$project$Main$Refresh),
+										A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Refresh quotes')
+									]),
+								_List_Nil)
+							])))
 				])),
 			A2(
 			$elm$html$Html$main_,
@@ -8639,7 +8685,6 @@ var $author$project$Main$ToggleSymbol = function (a) {
 var $elm$html$Html$Attributes$checked = $elm$html$Html$Attributes$boolProperty('checked');
 var $elm$html$Html$input = _VirtualDom_node('input');
 var $elm$html$Html$label = _VirtualDom_node('label');
-var $elm$json$Json$Decode$bool = _Json_decodeBool;
 var $elm$html$Html$Events$targetChecked = A2(
 	$elm$json$Json$Decode$at,
 	_List_fromArray(
@@ -8949,5 +8994,5 @@ var $author$project$Main$view = function (model) {
 			}()));
 };
 var $author$project$Main$main = $elm$browser$Browser$element(
-	{a5: $author$project$Main$init, bf: $author$project$Main$subscriptions, bi: $author$project$Main$update, bj: $author$project$Main$view});
+	{a6: $author$project$Main$init, bg: $author$project$Main$subscriptions, bj: $author$project$Main$update, bk: $author$project$Main$view});
 _Platform_export({'Main':{'init':$author$project$Main$main($elm$json$Json$Decode$value)(0)}});}(this));

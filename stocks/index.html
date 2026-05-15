@@ -71,6 +71,25 @@
         }
       });
 
+      var deferredInstallPrompt = null;
+
+      function setInstallPromptAvailable(available) {
+        if (app.ports.installPromptAvailable) {
+          app.ports.installPromptAvailable.send(available);
+        }
+      }
+
+      window.addEventListener("beforeinstallprompt", function (event) {
+        event.preventDefault();
+        deferredInstallPrompt = event;
+        setInstallPromptAvailable(true);
+      });
+
+      window.addEventListener("appinstalled", function () {
+        deferredInstallPrompt = null;
+        setInstallPromptAvailable(false);
+      });
+
       app.ports.saveSelectedSymbols.subscribe(function (selectedSymbols) {
         try {
           window.localStorage.setItem(selectedSymbolsKey, JSON.stringify(selectedSymbols));
@@ -89,9 +108,26 @@
         } catch (_) {}
       });
 
+      app.ports.requestInstallPrompt.subscribe(function () {
+        if (!deferredInstallPrompt) {
+          setInstallPromptAvailable(false);
+          return;
+        }
+
+        var promptEvent = deferredInstallPrompt;
+        deferredInstallPrompt = null;
+        promptEvent.prompt();
+        promptEvent.userChoice.finally(function () {
+          setInstallPromptAvailable(false);
+        });
+      });
+
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", function () {
-          navigator.serviceWorker.register("sw.js");
+          navigator.serviceWorker.register("sw.js", {
+            scope: "./",
+            updateViaCache: "none"
+          });
         });
       }
     </script>
